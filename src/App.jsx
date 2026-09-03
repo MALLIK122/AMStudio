@@ -8,11 +8,17 @@ import Footer from './components/Footer';
 import ProjectModal from './components/ProjectModal';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
+import SocialPoster from './components/SocialPoster';
 
 export default function App() {
   const { currentView, isAdminLoggedIn } = useStudio();
 
-  // If user navigates to Admin View
+  // If user navigates to Social Poster View (/#poster)
+  if (currentView === 'poster') {
+    return <SocialPoster />;
+  }
+
+  // If user navigates to Admin View (/#admin)
   if (currentView === 'admin') {
     return (
       <div className="min-h-screen bg-black text-white font-sans bg-grid-pattern">

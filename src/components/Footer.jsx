@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStudio } from '../context/StudioContext';
-import { ArrowUp, ShieldCheck } from 'lucide-react';
+import { ArrowUp, ShieldCheck, Share2 } from 'lucide-react';
 import AMLogo from './AMLogo';
 
 export default function Footer() {
@@ -23,8 +23,20 @@ export default function Footer() {
         </div>
 
 
-        {/* Right: Admin Switch & Back to Top */}
-        <div className="flex items-center gap-4">
+        {/* Right: Poster, Admin Switch & Back to Top */}
+        <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center">
+          <button
+            onClick={() => {
+              setCurrentView('poster');
+              window.location.hash = 'poster';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-white transition-colors px-3 py-1.5 rounded border border-white/10 hover:border-white/30"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+            <span>Social Poster</span>
+          </button>
+
           <button
             onClick={() => {
               setCurrentView(currentView === 'admin' ? 'public' : 'admin');

@@ -100,10 +100,30 @@ export const StudioProvider = ({ children }) => {
     }
   });
 
-  // Active view: 'public' or 'admin'
-  const [currentView, setCurrentView] = useState('public');
+  // Active view: 'public', 'admin', or 'poster'
+  const [currentView, setCurrentView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#admin') return 'admin';
+      if (hash === '#poster') return 'poster';
+    }
+    return 'public';
+  });
   // Selected project for modal preview
   const [selectedProject, setSelectedProject] = useState(null);
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#admin') setCurrentView('admin');
+      else if (hash === '#poster') setCurrentView('poster');
+      else if (hash === '' || hash === '#' || hash === '#projects' || hash === '#contact') {
+        setCurrentView('public');
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
 
   // Sync to localStorage
   useEffect(() => {
