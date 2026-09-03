@@ -100,12 +100,11 @@ export const StudioProvider = ({ children }) => {
     }
   });
 
-  // Active view: 'public', 'admin', or 'poster'
+  // Active view: 'public' or 'admin'
   const [currentView, setCurrentView] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.toLowerCase();
       if (hash === '#admin') return 'admin';
-      if (hash === '#poster') return 'poster';
     }
     return 'public';
   });
@@ -116,7 +115,6 @@ export const StudioProvider = ({ children }) => {
     const handleHash = () => {
       const hash = window.location.hash.toLowerCase();
       if (hash === '#admin') setCurrentView('admin');
-      else if (hash === '#poster') setCurrentView('poster');
       else if (hash === '' || hash === '#' || hash === '#projects' || hash === '#contact') {
         setCurrentView('public');
       }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useStudio } from '../context/StudioContext';
-import { ShieldCheck, Menu, X, ArrowUpRight, Sparkles, Share2 } from 'lucide-react';
+import { ShieldCheck, Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
 
 import AMLogo from './AMLogo';
 
@@ -67,16 +67,6 @@ export default function Navbar() {
           >
             Contact
           </button>
-          <button 
-            onClick={() => {
-              setCurrentView('poster');
-              window.location.hash = 'poster';
-            }}
-            className="flex items-center gap-1.5 text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
-          >
-            <Share2 className="w-3.5 h-3.5 text-white" />
-            <span>Poster</span>
-          </button>
 
           {/* Admin Control Switch */}
           <button
@@ -135,17 +125,6 @@ export default function Navbar() {
             className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
           >
             Contact & Inquiries
-          </button>
-          <button 
-            onClick={() => {
-              setMobileMenuOpen(false);
-              setCurrentView('poster');
-              window.location.hash = 'poster';
-            }}
-            className="flex items-center gap-2 w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
-          >
-            <Share2 className="w-4 h-4 text-white" />
-            <span>Social Media Poster</span>
           </button>
           <div className="pt-4 border-t border-white/10 flex items-center justify-between">
             <button
