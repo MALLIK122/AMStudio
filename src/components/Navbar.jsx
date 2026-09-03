@@ -39,7 +39,7 @@ export default function Navbar() {
           : 'bg-transparent py-6'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
         
         {/* Brand Studio Mark with Creative AM Logo */}
         <button 

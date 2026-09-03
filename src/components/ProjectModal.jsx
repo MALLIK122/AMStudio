@@ -17,21 +17,21 @@ export default function ProjectModal() {
   if (!selectedProject) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-xl animate-fade-in overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-8 bg-black/90 backdrop-blur-xl animate-fade-in overflow-y-auto">
       {/* Click outside to close */}
       <div 
         className="fixed inset-0" 
         onClick={() => setSelectedProject(null)} 
       />
 
-      <div className="relative w-full max-w-4xl bg-zinc-950 border border-white/20 rounded-3xl overflow-hidden shadow-2xl z-10 my-auto">
+      <div className="relative w-full max-w-4xl bg-zinc-950 border border-white/20 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl z-10 my-auto">
         {/* Header Close button */}
         <button
           onClick={() => setSelectedProject(null)}
-          className="absolute top-5 right-5 z-20 p-2.5 rounded-full bg-black/70 hover:bg-white text-zinc-300 hover:text-black transition-all border border-white/20"
+          className="absolute top-4 sm:top-5 right-4 sm:right-5 z-20 p-2 sm:p-2.5 rounded-full bg-black/70 hover:bg-white text-zinc-300 hover:text-black transition-all border border-white/20"
           aria-label="Close Project Details"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 sm:w-5 h-4 sm:h-5" />
         </button>
 
         {/* Hero Media */}
@@ -43,17 +43,17 @@ export default function ProjectModal() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
           
-          <div className="absolute bottom-6 left-6 right-6 flex flex-wrap items-end justify-between gap-4">
+          <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex flex-wrap items-end justify-between gap-3 sm:gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="px-3 py-1 rounded text-xs font-mono uppercase tracking-wider bg-white/15 backdrop-blur-md text-white border border-white/20">
+                <span className="px-2.5 sm:px-3 py-1 rounded text-[11px] sm:text-xs font-mono uppercase tracking-wider bg-white/15 backdrop-blur-md text-white border border-white/20">
                   {selectedProject.category}
                 </span>
-                <span className="text-xs font-mono text-zinc-400">
+                <span className="text-[11px] sm:text-xs font-mono text-zinc-400">
                   {selectedProject.year}
                 </span>
               </div>
-              <h2 className="font-display text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight break-words">
                 {selectedProject.title}
               </h2>
             </div>
@@ -64,9 +64,9 @@ export default function ProjectModal() {
                 href={selectedProject.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 text-sm font-semibold tracking-wide transition-all shadow-xl"
+                className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-xl"
               >
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
                 <span>Live to see the project</span>
               </a>
             )}
@@ -74,7 +74,7 @@ export default function ProjectModal() {
         </div>
 
         {/* Content Body */}
-        <div className="p-6 md:p-8 space-y-8">
+        <div className="p-5 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
           {/* Action Row */}
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
             <div className="flex items-center gap-3">

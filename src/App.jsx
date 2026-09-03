@@ -23,9 +23,9 @@ export default function App() {
 
   // Public Showcase View
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black bg-grid-pattern relative">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-white selection:text-black bg-grid-pattern relative w-full overflow-x-hidden">
       <Navbar />
-      <main>
+      <main className="w-full overflow-x-hidden">
         <HeroSection />
         <ProjectsSection />
         <ContactSection />

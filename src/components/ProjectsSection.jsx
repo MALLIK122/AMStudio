@@ -32,18 +32,18 @@ export default function ProjectsSection() {
   }, [projects, selectedCategory, searchQuery]);
 
   return (
-    <section id="projects" className="py-24 px-6 md:px-12 max-w-7xl mx-auto relative">
+    <section id="projects" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative overflow-hidden">
       {/* Section Heading */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b border-white/10 pb-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-6 border-b border-white/10 pb-6 sm:pb-8">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-400 uppercase mb-3">
+          <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-400 uppercase mb-2 sm:mb-3">
             <span className="w-2 h-2 rounded-full bg-white" />
             Portfolio Showcase
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-extrabold tracking-tight text-white">
+          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white break-words">
             SELECTED WORKS
           </h2>
-          <p className="text-zinc-400 text-sm md:text-base mt-2 max-w-xl font-light">
+          <p className="text-zinc-400 text-xs sm:text-sm md:text-base mt-2 max-w-xl font-light leading-relaxed">
             A curated collection of elegant digital wedding invitations, crafted to celebrate your story in a truly memorable way.
           </p>
         </div>
@@ -53,16 +53,16 @@ export default function ProjectsSection() {
           <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search projects, tags..."
+            placeholder="Search projects..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full glass-input pl-10 pr-4 py-2 rounded-xl text-xs placeholder:text-zinc-500 font-mono"
+            className="w-full glass-input pl-10 pr-4 py-2.5 rounded-xl text-xs placeholder:text-zinc-500 font-mono"
           />
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mb-10">
+      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
         {categories.map((cat) => (
           <button
             key={cat}

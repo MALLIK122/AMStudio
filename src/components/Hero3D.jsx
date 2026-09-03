@@ -32,7 +32,8 @@ export default function Hero3D() {
       0.1,
       100
     );
-    camera.position.set(0, 0, 8.5);
+    const initialZ = (window.innerWidth < 640 || container.clientWidth < 420) ? 10.8 : 8.5;
+    camera.position.set(0, 0, initialZ);
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -209,6 +210,7 @@ export default function Hero3D() {
       const width = container.clientWidth;
       const height = container.clientHeight;
       camera.aspect = width / height;
+      camera.position.z = (window.innerWidth < 640 || width < 420) ? 10.8 : 8.5;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
@@ -266,7 +268,7 @@ export default function Hero3D() {
   }, []);
 
   return (
-    <div className="relative w-full h-[480px] md:h-[620px] flex items-center justify-center pointer-events-none overflow-hidden select-none">
+    <div className="relative w-full h-[280px] xs:h-[340px] sm:h-[420px] md:h-[500px] lg:h-[580px] flex items-center justify-center pointer-events-none overflow-hidden select-none">
       <div 
         ref={containerRef} 
         className="w-full h-full absolute inset-0 flex items-center justify-center"

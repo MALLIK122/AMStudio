@@ -96,20 +96,20 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10 relative">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto border-t border-white/10 relative overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         
         {/* Left Column: Direct Contact Details */}
-        <div className="lg:col-span-5 space-y-8">
+        <div className="lg:col-span-5 space-y-6 sm:space-y-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-400 uppercase mb-3">
+            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-400 uppercase mb-2 sm:mb-3">
               <span className="w-2 h-2 rounded-full bg-white" />
               Direct Communication
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight break-words">
               LET'S BUILD SOMETHING ICONIC.
             </h2>
-            <p className="text-zinc-400 text-sm md:text-base mt-4 font-light leading-relaxed">
+            <p className="text-zinc-400 text-xs sm:text-sm md:text-base mt-3 sm:mt-4 font-light leading-relaxed">
               Have a wedding invitation project, or need a beautiful digital invitation website? Let’s bring your vision to life. Reach out directly.
             </p>
           </div>
@@ -311,16 +311,16 @@ export default function ContactSection() {
 
         {/* Right Column: Interactive Proposal Form */}
         <div className="lg:col-span-7">
-          <div className="p-8 md:p-10 rounded-3xl glass-panel border border-white/10 relative">
-            <h3 className="font-display text-2xl font-bold text-white tracking-tight mb-2">
+          <div className="p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl glass-panel border border-white/10 relative">
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight mb-2">
               START YOUR INVITATION JOURNEY
             </h3>
-            <p className="text-zinc-400 text-xs md:text-sm font-light mb-8 leading-relaxed">
+            <p className="text-zinc-400 text-xs md:text-sm font-light mb-6 sm:mb-8 leading-relaxed">
               Tell us a little about your wedding and what you'd like your digital invitation to look like. We'll get in touch and take it from there.
             </p>
 
             {submitted ? (
-              <div className="p-8 md:p-10 rounded-2xl bg-white/[0.03] border border-white/20 space-y-6 animate-fade-in text-left">
+              <div className="p-5 sm:p-8 md:p-10 rounded-xl sm:rounded-2xl bg-white/[0.03] border border-white/20 space-y-6 animate-fade-in text-left">
                 {/* Header with animated icon */}
                 <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-6">
                   <div className="space-y-1">
