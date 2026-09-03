@@ -1,0 +1,71 @@
+import React from 'react';
+import { useStudio } from '../context/StudioContext';
+import Hero3D from './Hero3D';
+import { ArrowDown, ArrowUpRight, Sparkles, Layers, Terminal } from 'lucide-react';
+
+export default function HeroSection() {
+  const { profile } = useStudio();
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <section className="relative min-h-screen flex flex-col justify-between pt-32 pb-16 px-6 md:px-12 max-w-7xl mx-auto overflow-hidden">
+      
+      {/* Main Hero Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-12">
+        {/* Left: Hero Typography & Pitch */}
+        <div className="lg:col-span-6 space-y-8 z-10">
+
+          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter text-white leading-[1.04]">
+            {profile.heroHeading || "BEAUTIFULLY CRAFTED WEDDING INVITATION WEBSITES MADE JUST FOR YOU."}
+          </h1>
+
+          <p className="text-zinc-400 text-base md:text-lg max-w-xl font-light leading-relaxed">
+            {profile.heroSubheading || "AM Studio is an independent creative engineering laboratory."}
+          </p>
+
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-4 pt-4">
+            <button
+              onClick={() => scrollToSection('projects')}
+              className="px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-xs font-mono tracking-wider uppercase hover:bg-zinc-200 transition-all flex items-center gap-2 shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span>Explore Selected Works</span>
+              <ArrowDown className="w-3.5 h-3.5" />
+            </button>
+
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="px-6 py-3.5 rounded-xl border border-white/20 hover:border-white/50 text-white font-semibold text-xs font-mono tracking-wider uppercase bg-black/40 hover:bg-white/5 transition-all flex items-center gap-2"
+            >
+              <span>Contact Studio</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Right: 3D Interactive WebGL Element */}
+        <div className="lg:col-span-6 flex items-center justify-center relative">
+          <div className="w-full max-w-lg aspect-square relative flex items-center justify-center">
+            {/* Ambient subtle backdrop radial glow */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/[0.04] via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
+            
+            {/* The 3D Canvas */}
+            <Hero3D />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Scroll Prompt Bar */}
+      <div className="flex items-center justify-start pt-6 border-t border-white/10 text-xs font-mono text-zinc-500">
+        <div className="flex items-center gap-2">
+          <span>Scroll to Inspect Works</span>
+          <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
+        </div>
+      </div>
+    </section>
+  );
+}
