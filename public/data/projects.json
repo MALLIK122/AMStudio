@@ -1,21 +1,8 @@
 {
-  "version": 1788597683370,
-  "updatedAt": "2026-09-05T15:08:00.000Z",
+  "version": 1788605816704,
+  "updatedAt": "2026-09-05T10:56:56.704Z",
   "adminPasswordHash": "ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da",
   "projects": [
-    {
-      "id": "proj-1788596902753",
-      "title": "Vinay & Vidya",
-      "subtitle": "Royal Palace Celebration",
-      "category": "Luxury Invitation",
-      "description": "good",
-      "imageUrl": "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg",
-      "liveUrl": "https://cyber-nexus-seven.vercel.app/login",
-      "featured": true,
-      "year": "2026",
-      "longDescription": "good",
-      "tags": ["React", "Luxury Invitation", "Celebration"]
-    },
     {
       "id": "proj-wedding-1",
       "title": "Arjun & Ananya | Luxury Wedding Invitation",
