@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { useStudio } from '../../context/StudioContext';
 import ProjectForm from './ProjectForm';
 import ContactEditor from './ContactEditor';
-import PasswordEditor from './PasswordEditor';
 import InquiriesManager from './InquiriesManager';
 import GitHubSyncManager from './GitHubSyncManager';
 import { pushToGitHub } from '../../services/githubSync';
 import { 
   FolderGit2, 
   UserCog, 
-  Lock, 
   MessageSquare, 
   Plus, 
   ExternalLink, 
@@ -199,19 +197,6 @@ export default function AdminDashboard() {
               <span className="w-2 h-2 rounded-full bg-amber-400" />
             )}
           </button>
-
-          <button
-            onClick={() => setActiveTab('security')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
-              activeTab === 'security'
-                ? 'bg-white text-black border-white font-semibold'
-                : 'bg-zinc-950 border-white/15 text-zinc-200 hover:text-white hover:border-white/40 font-medium'
-            }`}
-          >
-            <Lock className="w-4 h-4" />
-            <span>Change Password</span>
-          </button>
-
         </div>
 
         {/* Tab 1: Projects Management */}
@@ -366,10 +351,7 @@ export default function AdminDashboard() {
         {/* Tab 3: Client Inquiries */}
         {activeTab === 'inquiries' && <InquiriesManager />}
 
-        {/* Tab 4: Security & Password */}
-        {activeTab === 'security' && <PasswordEditor />}
-
-        {/* Tab 5: GitHub & Vercel Live Deployment */}
+        {/* Tab 4: GitHub & Vercel Live Deployment */}
         {activeTab === 'deployment' && <GitHubSyncManager />}
 
 
