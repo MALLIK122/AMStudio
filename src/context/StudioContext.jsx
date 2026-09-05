@@ -67,12 +67,13 @@ export const StudioProvider = ({ children }) => {
       return saved ? JSON.parse(saved) : [
         {
           id: "inq-1",
-          name: "Soren Nielsen",
-          email: "soren@nordicspatial.co",
-          projectType: "3D Web Application",
-          budget: "$15k - $30k",
-          message: "Looking for a custom WebGL 3D architectural showcase for our flagship Copenhagen design center.",
-          date: "2026-08-29T14:30:00.000Z",
+          name: "Amrutha & Mallikarjun",
+          email: "mallikarjunks012022@gmail.com",
+          phone: "+91 97316 96952",
+          projectType: "Traditional Invitation",
+          budget: "Wedding: 01/12/2026",
+          message: "Good Looking, Traditional Animations, Premium features with background music, RSVP tracking, and Google Maps venue navigation.",
+          date: "2026-09-05T09:42:00.000Z",
           read: false
         }
       ];

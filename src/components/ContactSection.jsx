@@ -505,20 +505,30 @@ Website: https://am-studioin.vercel.app/`;
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full glass-input px-4 py-3 rounded-xl text-sm"
                     />
+                    <span className="text-[10px] text-zinc-500 font-mono mt-1 block">
+                      For quotation & official invoice
+                    </span>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
-                      PHONE / WHATSAPP *
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2 flex items-center justify-between">
+                      <span>PHONE / WHATSAPP *</span>
+                      <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1 font-semibold">
+                        <WhatsApp className="w-3 h-3 fill-current inline" />
+                        Quick Preview
+                      </span>
                     </label>
                     <input
                       type="tel"
                       required
-                      placeholder="e.g. +91 98765 43210"
+                      placeholder="e.g. 97316 96952"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full glass-input px-4 py-3 rounded-xl text-sm"
                     />
+                    <span className="text-[10px] text-emerald-500/80 font-mono mt-1 block">
+                      We'll send live demo previews directly on WhatsApp
+                    </span>
                   </div>
                 </div>
 
