@@ -27,7 +27,7 @@ export default function PricingSection() {
     {
       name: 'Gold / Royal',
       kannada: 'ಗೋಲ್ಡ್ / ರಾಯಲ್ ಪ್ಯಾಕೇಜ್',
-      price: '₹3,999',
+      price: '₹2,499',
       popular: true,
       tagline: 'Our most loved package for complete multi-day grand celebrations.',
       features: [
@@ -40,12 +40,12 @@ export default function PricingSection() {
         'Unlimited revisions & instant timing updates',
         'Dedicated VIP designer support',
       ],
-      whatsappMsg: 'Hi AM Studio! I would like to book the Gold / Royal Wedding Invitation package (₹3,999). Please share the theme options and details!',
+      whatsappMsg: 'Hi AM Studio! I would like to book the Gold / Royal Wedding Invitation package (₹2,499). Please share the theme options and details!',
     },
     {
       name: 'Diamond / Bespoke Luxury',
       kannada: 'ಡೈಮಂಡ್ / ಬೆಸ್ಪೋಕ್ ಲಕ್ಸುರಿ',
-      price: '₹6,999',
+      price: '₹2,999',
       popular: false,
       tagline: 'The ultimate royal celebration portal with custom domain & 3D elements.',
       features: [
@@ -58,7 +58,7 @@ export default function PricingSection() {
         'Express 24h turnaround guarantee',
         'Lifetime digital keepsake cloud archive',
       ],
-      whatsappMsg: 'Hi AM Studio! I would like to book the Diamond / Bespoke Luxury package with custom domain (₹6,999). Please connect with me!',
+      whatsappMsg: 'Hi AM Studio! I would like to book the Diamond / Bespoke Luxury package with custom domain (₹2,999). Please connect with me!',
     },
   ];
 
