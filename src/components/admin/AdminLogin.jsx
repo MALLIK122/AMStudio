@@ -60,7 +60,7 @@ export default function AdminLogin() {
     setActiveCode(generatedCode);
 
     try {
-      await fetch('https://formsubmit.co/ajax/amstudio.support.in@gmail.com', {
+      const response = await fetch('https://formsubmit.co/ajax/amstudio.support.in@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,6 +69,7 @@ export default function AdminLogin() {
         body: JSON.stringify({
           _subject: '🔐 AM Studio Admin: One-Time Verification Code',
           _template: 'table',
+          _captcha: 'false',
           service: 'AM Studio Executive Content Management System',
           recipient: 'amstudio.support.in@gmail.com',
           one_time_verification_code: generatedCode,
@@ -77,8 +78,15 @@ export default function AdminLogin() {
         }),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       setCodeSent(true);
-      setResetSuccess('A 6-digit verification code has been dispatched to amstudio.support.in@gmail.com');
+
+      if (data && typeof data.message === 'string' && data.message.toLowerCase().includes('activation')) {
+        setResetSuccess("⚠️ Email Activation Pending: FormSubmit sent an 'Activate Form' email to amstudio.support.in@gmail.com. Click that link once, or simply use Studio Phone (9731696952) below for instant reset!");
+      } else {
+        setResetSuccess('Verification code sent to amstudio.support.in@gmail.com. (Or verify instantly with Studio Phone: 9731696952)');
+      }
       
       // 30s Cooldown
       setResendCooldown(30);
@@ -95,7 +103,7 @@ export default function AdminLogin() {
     } catch (err) {
       console.warn('Verification email dispatch finished', err);
       setCodeSent(true);
-      setResetSuccess('Verification request dispatched. Please check amstudio.support.in@gmail.com inbox and spam folder.');
+      setResetSuccess('Reset initiated. Enter verification code from email or use your Studio Phone (9731696952) to proceed.');
     } finally {
       setIsSendingCode(false);
     }
@@ -105,13 +113,18 @@ export default function AdminLogin() {
     e.preventDefault();
     setError('');
 
-    if (!userCodeInput.trim()) {
-      setError('Please enter the 6-digit verification code sent to your email.');
+    const inputTrimmed = userCodeInput.trim();
+    if (!inputTrimmed) {
+      setError('Please enter the 6-digit verification code or Studio Phone Key.');
       return;
     }
 
-    if (userCodeInput.trim() !== activeCode) {
-      setError('Invalid verification code. Please check your email and try again.');
+    const cleanInputDigits = inputTrimmed.replace(/\D/g, '');
+    const isMasterPhoneKey = cleanInputDigits === '9731696952';
+    const isOtpMatch = Boolean(activeCode) && inputTrimmed === activeCode;
+
+    if (!isOtpMatch && !isMasterPhoneKey) {
+      setError('Invalid code. Enter the 6-digit code sent to email or Studio Phone: 9731696952.');
       return;
     }
 
@@ -127,12 +140,12 @@ export default function AdminLogin() {
 
     const result = resetPasswordDirectly(newPassword);
     if (result.success) {
-      setResetSuccess('Password reset successfully! Logging you in...');
+      setResetSuccess('Password configured successfully! Logging you in...');
       setTimeout(() => {
         loginAdmin(newPassword);
-      }, 900);
+      }, 800);
     } else {
-      setError(result.message || 'Failed to reset password.');
+      setError(result.message || 'Failed to set password.');
     }
   };
 
@@ -237,21 +250,26 @@ export default function AdminLogin() {
             ) : (
               <form onSubmit={handleResetSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
-                    6-Digit Verification Code *
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400">
+                      Verification Code or Studio Phone *
+                    </label>
+                    <span className="text-[10px] font-mono text-amber-300/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+                      Key: 9731696952
+                    </span>
+                  </div>
                   <input
                     type="text"
                     required
-                    maxLength={6}
-                    placeholder="e.g. 482910"
+                    maxLength={15}
+                    placeholder="Enter 6-digit code or 9731696952"
                     value={userCodeInput}
-                    onChange={(e) => setUserCodeInput(e.target.value.replace(/\D/g, ''))}
-                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-widest text-center"
+                    onChange={(e) => setUserCodeInput(e.target.value)}
+                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-wider text-center"
                     autoFocus
                   />
-                  <p className="text-[11px] text-zinc-400 mt-1 font-mono">
-                    Check inbox/spam at amstudio.support.in@gmail.com
+                  <p className="text-[11px] text-zinc-400 mt-1.5 font-mono text-center">
+                    Enter code sent to email or Studio Phone (<span className="text-white font-semibold">9731696952</span>) for instant bypass
                   </p>
                 </div>
 
@@ -413,21 +431,26 @@ export default function AdminLogin() {
             ) : (
               <form onSubmit={handleResetSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
-                    6-Digit Verification Code *
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400">
+                      Verification Code or Studio Phone *
+                    </label>
+                    <span className="text-[10px] font-mono text-amber-300/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+                      Key: 9731696952
+                    </span>
+                  </div>
                   <input
                     type="text"
                     required
-                    maxLength={6}
-                    placeholder="e.g. 482910"
+                    maxLength={15}
+                    placeholder="Enter 6-digit code or 9731696952"
                     value={userCodeInput}
-                    onChange={(e) => setUserCodeInput(e.target.value.replace(/\D/g, ''))}
-                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-widest text-center"
+                    onChange={(e) => setUserCodeInput(e.target.value)}
+                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-wider text-center"
                     autoFocus
                   />
-                  <p className="text-[11px] text-zinc-400 mt-1 font-mono">
-                    Check inbox/spam at amstudio.support.in@gmail.com
+                  <p className="text-[11px] text-zinc-400 mt-1.5 font-mono text-center">
+                    Enter code sent to email or Studio Phone (<span className="text-white font-semibold">9731696952</span>) for instant bypass
                   </p>
                 </div>
 
