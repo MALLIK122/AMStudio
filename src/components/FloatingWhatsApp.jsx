@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useStudio } from '../context/StudioContext';
 import { MessageCircle, X } from 'lucide-react';
 import { WhatsApp } from './Icons';
 
 export default function FloatingWhatsApp() {
+  const { profile, language, t } = useStudio();
   const [isVisible, setIsVisible] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const phone = '919731696952';
-  const defaultMessage = 'Hi AM Studio! I would like to inquire about creating an interactive digital wedding invitation website.';
+
+  const rawPhone = (profile.phone || '9731696952').replace(/\D/g, '');
+  const phone = rawPhone.length === 10 ? `91${rawPhone}` : rawPhone;
+
+  const defaultMessage = language === 'kn'
+    ? 'ನಮಸ್ಕಾರ AM Studio! ನಮಗೆ ಡಿಜಿಟಲ್ ಮದುವೆ ಆಮಂತ್ರಣ ವೆಬ್‌ಸೈಟ್ ಬಗ್ಗೆ ಮಾಹಿತಿ ಬೇಕಾಗಿದೆ.'
+    : language === 'te'
+    ? 'నమస్కారం AM Studio! మాకు డిజిటల్ వివాహ ఆహ్వాన వెబ్‌సైట్ వివరాలు కావాలి.'
+    : 'Hi AM Studio! I would like to inquire about creating an interactive digital wedding invitation website.';
 
   useEffect(() => {
     // Show button after 300px scroll or 2 seconds
@@ -28,7 +37,15 @@ export default function FloatingWhatsApp() {
       {/* Tooltip speech bubble */}
       {showTooltip && (
         <div className="hidden sm:flex items-center gap-2 bg-zinc-900 border border-white/20 text-white text-xs py-2 px-3.5 rounded-2xl shadow-2xl animate-fade-in">
-          <span>Need a wedding invite? <strong>Chat with us!</strong></span>
+          <span>
+            {language === 'kn' ? (
+              <>ಆಮಂತ್ರಣ ಬೇಕೇ? <strong>ನಮ್ಮೊಂದಿಗೆ ಮಾತನಾಡಿ!</strong></>
+            ) : language === 'te' ? (
+              <>వివాహ ఆహ్వానం కావాలా? <strong>మాతో మాట్లాడండి!</strong></>
+            ) : (
+              <>Need a wedding invite? <strong>Chat with us!</strong></>
+            )}
+          </span>
           <button 
             onClick={() => setShowTooltip(false)} 
             className="text-zinc-400 hover:text-white ml-1 p-0.5"

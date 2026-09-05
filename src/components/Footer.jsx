@@ -4,7 +4,7 @@ import { ArrowUp, ShieldCheck } from 'lucide-react';
 import AMLogo from './AMLogo';
 
 export default function Footer() {
-  const { profile, setCurrentView, currentView } = useStudio();
+  const { profile, setCurrentView, currentView, t, language } = useStudio();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="flex flex-col items-center md:items-start gap-3 text-center md:text-left">
           <AMLogo size="sm" />
           <p className="text-zinc-500 text-xs font-mono">
-            &copy; {new Date().getFullYear()} AM Studio. All rights reserved.
+            &copy; {new Date().getFullYear()} AM Studio. {t('footer', 'rights') || 'All rights reserved.'}
           </p>
         </div>
 
@@ -34,7 +34,11 @@ export default function Footer() {
             className="flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-white transition-colors px-3 py-1.5 rounded border border-white/5 hover:border-white/20"
           >
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Admin Console</span>
+            <span>
+              {currentView === 'admin' 
+                ? (language === 'kn' ? 'ಸೈಟ್ ನೋಡಿ' : language === 'te' ? 'సైట్ చూడండి' : 'View Site')
+                : (language === 'kn' ? 'ಅಡ್ಮಿನ್ ಕನ್ಸೋಲ್' : language === 'te' ? 'అడ్మిన్ కన్సోల్' : 'Admin Console')}
+            </span>
           </button>
 
           <button

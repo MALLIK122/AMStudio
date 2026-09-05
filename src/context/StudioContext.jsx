@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { INITIAL_PROJECTS, INITIAL_STUDIO_PROFILE, DATA_VERSION, DEFAULT_ADMIN_PASSWORD_HASH } from '../data/initialData';
 import { pushToGitHub } from '../services/githubSync';
+import { TRANSLATIONS, SUPPORTED_LANGUAGES } from '../data/translations';
 
 export const computePasswordHash = async (pwd) => {
   try {
@@ -24,6 +25,7 @@ const STORAGE_KEYS = {
   LAST_DEPLOY: 'amstudio_last_deploy_v1',
   DATA_VERSION: 'amstudio_data_version_v2',
   DELETED_IDS: 'amstudio_deleted_ids_v1',
+  LANGUAGE: 'amstudio_lang_v1',
 };
 
 const StudioContext = createContext(null);
@@ -166,6 +168,40 @@ export const StudioProvider = ({ children }) => {
       return false;
     }
   });
+
+  // Multi-Language State (Default: 'en', persisted in localStorage)
+  const [language, setLanguageState] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.LANGUAGE);
+      if (saved && TRANSLATIONS[saved]) return saved;
+      return 'en';
+    } catch {
+      return 'en';
+    }
+  });
+
+  const setLanguage = (lang) => {
+    if (TRANSLATIONS[lang]) {
+      setLanguageState(lang);
+      try {
+        localStorage.setItem(STORAGE_KEYS.LANGUAGE, lang);
+      } catch {}
+    }
+  };
+
+  const t = (section, key) => {
+    const activeDict = TRANSLATIONS[language] || TRANSLATIONS.en;
+    const fallbackDict = TRANSLATIONS.en;
+
+    const sec = activeDict[section] || fallbackDict[section];
+    if (!sec) return '';
+    if (key === undefined) return sec;
+
+    if (sec[key] !== undefined) return sec[key];
+    const fallbackSec = fallbackDict[section];
+    if (fallbackSec && fallbackSec[key] !== undefined) return fallbackSec[key];
+    return '';
+  };
 
   // Active view: 'public' or 'admin'
   const [currentView, setCurrentView] = useState(() => {
@@ -656,6 +692,10 @@ export const StudioProvider = ({ children }) => {
       setGithubToken,
       lastDeployInfo,
       setLastDeployInfo,
+      language,
+      setLanguage,
+      t,
+      SUPPORTED_LANGUAGES,
     }}>
       {children}
     </StudioContext.Provider>

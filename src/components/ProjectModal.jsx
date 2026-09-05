@@ -4,7 +4,7 @@ import { useStudio } from '../context/StudioContext';
 import { WhatsApp } from './Icons';
 
 export default function ProjectModal() {
-  const { selectedProject, setSelectedProject } = useStudio();
+  const { selectedProject, setSelectedProject, t } = useStudio();
 
   // Close on ESC
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function ProjectModal() {
                 className="flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-xl"
               >
                 <ExternalLink className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
-                <span>Live to see the project</span>
+                <span>{t('projectModal', 'visitLive') || 'Live to see the project'}</span>
               </a>
             )}
           </div>
@@ -93,7 +93,7 @@ export default function ProjectModal() {
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 text-xs font-bold tracking-wide transition-all shadow"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>Launch Live Site</span>
+                  <span>{t('projectModal', 'visitLive') || 'Launch Live Site'}</span>
                 </a>
               )}
 
@@ -104,14 +104,16 @@ export default function ProjectModal() {
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500 hover:text-black text-emerald-400 text-xs font-bold tracking-wide transition-all"
               >
                 <WhatsApp className="w-4 h-4 fill-current" />
-                <span>Inquire on WhatsApp</span>
+                <span>{t('contact', 'directWhatsApp') || 'Inquire on WhatsApp'}</span>
               </a>
             </div>
           </div>
 
           {/* Description Breakdown */}
           <div className="space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-500">Project Overview</h4>
+            <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-500">
+              {t('projectModal', 'overview') || 'Project Overview'}
+            </h4>
             <p className="text-base text-zinc-200 leading-relaxed font-normal">
               {selectedProject.longDescription || selectedProject.description}
             </p>

@@ -4,7 +4,7 @@ import ProjectCard from './ProjectCard';
 import { Search, Sparkles, Filter, Grid } from 'lucide-react';
 
 export default function ProjectsSection() {
-  const { projects } = useStudio();
+  const { projects, t, language } = useStudio();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -38,13 +38,13 @@ export default function ProjectsSection() {
         <div>
           <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-400 uppercase mb-2 sm:mb-3">
             <span className="w-2 h-2 rounded-full bg-white" />
-            Portfolio Showcase
+            {t('projects', 'tag')}
           </div>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white break-words">
-            SELECTED WORKS
+            {t('projects', 'title')}
           </h2>
           <p className="text-zinc-400 text-xs sm:text-sm md:text-base mt-2 max-w-xl font-light leading-relaxed">
-            A curated collection of elegant digital wedding invitations, crafted to celebrate your story in a truly memorable way.
+            {t('projects', 'subtitle')}
           </p>
         </div>
 
@@ -53,7 +53,9 @@ export default function ProjectsSection() {
           <Search className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search projects..."
+            placeholder={
+              language === 'kn' ? 'ಆಮಂತ್ರಣಗಳನ್ನು ಹುಡುಕಿ...' : language === 'te' ? 'ఆహ్వానాలను వెతకండి...' : 'Search invitations...'
+            }
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full glass-input pl-10 pr-4 py-2.5 rounded-xl text-xs placeholder:text-zinc-500 font-mono"
@@ -73,11 +75,15 @@ export default function ProjectsSection() {
                 : 'bg-zinc-900/60 border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
             }`}
           >
-            {cat}
+            {cat === 'All' ? (t('projects', 'all') || 'All') : cat}
           </button>
         ))}
         <span className="text-xs font-mono text-zinc-500 ml-auto hidden sm:block">
-          Showing {filteredProjects.length} of {projects.length} Works
+          {language === 'kn'
+            ? `${projects.length} ರಲ್ಲಿ ${filteredProjects.length} ಆಮಂತ್ರಣಗಳು`
+            : language === 'te'
+            ? `${projects.length} లో ${filteredProjects.length} ఆహ్వానాలు`
+            : `Showing ${filteredProjects.length} of ${projects.length} Works`}
         </span>
       </div>
 
@@ -90,12 +96,14 @@ export default function ProjectsSection() {
         </div>
       ) : (
         <div className="py-20 text-center glass-panel rounded-2xl border border-white/10 p-12">
-          <p className="font-mono text-zinc-400 text-sm">No projects matching your search criteria.</p>
+          <p className="font-mono text-zinc-400 text-sm">
+            {language === 'kn' ? 'ಯಾವುದೇ ಆಮಂತ್ರಣಗಳು ದೊರೆತಿಲ್ಲ.' : language === 'te' ? 'ఫలితాలు ఏవీ కనుగొనబడలేదు.' : 'No projects matching your search criteria.'}
+          </p>
           <button
             onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}
             className="mt-4 px-4 py-2 rounded-lg bg-white text-black text-xs font-semibold"
           >
-            Reset Filters
+            {language === 'kn' ? 'ಫಿಲ್ಟರ್ ರಿಸೆಟ್ ಮಾಡಿ' : language === 'te' ? 'ఫిల్టర్‌లను రీసెట్ చేయండి' : 'Reset Filters'}
           </button>
         </div>
       )}

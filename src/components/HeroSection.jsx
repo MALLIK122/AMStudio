@@ -4,7 +4,7 @@ import Hero3D from './Hero3D';
 import { ArrowDown, ArrowUpRight, Sparkles, Layers, Terminal } from 'lucide-react';
 
 export default function HeroSection() {
-  const { profile } = useStudio();
+  const { profile, t } = useStudio();
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -22,15 +22,15 @@ export default function HeroSection() {
           {/* Social Proof Trust Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-[11px] sm:text-xs font-mono tracking-wider text-zinc-300">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>5-Star Rated by Couples • 24-48h Delivery • Kannada & English</span>
+            <span>{t('hero', 'trustBadge')}</span>
           </div>
 
           <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-white leading-[1.08] sm:leading-[1.04] break-words">
-            {profile.heroHeading || "BEAUTIFULLY CRAFTED WEDDING INVITATION WEBSITES MADE JUST FOR YOU."}
+            {t('hero', 'heading') || profile.heroHeading || "BEAUTIFULLY CRAFTED WEDDING INVITATION WEBSITES MADE JUST FOR YOU."}
           </h1>
 
           <p className="text-zinc-400 text-sm sm:text-base md:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
-            Crafting breathtaking, interactive digital wedding invitation websites with animated timelines, romantic audio, Google Maps navigation, and RSVP tracking for your unforgettable celebration.
+            {t('hero', 'subheading')}
           </p>
 
           {/* Action CTAs */}
@@ -39,7 +39,7 @@ export default function HeroSection() {
               onClick={() => scrollToSection('projects')}
               className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-xs font-mono tracking-wider uppercase hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] active:scale-[0.98]"
             >
-              <span>Explore Invitations</span>
+              <span>{t('hero', 'ctaExplore')}</span>
               <ArrowDown className="w-3.5 h-3.5" />
             </button>
 
@@ -47,7 +47,7 @@ export default function HeroSection() {
               onClick={() => scrollToSection('pricing')}
               className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/25 hover:border-white text-white font-semibold text-xs font-mono tracking-wider uppercase bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-2"
             >
-              <span>View Packages</span>
+              <span>{t('hero', 'ctaPackages')}</span>
               <Sparkles className="w-3.5 h-3.5" />
             </button>
 
@@ -55,7 +55,7 @@ export default function HeroSection() {
               onClick={() => scrollToSection('contact')}
               className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/15 hover:border-white/40 text-zinc-300 hover:text-white font-semibold text-xs font-mono tracking-wider uppercase bg-black/40 hover:bg-white/5 transition-all flex items-center justify-center gap-2"
             >
-              <span>Contact Studio</span>
+              <span>{t('hero', 'ctaContact')}</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -76,7 +76,7 @@ export default function HeroSection() {
       {/* Bottom Scroll Prompt Bar */}
       <div className="flex items-center justify-start pt-6 border-t border-white/10 text-xs font-mono text-zinc-500">
         <div className="flex items-center gap-2">
-          <span>Scroll to Inspect Works</span>
+          <span>{t('hero', 'scrollPrompt')}</span>
           <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
         </div>
       </div>
