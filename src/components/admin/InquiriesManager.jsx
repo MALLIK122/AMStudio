@@ -147,18 +147,6 @@ export default function InquiriesManager() {
                       </a>
                     ) : null}
 
-                    {/* Direct Call Button */}
-                    {cleanPhone ? (
-                      <a
-                        href={`tel:+${cleanPhone}`}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/20 hover:bg-white/10 text-zinc-200 hover:text-white text-xs font-mono transition-colors"
-                        title={`Call ${inq.phone}`}
-                      >
-                        <Phone className="w-3.5 h-3.5" />
-                        <span>Call</span>
-                      </a>
-                    ) : null}
-
                     {/* Reply in Gmail */}
                     {inq.email && (
                       <a
