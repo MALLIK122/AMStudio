@@ -11,6 +11,8 @@ export const GITHUB_CONFIG = {
   BRANCH: 'main',
   DATA_PATH: 'src/data/initialData.js',
   JSON_DATA_PATH: 'public/data/projects.json',
+  LIVE_URL: 'https://mallik122.github.io/AMStudio',
+  GITHUB_PAGES_URL: 'https://mallik122.github.io/AMStudio',
   VERCEL_URL: 'https://am-studioma.vercel.app',
 };
 
