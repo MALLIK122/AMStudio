@@ -169,7 +169,7 @@ export default function AdminLogin() {
         </button>
 
         <div className="flex flex-col items-center justify-center text-center mb-6">
-          <AMLogo size="lg" withText={false} className="mb-4" />
+          <AMLogo size="lg" withText={false} className="mb-4" interactive={false} />
           <h2 className="font-display text-2xl font-bold text-white tracking-tight">
             {!adminPassword 
               ? 'SETUP ADMIN ACCESS' 

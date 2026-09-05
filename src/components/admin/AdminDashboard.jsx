@@ -61,7 +61,7 @@ export default function AdminDashboard() {
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <AMLogo size="sm" />
+            <AMLogo size="sm" interactive={false} />
             <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-black font-semibold uppercase">
               Admin CMS
             </span>
