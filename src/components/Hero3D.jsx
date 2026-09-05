@@ -139,46 +139,7 @@ export default function Hero3D() {
     logoGroup.add(lineA);
     logoGroup.add(lineM);
 
-    // Interactive Localized Black Cursor Lens on 3D AM Logo
-    const spotUniforms = {
-      uMousePos: { value: new THREE.Vector2(-9999, -9999) },
-      uSpotRadius: { value: window.innerWidth < 640 ? 36.0 : 46.0 },
-      uDpr: { value: Math.min(window.devicePixelRatio, 2) },
-      uSpotActive: { value: 0.0 },
-    };
 
-    const injectBlackSpotShader = (shader) => {
-      shader.uniforms.uMousePos = spotUniforms.uMousePos;
-      shader.uniforms.uSpotRadius = spotUniforms.uSpotRadius;
-      shader.uniforms.uDpr = spotUniforms.uDpr;
-      shader.uniforms.uSpotActive = spotUniforms.uSpotActive;
-
-      shader.fragmentShader = `
-        uniform vec2 uMousePos;
-        uniform float uSpotRadius;
-        uniform float uDpr;
-        uniform float uSpotActive;
-      ` + shader.fragmentShader;
-
-      shader.fragmentShader = shader.fragmentShader.replace(
-        '#include <dithering_fragment>',
-        `
-        #include <dithering_fragment>
-        if (uSpotActive > 0.001) {
-          float fragDist = distance(gl_FragCoord.xy, uMousePos);
-          float pixelRadius = uSpotRadius * uDpr;
-          // Smooth anti-aliased edge
-          float spotFactor = 1.0 - smoothstep(pixelRadius - (3.5 * uDpr), pixelRadius, fragDist);
-          spotFactor *= uSpotActive;
-          // Turn localized area pure jet black
-          gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.0, 0.0, 0.0), spotFactor);
-        }
-        `
-      );
-    };
-
-    logoMaterial.onBeforeCompile = injectBlackSpotShader;
-    edgeMaterial.onBeforeCompile = injectBlackSpotShader;
 
     // Floating particle field
     const particlesCount = 90;
@@ -199,9 +160,14 @@ export default function Hero3D() {
     const particles = new THREE.Points(particleGeom, particleMat);
     scene.add(particles);
 
-    // 5. Lighting: High-contrast studio lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // 5. Lighting: High-contrast studio lighting casting specular highlights on 3D letters
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
+
+    // Dynamic Tracking Spotlight (follows mouse across logo face)
+    const cursorLight = new THREE.PointLight(0xffffff, 3.5, 18);
+    cursorLight.position.set(0, 0, 4);
+    scene.add(cursorLight);
 
     const rimLight = new THREE.DirectionalLight(0xffffff, 1.8);
     rimLight.position.set(-5, 5, 2);
@@ -216,67 +182,20 @@ export default function Hero3D() {
     let mouseY = 0;
     let targetRotationX = 0;
     let targetRotationY = 0;
-    let targetSpotActive = 0;
-    let currentSpotActive = 0;
 
-    const updateMouseCoords = (clientX, clientY) => {
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       mouseX = (clientX / windowWidth) * 2 - 1;
       mouseY = -(clientY / windowHeight) * 2 + 1;
 
-      if (!renderer.domElement) return;
-      const rect = renderer.domElement.getBoundingClientRect();
-      const dpr = renderer.getPixelRatio();
-      const px = (clientX - rect.left) * dpr;
-      const py = (rect.bottom - clientY) * dpr;
-
-      spotUniforms.uMousePos.value.set(px, py);
-      spotUniforms.uDpr.value = dpr;
-
-      // Check if cursor is near the 3D logo container bounds
-      const isOver = 
-        clientX >= rect.left - 40 &&
-        clientX <= rect.right + 40 &&
-        clientY >= rect.top - 40 &&
-        clientY <= rect.bottom + 40;
-
-      targetSpotActive = isOver ? 1.0 : 0.0;
-    };
-
-    const handleMouseMove = (e) => {
-      updateMouseCoords(e.clientX, e.clientY);
-    };
-
-    const handlePointerLeave = () => {
-      targetSpotActive = 0.0;
-    };
-
-    const handleTouchStart = (e) => {
-      if (e.touches && e.touches.length > 0) {
-        updateMouseCoords(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      if (e.touches && e.touches.length > 0) {
-        updateMouseCoords(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
-    const handleTouchEnd = () => {
-      setTimeout(() => {
-        targetSpotActive = 0.0;
-      }, 500);
+      // Update cursor light position to glide over 3D AM facets
+      cursorLight.position.x = mouseX * 5;
+      cursorLight.position.y = mouseY * 4;
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('pointermove', handleMouseMove, { passive: true });
-    document.addEventListener('pointerleave', handlePointerLeave);
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd);
-    window.addEventListener('touchcancel', handleTouchEnd);
 
     // Scroll reactivity
     let scrollY = 0;
@@ -294,8 +213,6 @@ export default function Hero3D() {
       camera.position.z = (window.innerWidth < 640 || width < 420) ? 10.8 : 8.5;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
-      spotUniforms.uDpr.value = renderer.getPixelRatio();
-      spotUniforms.uSpotRadius.value = window.innerWidth < 640 ? 36.0 : 46.0;
     };
     window.addEventListener('resize', handleResize);
 
@@ -321,10 +238,6 @@ export default function Hero3D() {
       logoGroup.rotation.y += (targetRotationY - logoGroup.rotation.y) * 0.06;
       logoGroup.rotation.x += (targetRotationX - logoGroup.rotation.x) * 0.06;
 
-      // Smooth fade for the black cursor spot on the logo
-      currentSpotActive += (targetSpotActive - currentSpotActive) * 0.15;
-      spotUniforms.uSpotActive.value = currentSpotActive;
-
       // Particle motion
       particles.rotation.y = elapsedTime * 0.02;
 
@@ -336,12 +249,6 @@ export default function Hero3D() {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('pointermove', handleMouseMove);
-      document.removeEventListener('pointerleave', handlePointerLeave);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-      window.removeEventListener('touchcancel', handleTouchEnd);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
 

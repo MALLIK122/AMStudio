@@ -10,7 +10,7 @@ export default function AMLogo({
   size = "md", 
   withText = true, 
   className = "",
-  interactive = true, 
+  interactive = false, 
 }) {
   const sizeMap = {
     xs: { box: "w-8 h-8", font: "text-xs", radius: 13 },
