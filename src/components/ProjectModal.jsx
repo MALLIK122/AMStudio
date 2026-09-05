@@ -41,6 +41,12 @@ export default function ProjectModal() {
             src={selectedProject.imageUrl}
             alt={selectedProject.title}
             className="w-full h-full object-cover"
+            onError={(e) => {
+              const src = e.target.src || '';
+              if (src.includes('project-3') && !src.includes('githubusercontent')) {
+                e.target.src = "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg";
+              }
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
           

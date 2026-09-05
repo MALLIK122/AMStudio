@@ -6,7 +6,7 @@ export const INITIAL_PROJECTS = [
     "subtitle": "Royal Palace Celebration",
     "category": "Luxury Invitation",
     "description": "good",
-    "imageUrl": "/images/project-3.jpg",
+    "imageUrl": "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg",
     "liveUrl": "https://cyber-nexus-seven.vercel.app/login",
     "featured": true,
     "year": "2026",
@@ -61,7 +61,7 @@ export const INITIAL_PROJECTS = [
     "category": "Digital Invitations",
     "description": "A luxury wedding announcement web application designed for social sharing, WhatsApp deep linking, animated floral reveals, and real-time ceremony countdown.",
     "longDescription": "A luxury wedding announcement web application designed for social sharing, WhatsApp deep linking, animated floral reveals, and real-time ceremony countdown.",
-    "imageUrl": "/images/project-3.jpg",
+    "imageUrl": "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg",
     "liveUrl": "https://m-invitation-demo1.vercel.app/",
     "githubUrl": "https://github.com",
     "tags": [

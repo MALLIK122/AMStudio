@@ -1,7 +1,8 @@
 /**
  * GitHub & Vercel Automated Deployment Service
  * Enables the Admin CMS to commit changes directly to MALLIK122/AMStudio on GitHub,
- * which automatically triggers Vercel to rebuild and deploy live across all devices.
+ * keeping both public/data/projects.json and src/data/initialData.js synced.
+ * Any device visiting the website automatically loads the latest live projects.
  */
 
 export const GITHUB_CONFIG = {
@@ -9,6 +10,7 @@ export const GITHUB_CONFIG = {
   REPO: 'AMStudio',
   BRANCH: 'main',
   DATA_PATH: 'src/data/initialData.js',
+  JSON_DATA_PATH: 'public/data/projects.json',
   VERCEL_URL: 'https://am-studioma.vercel.app',
 };
 
@@ -54,16 +56,29 @@ export const generateInitialDataFile = (projects, profile) => {
 };
 
 /**
- * Helper to fetch the latest blob SHA of src/data/initialData.js directly from GitHub.
- * Uses cache busting and no-store headers, and falls back to git tree endpoint.
+ * Generate JSON string for public/data/projects.json
  */
-export const getLatestFileSha = async (token) => {
+export const generateProjectsJson = (projects, profile) => {
+  const version = Date.now();
+  return JSON.stringify({
+    version,
+    updatedAt: new Date().toISOString(),
+    projects,
+    profile,
+  }, null, 2);
+};
+
+/**
+ * Helper to fetch the latest blob SHA of a file directly from GitHub.
+ * Uses cache busting and falls back to git tree endpoint.
+ */
+export const getLatestFileSha = async (token, filePath = GITHUB_CONFIG.DATA_PATH) => {
   const cleanToken = token.trim();
   const cacheBuster = Date.now();
 
   // 1. Try Contents API with cache-busting query param
   try {
-    const contentsUrl = `https://api.github.com/repos/${GITHUB_CONFIG.OWNER}/${GITHUB_CONFIG.REPO}/contents/${GITHUB_CONFIG.DATA_PATH}?ref=${GITHUB_CONFIG.BRANCH}&_cb=${cacheBuster}`;
+    const contentsUrl = `https://api.github.com/repos/${GITHUB_CONFIG.OWNER}/${GITHUB_CONFIG.REPO}/contents/${filePath}?ref=${GITHUB_CONFIG.BRANCH}&_cb=${cacheBuster}`;
     const res = await fetch(contentsUrl, {
       headers: {
         Authorization: `Bearer ${cleanToken}`,
@@ -80,7 +95,7 @@ export const getLatestFileSha = async (token) => {
       return { sha: null, exists: false };
     }
   } catch (err) {
-    console.warn('[GitHubSync] Contents API fetch failed, trying Tree API fallback:', err);
+    console.warn(`[GitHubSync] Contents API fetch failed for ${filePath}, trying Tree API fallback:`, err);
   }
 
   // 2. Fallback: Query Git Tree API for the branch HEAD
@@ -96,14 +111,14 @@ export const getLatestFileSha = async (token) => {
     if (treeRes.ok) {
       const treeData = await treeRes.json();
       if (treeData && Array.isArray(treeData.tree)) {
-        const item = treeData.tree.find((t) => t.path === GITHUB_CONFIG.DATA_PATH);
+        const item = treeData.tree.find((t) => t.path === filePath);
         if (item && item.sha) {
           return { sha: item.sha, exists: true };
         }
       }
     }
   } catch (err) {
-    console.warn('[GitHubSync] Tree API fetch failed:', err);
+    console.warn(`[GitHubSync] Tree API fetch failed for ${filePath}:`, err);
   }
 
   return { sha: null, exists: false };
@@ -167,28 +182,16 @@ export const verifyGitHubAccess = async (token) => {
 };
 
 /**
- * Push updated initialData.js directly to GitHub repository on main branch
- * Automatically detects and handles blob SHA mismatches and 409 conflicts.
+ * Single file commit helper with auto-recovery for 409 conflict
  */
-export const pushToGitHub = async ({ token, projects, profile, commitMessage }) => {
-  if (!token || !token.trim()) {
-    return {
-      success: false,
-      error: 'GitHub Personal Access Token is required to deploy live.',
-      needsToken: true,
-    };
-  }
-
+export const pushSingleFile = async ({ token, filePath, contentStr, commitMessage }) => {
   const cleanToken = token.trim();
-  const url = `https://api.github.com/repos/${GITHUB_CONFIG.OWNER}/${GITHUB_CONFIG.REPO}/contents/${GITHUB_CONFIG.DATA_PATH}`;
-  const fileCode = generateInitialDataFile(projects, profile);
-  const contentBase64 = utf8ToBase64(fileCode);
-  const defaultMsg = `chore(cms): update wedding invitation projects from admin dashboard [${new Date().toLocaleTimeString('en-US')}]`;
+  const url = `https://api.github.com/repos/${GITHUB_CONFIG.OWNER}/${GITHUB_CONFIG.REPO}/contents/${filePath}`;
+  const contentBase64 = utf8ToBase64(contentStr);
 
-  // Inner function to attempt PUT with automatic retry on SHA conflict
   const attemptPut = async (targetSha, attempt = 1) => {
     const bodyPayload = {
-      message: commitMessage || defaultMsg,
+      message: commitMessage,
       content: contentBase64,
       branch: GITHUB_CONFIG.BRANCH,
     };
@@ -210,26 +213,23 @@ export const pushToGitHub = async ({ token, projects, profile, commitMessage }) 
       const errJson = await putRes.json().catch(() => ({}));
       const errMsg = errJson.message || putRes.statusText || 'Unknown error';
 
-      // AUTO-RECOVERY for 409 Conflict: GitHub says "does not match <sha>"
       if ((putRes.status === 409 || errMsg.includes('does not match')) && attempt <= 2) {
-        // 1. Exact SHA regex extraction from GitHub's error message
         const match = errMsg.match(/does not match\s+([a-f0-9]{40})/i);
         if (match && match[1]) {
-          console.warn(`[GitHubSync] SHA conflict detected. Auto-recovering with exact SHA ${match[1]}`);
+          console.warn(`[GitHubSync] SHA conflict on ${filePath}. Retrying with exact SHA ${match[1]}`);
           return attemptPut(match[1], attempt + 1);
         }
 
-        // 2. Query fresh tree SHA and retry
-        const fresh = await getLatestFileSha(cleanToken);
+        const fresh = await getLatestFileSha(cleanToken, filePath);
         if (fresh.sha && fresh.sha !== targetSha) {
-          console.warn(`[GitHubSync] SHA conflict detected. Auto-recovering with fresh tree SHA ${fresh.sha}`);
+          console.warn(`[GitHubSync] Retrying with fresh SHA ${fresh.sha} for ${filePath}`);
           return attemptPut(fresh.sha, attempt + 1);
         }
       }
 
       return {
         success: false,
-        error: errMsg || `Failed to push commit: ${putRes.statusText}`,
+        error: errMsg || `Failed to push ${filePath}: ${putRes.statusText}`,
       };
     }
 
@@ -242,10 +242,60 @@ export const pushToGitHub = async ({ token, projects, profile, commitMessage }) 
     };
   };
 
+  const initialInfo = await getLatestFileSha(cleanToken, filePath);
+  return await attemptPut(initialInfo.sha, 1);
+};
+
+/**
+ * Push updated project data directly to GitHub.
+ * Syncs BOTH public/data/projects.json (for instant client fetches)
+ * AND src/data/initialData.js (for Vite bundle builds).
+ */
+export const pushToGitHub = async ({ token, projects, profile, commitMessage }) => {
+  if (!token || !token.trim()) {
+    return {
+      success: false,
+      error: 'GitHub Personal Access Token is required to deploy live.',
+      needsToken: true,
+    };
+  }
+
+  const cleanToken = token.trim();
+  const defaultMsg = `chore(cms): update wedding invitation projects from admin dashboard [${new Date().toLocaleTimeString('en-US')}]`;
+  const msg = commitMessage || defaultMsg;
+
   try {
-    // 1. Fetch initial fresh SHA
-    const initialInfo = await getLatestFileSha(cleanToken);
-    return await attemptPut(initialInfo.sha, 1);
+    // 1. Commit public/data/projects.json (enables instant live multi-device fetch)
+    const jsonStr = generateProjectsJson(projects, profile);
+    const jsonRes = await pushSingleFile({
+      token: cleanToken,
+      filePath: GITHUB_CONFIG.JSON_DATA_PATH,
+      contentStr: jsonStr,
+      commitMessage: `data: update projects.json for live multi-device sync`,
+    });
+
+    // 2. Commit src/data/initialData.js (updates repo code for Vercel builds)
+    const codeStr = generateInitialDataFile(projects, profile);
+    const codeRes = await pushSingleFile({
+      token: cleanToken,
+      filePath: GITHUB_CONFIG.DATA_PATH,
+      contentStr: codeStr,
+      commitMessage: msg,
+    });
+
+    if (jsonRes.success || codeRes.success) {
+      return {
+        success: true,
+        commitSha: codeRes.commitSha || jsonRes.commitSha || 'latest',
+        commitUrl: codeRes.commitUrl || jsonRes.commitUrl,
+        deployedAt: new Date().toISOString(),
+      };
+    }
+
+    return {
+      success: false,
+      error: codeRes.error || jsonRes.error || 'Failed to push updates to GitHub.',
+    };
   } catch (err) {
     return { success: false, error: err.message || 'Failed connecting to GitHub API.' };
   }

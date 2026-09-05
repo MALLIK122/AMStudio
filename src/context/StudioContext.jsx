@@ -164,11 +164,17 @@ export const StudioProvider = ({ children }) => {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  // Auto-sync with new builds across all devices
+  // Real-time cross-device synchronization:
+  // Dynamically fetches latest projects from GitHub public data so any update made in Admin
+  // displays immediately across ALL mobile phones, tablets, and computers worldwide
+  // without waiting for or depending on Vercel builds!
   useEffect(() => {
+    let isMounted = true;
+
+    // 1. Invalidate local storage if build DATA_VERSION is newer
     try {
       const savedVersion = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
-      if (!savedVersion || Number(savedVersion) !== Number(DATA_VERSION)) {
+      if (!savedVersion || Number(savedVersion) < Number(DATA_VERSION)) {
         localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(DATA_VERSION));
         localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(INITIAL_PROJECTS));
         localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(INITIAL_STUDIO_PROFILE));
@@ -178,6 +184,69 @@ export const StudioProvider = ({ children }) => {
     } catch (e) {
       console.warn('Version check error:', e);
     }
+
+    // 2. Fetch live data from GitHub public repository
+    const syncFromRemote = async () => {
+      try {
+        const endpoints = [
+          `https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/data/projects.json?_t=${Date.now()}`,
+          `/data/projects.json?_t=${Date.now()}`
+        ];
+
+        for (const url of endpoints) {
+          try {
+            const res = await fetch(url, { cache: 'no-store' });
+            if (res.ok) {
+              const data = await res.json();
+              if (data && Array.isArray(data.projects) && data.projects.length > 0) {
+                if (isMounted) {
+                  setProjects(prev => {
+                    const currentIds = prev.map(p => p.id).sort().join(',');
+                    const remoteIds = data.projects.map(p => p.id).sort().join(',');
+                    const currentStr = JSON.stringify(prev);
+                    const remoteStr = JSON.stringify(data.projects);
+
+                    // Update if count changed or content changed
+                    if (currentIds !== remoteIds || currentStr !== remoteStr) {
+                      localStorage.setItem(STORAGE_KEYS.PROJECTS, remoteStr);
+                      if (data.version) {
+                        localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(data.version));
+                      }
+                      return data.projects;
+                    }
+                    return prev;
+                  });
+
+                  if (data.profile) {
+                    setProfile(prev => {
+                      const currentStr = JSON.stringify(prev);
+                      const remoteStr = JSON.stringify(data.profile);
+                      if (currentStr !== remoteStr) {
+                        localStorage.setItem(STORAGE_KEYS.PROFILE, remoteStr);
+                        return data.profile;
+                      }
+                      return prev;
+                    });
+                  }
+                }
+                break; // successfully synced from this endpoint
+              }
+            }
+          } catch {
+            // try next endpoint
+          }
+        }
+      } catch (err) {
+        console.warn('[StudioSync] Remote sync check failed:', err);
+      }
+    };
+
+    syncFromRemote();
+    const interval = setInterval(syncFromRemote, 20000); // refresh every 20 seconds
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, []);
 
   // Sync to localStorage

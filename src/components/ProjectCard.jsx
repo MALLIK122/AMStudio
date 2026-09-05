@@ -57,7 +57,12 @@ export default function ProjectCard({ project }) {
           loading="lazy"
           className="w-full h-full object-cover object-center filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
           onError={(e) => {
-            e.target.src = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop";
+            const src = e.target.src || '';
+            if (src.includes('project-3') && !src.includes('githubusercontent')) {
+              e.target.src = "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg";
+            } else {
+              e.target.src = "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop";
+            }
           }}
         />
 
