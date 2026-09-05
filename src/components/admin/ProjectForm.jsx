@@ -2,12 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { X, Upload, Check, Sparkles, UploadCloud } from 'lucide-react';
 import { useStudio } from '../../context/StudioContext';
 
-export default function ProjectForm({ project, onSave, onCancel }) {
+export default function ProjectForm({ project, initialType = 'website', onSave, onCancel }) {
   const { githubToken } = useStudio();
+  const [workType, setWorkType] = useState(() => {
+    if (project?.isPoster) return 'poster';
+    if (project?.category && (
+      project.category.toLowerCase().includes('poster') ||
+      project.category.toLowerCase().includes('card') ||
+      project.category.toLowerCase().includes('baby shower')
+    )) return 'poster';
+    if (initialType === 'poster') return 'poster';
+    return 'website';
+  });
+
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
-    category: 'Luxury Invitation',
+    category: workType === 'poster' ? 'Wedding Cards & Posters' : 'Wedding Websites',
     description: '',
     imageUrl: '',
     liveUrl: '',
@@ -18,10 +29,19 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
   useEffect(() => {
     if (project) {
+      const isPost = Boolean(
+        project.isPoster ||
+        (project.category && (
+          project.category.toLowerCase().includes('poster') ||
+          project.category.toLowerCase().includes('card') ||
+          project.category.toLowerCase().includes('baby shower')
+        ))
+      );
+      setWorkType(isPost ? 'poster' : 'website');
       setFormData({
         title: project.title || '',
         subtitle: project.subtitle || '',
-        category: project.category || 'Luxury Invitation',
+        category: project.category || (isPost ? 'Wedding Cards & Posters' : 'Wedding Websites'),
         description: project.description || '',
         imageUrl: project.imageUrl || '',
         liveUrl: project.liveUrl || '',
@@ -29,8 +49,11 @@ export default function ProjectForm({ project, onSave, onCancel }) {
         tags: Array.isArray(project.tags) ? project.tags.join(', ') : (project.tags || ''),
         year: project.year || new Date().getFullYear().toString(),
       });
+    } else if (initialType === 'poster') {
+      setWorkType('poster');
+      setFormData(prev => ({ ...prev, category: 'Wedding Cards & Posters' }));
     }
-  }, [project]);
+  }, [project, initialType]);
 
   // Handle local image file upload (auto-compresses with canvas to keep size light & fast)
   const handleFileUpload = (e) => {
@@ -77,16 +100,18 @@ export default function ProjectForm({ project, onSave, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.title.trim()) {
-      alert('Please provide a project title.');
+      alert('Please provide a title.');
       return;
     }
-    if (!formData.liveUrl.trim()) {
-      alert('Please provide the live project URL.');
+    if (workType === 'website' && !formData.liveUrl.trim()) {
+      alert('Please provide the live website URL.');
       return;
     }
 
     const payload = {
       ...formData,
+      isPoster: workType === 'poster',
+      liveUrl: (formData.liveUrl && formData.liveUrl.trim()) || formData.imageUrl || '#',
       tags: typeof formData.tags === 'string'
         ? formData.tags.split(',').map(t => t.trim()).filter(Boolean)
         : formData.tags,
@@ -103,10 +128,10 @@ export default function ProjectForm({ project, onSave, onCancel }) {
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div>
             <h3 className="font-display text-2xl font-bold text-white tracking-tight">
-              {project ? 'Edit Project' : 'Add New Showcase Project'}
+              {project ? (workType === 'poster' ? 'Edit Poster / Card' : 'Edit Website Project') : (workType === 'poster' ? 'Add New Poster / Card' : 'Add New Wedding Website')}
             </h3>
             <p className="text-zinc-300 text-xs font-mono mt-0.5 font-medium">
-              Enter wedding invitation details, live link, and visual cover
+              {workType === 'poster' ? 'Publish a new poster, wedding card, baby shower or event flyer template' : 'Enter wedding invitation details, live link, and visual cover'}
             </p>
           </div>
           <button
@@ -118,16 +143,52 @@ export default function ProjectForm({ project, onSave, onCancel }) {
           </button>
         </div>
 
+        {/* Work Type Switcher: Website vs Poster/Card */}
+        <div className="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10">
+          <button
+            type="button"
+            onClick={() => {
+              setWorkType('website');
+              if (formData.category.includes('Poster') || formData.category.includes('Card')) {
+                setFormData(prev => ({ ...prev, category: 'Wedding Websites' }));
+              }
+            }}
+            className={`py-2.5 px-4 rounded-xl text-xs font-mono font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              workType === 'website'
+                ? 'bg-white text-black shadow-lg'
+                : 'text-zinc-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>🌐 Wedding Website</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setWorkType('poster');
+              if (!formData.category.includes('Poster') && !formData.category.includes('Card')) {
+                setFormData(prev => ({ ...prev, category: 'Wedding Cards & Posters' }));
+              }
+            }}
+            className={`py-2.5 px-4 rounded-xl text-xs font-mono font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              workType === 'poster'
+                ? 'bg-purple-600 text-white shadow-lg'
+                : 'text-zinc-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>🎨 Poster / Card Design</span>
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
-                Project Title *
+                {workType === 'poster' ? 'Poster / Card Title *' : 'Project Title *'}
               </label>
               <input
                 type="text"
                 required
-                placeholder="e.g. Arjun & Ananya | Luxury Wedding Invitation"
+                placeholder={workType === 'poster' ? 'e.g. Save The Date | Jonathan & Juliana' : 'e.g. Arjun & Ananya | Luxury Wedding Invitation'}
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full glass-input px-4 py-2.5 rounded-xl text-sm"
@@ -136,11 +197,11 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
             <div>
               <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
-                Subtitle / Pitch
+                {workType === 'poster' ? 'Theme / Subtitle' : 'Subtitle / Pitch'}
               </label>
               <input
                 type="text"
-                placeholder="e.g. Royal Palace Celebration Portal"
+                placeholder={workType === 'poster' ? 'e.g. Luxury Gold Floral Invitation Card' : 'e.g. Royal Palace Celebration Portal'}
                 value={formData.subtitle}
                 onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                 className="w-full glass-input px-4 py-2.5 rounded-xl text-sm"
@@ -151,19 +212,31 @@ export default function ProjectForm({ project, onSave, onCancel }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
-                Invitation Category / Style
+                {workType === 'poster' ? 'Poster Category' : 'Invitation Category / Style'}
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono cursor-pointer"
               >
-                <option value="Luxury Invitation" className="bg-zinc-900 text-white">Luxury Invitation</option>
-                <option value="Royal Celebration" className="bg-zinc-900 text-white">Royal Celebration</option>
-                <option value="Modern Minimal" className="bg-zinc-900 text-white">Modern Minimal</option>
-                <option value="Traditional" className="bg-zinc-900 text-white">Traditional</option>
-                <option value="Floral Design" className="bg-zinc-900 text-white">Floral Design</option>
-                <option value="Custom Design" className="bg-zinc-900 text-white">Custom Design</option>
+                {workType === 'poster' ? (
+                  <>
+                    <option value="Wedding Cards & Posters" className="bg-zinc-900 text-white">Wedding Cards & Posters</option>
+                    <option value="Baby Shower & Family" className="bg-zinc-900 text-white">Baby Shower & Family</option>
+                    <option value="Event & Party Posters" className="bg-zinc-900 text-white">Event & Party Posters</option>
+                    <option value="Business & Promotion" className="bg-zinc-900 text-white">Business & Promotion</option>
+                    <option value="Custom Poster" className="bg-zinc-900 text-white">Custom Poster / Other</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="Wedding Websites" className="bg-zinc-900 text-white">Wedding Websites</option>
+                    <option value="Luxury Invitation" className="bg-zinc-900 text-white">Luxury Invitation</option>
+                    <option value="Royal Celebration" className="bg-zinc-900 text-white">Royal Celebration</option>
+                    <option value="Modern Minimal" className="bg-zinc-900 text-white">Modern Minimal</option>
+                    <option value="Traditional" className="bg-zinc-900 text-white">Traditional</option>
+                    <option value="Floral Design" className="bg-zinc-900 text-white">Floral Design</option>
+                  </>
+                )}
               </select>
             </div>
 
@@ -184,13 +257,14 @@ export default function ProjectForm({ project, onSave, onCancel }) {
           {/* Image URL & File Upload */}
           <div className="space-y-2.5">
             <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold">
-              Project Preview Visual
+              {workType === 'poster' ? 'Poster Design Image *' : 'Project Preview Visual *'}
             </label>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
               <div className="md:col-span-8">
                 <input
                   type="text"
-                  placeholder="Paste image URL (https://... or /images/...) or upload file"
+                  required={!formData.imageUrl}
+                  placeholder={workType === 'poster' ? 'Upload poster below or paste URL (/images/posters/...)' : 'Paste image URL (https://... or /images/...) or upload file'}
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                   className="w-full glass-input px-4 py-2.5 rounded-xl text-sm"
@@ -199,7 +273,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
               <div className="md:col-span-4">
                 <label className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 cursor-pointer text-xs font-mono text-zinc-200 hover:text-white font-medium transition-colors">
                   <Upload className="w-4 h-4" />
-                  <span>Upload Local File</span>
+                  <span>Upload Poster File</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -211,11 +285,11 @@ export default function ProjectForm({ project, onSave, onCancel }) {
             </div>
 
             {formData.imageUrl && (
-              <div className="relative w-full h-36 rounded-xl overflow-hidden border border-white/10 bg-zinc-900 mt-2">
+              <div className={`relative w-full ${workType === 'poster' ? 'h-52' : 'h-36'} rounded-xl overflow-hidden border border-white/10 bg-zinc-950 mt-2 flex items-center justify-center`}>
                 <img
                   src={formData.imageUrl}
                   alt="Preview"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             )}
@@ -223,13 +297,18 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
           {/* Live URL */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
-              Live to see the project URL *
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold">
+                {workType === 'poster' ? 'Live Link / External URL (Optional)' : 'Live to see the project URL *'}
+              </label>
+              {workType === 'poster' && (
+                <span className="text-[11px] font-mono text-zinc-400">Optional for posters</span>
+              )}
+            </div>
             <input
-              type="url"
-              required
-              placeholder="https://wedding-invite-tau-one.vercel.app"
+              type={workType === 'poster' ? 'text' : 'url'}
+              required={workType === 'website'}
+              placeholder={workType === 'poster' ? 'Defaults to high-res poster view or WhatsApp order link' : 'https://wedding-invite-tau-one.vercel.app'}
               value={formData.liveUrl}
               onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
               className="w-full glass-input px-4 py-2.5 rounded-xl text-sm"
@@ -239,12 +318,12 @@ export default function ProjectForm({ project, onSave, onCancel }) {
           {/* Description */}
           <div>
             <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
-              Project Description *
+              {workType === 'poster' ? 'Poster Description & Occasion *' : 'Project Description *'}
             </label>
             <textarea
               rows={3}
               required
-              placeholder="Describe the wedding invitation theme, couple story, RSVP features, venue, and special highlights..."
+              placeholder={workType === 'poster' ? 'Describe the poster theme, color palette, print resolution, and occasion highlights...' : 'Describe the wedding invitation theme, couple story, RSVP features, venue, and special highlights...'}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full glass-input px-4 py-2.5 rounded-xl text-sm resize-none"

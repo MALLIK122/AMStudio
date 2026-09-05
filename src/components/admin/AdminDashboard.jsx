@@ -41,6 +41,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('projects');
   const [editingProject, setEditingProject] = useState(null);
   const [isAddingProject, setIsAddingProject] = useState(false);
+  const [addingType, setAddingType] = useState('website');
   const [isDeployingGlobal, setIsDeployingGlobal] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
 
@@ -223,7 +224,7 @@ export default function AdminDashboard() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <button
                   onClick={() => setActiveTab('deployment')}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-400 hover:text-emerald-300 text-xs font-mono uppercase transition-all"
@@ -234,11 +235,26 @@ export default function AdminDashboard() {
                 </button>
 
                 <button
-                  onClick={() => setIsAddingProject(true)}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-xs font-mono uppercase hover:bg-zinc-200 transition-all shadow-lg"
+                  onClick={() => {
+                    setAddingType('poster');
+                    setIsAddingProject(true);
+                  }}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs font-mono uppercase transition-all shadow-lg border border-purple-400/30"
+                  title="Upload and showcase a new poster or invitation card"
                 >
                   <Plus className="w-4 h-4" />
-                  <span>Add New Project</span>
+                  <span>+ New Poster / Card</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setAddingType('website');
+                    setIsAddingProject(true);
+                  }}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-black font-semibold text-xs font-mono uppercase hover:bg-zinc-200 transition-all shadow-lg"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>+ New Website</span>
                 </button>
               </div>
             </div>
@@ -254,13 +270,22 @@ export default function AdminDashboard() {
                     <img
                       src={project.imageUrl}
                       alt={project.title}
-                      className="w-20 h-14 rounded-xl object-cover border border-white/10 bg-zinc-900 flex-shrink-0"
+                      className={`${project.isPoster ? 'w-14 h-20 object-cover' : 'w-20 h-14 object-cover'} rounded-xl border border-white/10 bg-zinc-900 flex-shrink-0`}
                     />
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <h4 className="font-display font-bold text-base text-white">
                           {project.title}
                         </h4>
+                        {project.isPoster ? (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold">
+                            🎨 Poster / Card
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold">
+                            🌐 Website
+                          </span>
+                        )}
                         {project.featured && (
                           <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/15 text-white border border-white/20">
                             Featured
@@ -342,6 +367,7 @@ export default function AdminDashboard() {
         {(isAddingProject || editingProject) && (
           <ProjectForm
             project={editingProject}
+            initialType={addingType}
             onSave={handleSaveProject}
             onCancel={() => {
               setIsAddingProject(false);

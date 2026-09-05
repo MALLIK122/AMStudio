@@ -19,10 +19,17 @@ export default function HeroSection() {
         {/* Left: Hero Typography & Pitch */}
         <div className="lg:col-span-6 space-y-6 sm:space-y-8 z-10 text-center lg:text-left">
 
-          {/* Social Proof Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs font-mono tracking-wider text-zinc-100 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>{t('hero', 'trustBadge')}</span>
+          {/* Social Proof Trust Badge & Service Announcement */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs font-mono tracking-wider text-zinc-100 font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>{t('hero', 'trustBadge')}</span>
+            </div>
+            {t('hero', 'posterBadge') && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-[11px] sm:text-xs font-mono tracking-wider text-purple-200 font-medium">
+                <span>{t('hero', 'posterBadge')}</span>
+              </div>
+            )}
           </div>
 
           <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-white leading-[1.08] sm:leading-[1.04] break-words">

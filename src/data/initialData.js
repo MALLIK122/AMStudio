@@ -1,4 +1,4 @@
-export const DATA_VERSION = 1788606843935;
+export const DATA_VERSION = 1788616200000;
 
 export const DEFAULT_ADMIN_PASSWORD_HASH = 'ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da';
 
@@ -7,16 +7,16 @@ export const INITIAL_PROJECTS = [
     "id": "proj-wedding-1",
     "title": "Arjun & Ananya | Luxury Wedding Invitation",
     "subtitle": "Interactive Digital Experience & RSVP Suite",
-    "category": "Digital Invitations",
+    "category": "Wedding Websites",
+    "isPoster": false,
     "description": "An exquisite interactive wedding invitation platform with custom typography, event timeline countdown, audio scoring, venue coordinates, and dynamic RSVP integration.",
     "longDescription": "A bespoke celebration platform created for Arjun & Ananya's wedding. Engineered with smooth micro-interactions, responsive typography pairing Cormorant Garamond with modern sans-serifs, custom venue coordinates with Google Maps integration, and real-time attendance RSVP tracking.",
     "imageUrl": "https://wedding-invite-tau-one.vercel.app/images/couple_hero.png",
     "liveUrl": "https://wedding-invite-tau-one.vercel.app",
     "githubUrl": "https://github.com",
     "tags": [
+      "Wedding Website",
       "React",
-      "Vite",
-      "Tailwind CSS",
       "Interactive RSVP",
       "Audio Web"
     ],
@@ -28,16 +28,16 @@ export const INITIAL_PROJECTS = [
     "id": "proj-wedding-2",
     "title": "Arjun & Meera | Modern Wedding Invitation",
     "subtitle": "Editorial Coorg Destination Celebration Portal",
-    "category": "Digital Invitations",
+    "category": "Wedding Websites",
+    "isPoster": false,
     "description": "A destination wedding web portal celebrating Arjun & Meera in Coorg, Karnataka. Features romantic editorial aesthetics, ceremony itineraries, and interactive venue directions.",
     "longDescription": "Engineered as an immersive destination guide and wedding invitation. Includes an interactive ceremony schedule, accommodation details, custom map integrations, and seamless mobile RSVP submission.",
     "imageUrl": "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
     "liveUrl": "https://m-invitation-demo2-2l1o.vercel.app/",
     "githubUrl": "https://github.com",
     "tags": [
-      "React",
+      "Wedding Website",
       "CSS Animations",
-      "Vite",
       "Editorial Layout"
     ],
     "featured": true,
@@ -48,68 +48,248 @@ export const INITIAL_PROJECTS = [
     "id": "proj-wedding-3",
     "title": "Royal Wedding Celebration Portal",
     "subtitle": "Dynamic Invitation & Social RSVP Suite",
-    "category": "Digital Invitations",
+    "category": "Wedding Websites",
+    "isPoster": false,
     "description": "A luxury wedding announcement web application designed for social sharing, WhatsApp deep linking, animated floral reveals, and real-time ceremony countdown.",
     "longDescription": "A luxury wedding announcement web application designed for social sharing, WhatsApp deep linking, animated floral reveals, and real-time ceremony countdown.",
     "imageUrl": "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg",
     "liveUrl": "https://m-invitation-demo1.vercel.app/",
     "githubUrl": "https://github.com",
     "tags": [
-      "React",
+      "Wedding Website",
       "Tailwind CSS",
-      "Social Previews",
       "Countdown Engine"
     ],
     "featured": true,
     "year": "2026",
     "metrics": "Optimized Social Sharing • 60 FPS"
+  },
+  {
+    "id": "proj-poster-wedding-1",
+    "title": "Jonathan & Juliana | Save The Date Wedding Poster",
+    "subtitle": "Luxury Floral Gold Wedding Invitation Poster",
+    "category": "Wedding Cards & Posters",
+    "isPoster": true,
+    "description": "Bespoke Save The Date wedding announcement poster with gold calligraphy, couple portrait framing, elegant floral bouquets, and ceremony coordinates.",
+    "longDescription": "A timeless dark-themed wedding announcement poster designed for instant digital sharing on WhatsApp and high-resolution A4/A3 physical print. Features romantic floral border arrangements, custom dual rings motif, and luxury gold script typography.",
+    "imageUrl": "/images/posters/poster-wedding-1.png",
+    "liveUrl": "/images/posters/poster-wedding-1.png",
+    "tags": [
+      "Wedding Poster",
+      "Save The Date",
+      "Gold Calligraphy",
+      "Print Ready"
+    ],
+    "featured": true,
+    "year": "2026",
+    "metrics": "Ultra HD Print Ready • Instant WhatsApp Share"
+  },
+  {
+    "id": "proj-poster-wedding-card-2",
+    "title": "Anju & Vikas | Traditional Wedding Invitation Card",
+    "subtitle": "Royal Arch & Lanterns Traditional Indian Wedding Card",
+    "category": "Wedding Cards & Posters",
+    "isPoster": true,
+    "description": "Traditional Indian wedding invitation card featuring Lord Ganesha blessing, royal palace archway, hanging golden lanterns, and custom bride & groom illustration.",
+    "longDescription": "Exquisite traditional wedding invitation card in blush lavender tones. Designed with sacred Ganesha iconography, ornate golden palace lanterns, floral bouquets, and heartwarming couple illustration.",
+    "imageUrl": "/images/posters/poster-wedding-card-2.png",
+    "liveUrl": "/images/posters/poster-wedding-card-2.png",
+    "tags": [
+      "Traditional Card",
+      "Indian Wedding",
+      "Ganesha Motif",
+      "Custom Illustration"
+    ],
+    "featured": true,
+    "year": "2026",
+    "metrics": "High-Res PDF & JPG • WhatsApp Card"
+  },
+  {
+    "id": "proj-poster-baby-shower",
+    "title": "Sweet Beginnings | Baby Shower Invitation Poster",
+    "subtitle": "Cute Woodland Animals & Toys Baby Shower Flyer",
+    "category": "Baby Shower & Family",
+    "isPoster": true,
+    "description": "Adorable baby shower celebration invitation poster featuring hand-drawn cute woodland animals, rattle toys, alphabet blocks, and warm pastel palette.",
+    "longDescription": "Delightful baby shower celebration card crafted with loving attention to detail. Includes cute baby lion and fox illustrations, baby rattle, alphabet building blocks, and clean event timing typography.",
+    "imageUrl": "/images/posters/poster-baby-shower.png",
+    "liveUrl": "/images/posters/poster-baby-shower.png",
+    "tags": [
+      "Baby Shower",
+      "Woodland Animals",
+      "Pastel Aesthetic",
+      "Digital Card"
+    ],
+    "featured": true,
+    "year": "2026",
+    "metrics": "Customizable Name & Date • Ultra Sharp"
+  },
+  {
+    "id": "proj-poster-grand-opening",
+    "title": "Grand Opening & Launch Celebration Poster",
+    "subtitle": "Luxury Gold & Black Celebration Announcement",
+    "category": "Event & Party Posters",
+    "isPoster": true,
+    "description": "Sophisticated grand opening celebration poster with sparkling gold fireworks, festive typography, event schedule, and VIP guest incentives.",
+    "longDescription": "Premium grand opening flyer in black and metallic gold. Perfect for cafes, boutiques, studios, and business launches with schedule highlights, tasting notes, and RSVP contact.",
+    "imageUrl": "/images/posters/poster-grand-opening.png",
+    "liveUrl": "/images/posters/poster-grand-opening.png",
+    "tags": [
+      "Grand Opening",
+      "Gold Fireworks",
+      "Business Launch",
+      "Event Poster"
+    ],
+    "featured": false,
+    "year": "2026",
+    "metrics": "Social Media & Print Ready • 300 DPI"
+  },
+  {
+    "id": "proj-poster-electro-party",
+    "title": "Electro Party | DJ Music & Night Club Poster",
+    "subtitle": "Neon Glowing Stage & Concert Event Flyer",
+    "category": "Event & Party Posters",
+    "isPoster": true,
+    "description": "Electrifying music festival and DJ night poster with vibrant neon magenta stage fireworks, glowing typography, and ticket pass details.",
+    "longDescription": "High-energy nightlife and concert flyer crafted for clubs, college fests, and musical performances. Features neon glow effects, crowd stage visuals, and striking date badge.",
+    "imageUrl": "/images/posters/poster-electro-party.png",
+    "liveUrl": "/images/posters/poster-electro-party.png",
+    "tags": [
+      "Party Poster",
+      "DJ Night",
+      "Neon Vibes",
+      "Music Fest"
+    ],
+    "featured": false,
+    "year": "2026",
+    "metrics": "Instagram Story & Post Ready"
+  },
+  {
+    "id": "proj-poster-esports",
+    "title": "Cyber Arena | E-Sport Championship Gaming Poster",
+    "subtitle": "Futuristic Synthwave & VR Tournament Poster",
+    "category": "Event & Party Posters",
+    "isPoster": true,
+    "description": "Futuristic gaming championship poster with neon purple perspective grid, cyber visor visuals, and tournament registration branding.",
+    "longDescription": "High-tech gaming tournament poster designed for esports leagues, university gaming tournaments, and tech fests with sleek cyber holographic borders.",
+    "imageUrl": "/images/posters/poster-esports.png",
+    "liveUrl": "/images/posters/poster-esports.png",
+    "tags": [
+      "E-Sports",
+      "Gaming",
+      "Cyberpunk",
+      "Tournament"
+    ],
+    "featured": false,
+    "year": "2026",
+    "metrics": "Vector Sharp • High Contrast"
+  },
+  {
+    "id": "proj-poster-travel",
+    "title": "Time To Travel | Tour & Holiday Package Poster",
+    "subtitle": "Scenic Destination & Vacation Booking Flyer",
+    "category": "Business & Promotion",
+    "isPoster": true,
+    "description": "Inviting travel agency promotional poster with scenic mountain and lake photo collage, world map watermark, and holiday package offerings.",
+    "longDescription": "Clean, professional tourism flyer designed to highlight tour packages, flight bookings, customer benefits, and direct booking call-to-actions.",
+    "imageUrl": "/images/posters/poster-travel.png",
+    "liveUrl": "/images/posters/poster-travel.png",
+    "tags": [
+      "Travel & Tourism",
+      "Package Flyer",
+      "Collage",
+      "Marketing"
+    ],
+    "featured": false,
+    "year": "2026",
+    "metrics": "A4 Flyer • WhatsApp Marketing"
+  },
+  {
+    "id": "proj-poster-business-webinar",
+    "title": "Corporate Growth | Business Marketing Webinar Poster",
+    "subtitle": "Professional Corporate Seminar & Workshop Flyer",
+    "category": "Business & Promotion",
+    "isPoster": true,
+    "description": "Modern corporate webinar announcement poster featuring sleek skyscraper glass architecture, presenter desk visual, and time schedules.",
+    "longDescription": "Polished corporate marketing flyer for summits, masterclasses, and online webinars with clean time, date, and registration coordinates.",
+    "imageUrl": "/images/posters/poster-business-webinar.png",
+    "liveUrl": "/images/posters/poster-business-webinar.png",
+    "tags": [
+      "Corporate",
+      "Webinar",
+      "Business Poster",
+      "Workshop"
+    ],
+    "featured": false,
+    "year": "2026",
+    "metrics": "LinkedIn & WhatsApp Optimized"
+  },
+  {
+    "id": "proj-poster-computer-services",
+    "title": "TechCare Pro | Computer Services & Repair Poster",
+    "subtitle": "Hardware Repair & Tech Maintenance Promotional Flyer",
+    "category": "Business & Promotion",
+    "isPoster": true,
+    "description": "Striking tech service advertising flyer with dual-tone wave graphics, motherboard repair visuals, and service breakdown list.",
+    "longDescription": "Professional tech shop promotion flyer with 50% discount badge, detailed repair services list, contact details, and sleek dark aesthetic.",
+    "imageUrl": "/images/posters/poster-computer-services.png",
+    "liveUrl": "/images/posters/poster-computer-services.png",
+    "tags": [
+      "Tech Services",
+      "Repair Shop",
+      "Business Flyer",
+      "Promotion"
+    ],
+    "featured": false,
+    "year": "2026",
+    "metrics": "Print & Social Media Flyer"
   }
 ];
 
 export const INITIAL_STUDIO_PROFILE = {
   "name": "AM Studio",
-  "tagline": "Architecture • 3D Experiences • Digital Invitations & Engineering",
-  "heroHeading": "BEAUTIFULLY CRAFTED WEDDING INVITATION WEBSITES MADE JUST FOR YOU.",
-  "heroSubheading": "AM Studio is an independent creative engineering laboratory.",
-  "availabilityStatus": "Available for Projects",
+  "tagline": "Digital Wedding Websites • Wedding Cards • Baby Shower • All Types of Posters",
+  "heroHeading": "BEAUTIFULLY CRAFTED WEDDING INVITATIONS & CUSTOM POSTERS FOR EVERY CELEBRATION.",
+  "heroSubheading": "AM Studio crafts breathtaking digital wedding invitation websites, wedding cards, baby shower invitations, party posters, and business flyers.",
+  "availabilityStatus": "Available for Websites & Posters",
   "email": "amstudio.support.in@gmail.com",
   "phone": "+91 97316 96952",
   "location": "Davanagere, Karnataka",
-  "bio": "Founded on the belief that software should be as meticulously crafted as modern architecture. AM Studio collaborates with clients worldwide to produce memorable, lightning-fast digital products, interactive invitations, and 3D web experiences.",
+  "bio": "AM Studio collaborates with couples, businesses, and event organizers to create memorable, lightning-fast digital wedding websites, custom wedding cards, baby shower invitations, and premium posters.",
   "stats": [
     {
       "label": "Completed Projects",
       "value": "40+"
     },
     {
-      "label": "Interactive Deployments",
-      "value": "28+"
+      "label": "Web & Poster Designs",
+      "value": "35+"
     },
     {
       "label": "Client Satisfaction",
       "value": "100%"
     },
     {
-      "label": "Uptime & Performance",
-      "value": "99.9%"
+      "label": "Delivery Turnaround",
+      "value": "24-48h"
     }
   ],
   "services": [
     {
-      "title": "Interactive Web & Digital Invitations",
-      "description": "Bespoke high-end celebration portals, RSVP management architectures, audio scoring, and social sharing suites."
+      "title": "Interactive Digital Wedding Websites",
+      "description": "Bespoke high-end wedding websites with background music, 1-click Google Maps venue navigation, RSVP tracking, and instant WhatsApp sharing cards."
     },
     {
-      "title": "3D & Interactive WebGL",
-      "description": "Custom Three.js experiences, real-time shader pipelines, spatial layouts, and dynamic canvas installations."
+      "title": "Wedding Cards & Save The Date Posters",
+      "description": "Royal traditional wedding invitation cards, luxury Save The Date posters, and personalized couple announcement designs in ultra-high resolution."
     },
     {
-      "title": "Bespoke Web Engineering",
-      "description": "Full-stack React/Next.js architectures, sub-second latency optimization, and robust web applications."
+      "title": "Baby Shower & Family Celebration Cards",
+      "description": "Cute, heartwarming baby shower invitations, naming ceremony posters, and birthday celebration graphics crafted with adorable custom themes."
     },
     {
-      "title": "Design Systems & Editorial UI",
-      "description": "High-contrast monochrome aesthetics, accessible component tokens, and fluid micro-interaction choreography."
+      "title": "Grand Opening, Party & Business Posters",
+      "description": "Striking flyers and promotional posters for corporate events, grand openings, night clubs, sports tournaments, and commercial marketing."
     }
   ],
   "socials": {

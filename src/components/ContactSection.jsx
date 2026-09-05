@@ -358,14 +358,14 @@ Website: https://am-studio-umber.vercel.app/`;
         <div className="lg:col-span-7">
           <div className="p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl glass-panel border border-white/10 relative">
             <h3 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight mb-2">
-              {language === 'kn' ? 'ನಿಮ್ಮ ಆಮಂತ್ರಣದ ವಿವರ ತಿಳಿಸಿ' : language === 'te' ? 'మీ వివాహ వివరాలను పంపండి' : 'START YOUR INVITATION JOURNEY'}
+              {language === 'kn' ? 'ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್ ಅಥವಾ ಪೋಸ್ಟರ್ ಬುಕ್ ಮಾಡಿ' : language === 'te' ? 'వెడ్డింగ్ వెబ్‌సైట్ లేదా పోస్టర్ ఆర్డర్ చేయండి' : 'ORDER YOUR WEDDING WEBSITE OR CUSTOM POSTER'}
             </h3>
             <p className="text-zinc-200 text-xs md:text-sm font-normal mb-6 sm:mb-8 leading-relaxed">
               {language === 'kn'
-                ? 'ನಿಮ್ಮ ಮದುವೆ ಮತ್ತು ನೀವು ಬಯಸುವ ಡಿಜಿಟಲ್ ಆಮಂತ್ರಣದ ಬಗ್ಗೆ ತಿಳಿಸಿ. ನಾವು 24 ಗಂಟೆಗಳಲ್ಲಿ ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸುತ್ತೇವೆ.'
+                ? 'ನಿಮ್ಮ ಮದುವೆ ವೆಬ್‌ಸೈಟ್, ವೆಡ್ಡಿಂಗ್ ಕಾರ್ಡ್, ಬೇಬಿ ಶವರ್ ಅಥವಾ ಯಾವುದೇ ಬಗೆಯ ಪೋಸ್ಟರ್ ಬಗ್ಗೆ ವಿವರ ತಿಳಿಸಿ. ನಾವು 24 ಗಂಟೆಗಳಲ್ಲಿ ಸಂಪರ್ಕಿಸುತ್ತೇವೆ.'
                 : language === 'te'
-                ? 'మీ వివాహ కార్యక్రమాలు మరియు కోరుకునే డిజైన్ గురించి తెలియజేయండి. 24 గంటల్లో మేము మిమ్మల్ని సంప్రదిస్తాము.'
-                : "Tell us a little about your wedding and what you'd like your digital invitation to look like. We'll get in touch and take it from there."}
+                ? 'మీ వివాహ వెబ్‌సైట్, వెడ్డింగ్ కార్డ్స్, బేబీ షవర్ లేదా ఏదైనా పోస్టర్ వివరాలను పంపండి. 24 గంటల్లో మిమ్మల్ని సంప్రదిస్తాము.'
+                : "Tell us about your wedding website, invitation card, baby shower poster, or custom event flyer. We'll get in touch with live previews in 24 hours."}
             </p>
 
             {submitted ? (
@@ -504,19 +504,20 @@ Website: https://am-studio-umber.vercel.app/`;
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
-                      {language === 'kn' ? 'ಆಮಂತ್ರಣ ಶೈಲಿ' : language === 'te' ? 'ఆహ్వాన శైలి' : 'INVITATION STYLE'}
+                      {language === 'kn' ? 'ಪ್ರಾಜೆಕ್ಟ್ / ಸೇವೆ ಆಯ್ಕೆಮಾಡಿ' : language === 'te' ? 'ప్రాజెక్ట్ / సేవ రకం' : 'SERVICE / PROJECT TYPE'}
                     </label>
                     <select
                       value={formData.invitationStyle}
                       onChange={(e) => setFormData({ ...formData, invitationStyle: e.target.value })}
                       className="w-full glass-input px-4 py-3 rounded-xl text-sm font-mono cursor-pointer"
                     >
-                      <option value="Traditional" className="bg-zinc-900 text-white">Traditional</option>
-                      <option value="Modern" className="bg-zinc-900 text-white">Modern</option>
-                      <option value="Royal" className="bg-zinc-900 text-white">Royal</option>
-                      <option value="Minimal" className="bg-zinc-900 text-white">Minimal</option>
-                      <option value="Floral" className="bg-zinc-900 text-white">Floral</option>
-                      <option value="Custom Design" className="bg-zinc-900 text-white">Custom Design</option>
+                      <option value="Wedding Invitation Website" className="bg-zinc-900 text-white">Wedding Invitation Website</option>
+                      <option value="Wedding Card / Save The Date Poster" className="bg-zinc-900 text-white">Wedding Card / Save The Date Poster</option>
+                      <option value="Baby Shower Invitation Poster" className="bg-zinc-900 text-white">Baby Shower Invitation Poster</option>
+                      <option value="Grand Opening / Event Poster" className="bg-zinc-900 text-white">Grand Opening / Event Poster</option>
+                      <option value="Birthday / Party / Concert Poster" className="bg-zinc-900 text-white">Birthday / Party / Concert Poster</option>
+                      <option value="Business / Marketing Flyer" className="bg-zinc-900 text-white">Business / Marketing Flyer</option>
+                      <option value="Custom Design / Other" className="bg-zinc-900 text-white">Custom Poster / Other</option>
                     </select>
                   </div>
 
