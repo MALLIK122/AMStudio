@@ -4,6 +4,8 @@ import ProjectForm from './ProjectForm';
 import ContactEditor from './ContactEditor';
 import PasswordEditor from './PasswordEditor';
 import InquiriesManager from './InquiriesManager';
+import GitHubSyncManager from './GitHubSyncManager';
+import { pushToGitHub } from '../../services/githubSync';
 import { 
   FolderGit2, 
   UserCog, 
@@ -15,7 +17,8 @@ import {
   Trash2, 
   LogOut, 
   ArrowLeft, 
-  Sparkles
+  Sparkles,
+  UploadCloud
 } from 'lucide-react';
 import { Github } from '../Icons';
 import AMLogo from '../AMLogo';
@@ -23,25 +26,49 @@ import AMLogo from '../AMLogo';
 export default function AdminDashboard() {
   const { 
     projects, 
+    profile,
     inquiries, 
     setCurrentView, 
     logoutAdmin, 
     addProject, 
     updateProject, 
     deleteProject,
+    githubToken,
+    setLastDeployInfo,
   } = useStudio();
 
   const [activeTab, setActiveTab] = useState('projects');
   const [editingProject, setEditingProject] = useState(null);
   const [isAddingProject, setIsAddingProject] = useState(false);
+  const [isDeployingGlobal, setIsDeployingGlobal] = useState(false);
 
-  const handleSaveProject = (projectData) => {
+  const handleSaveProject = async (projectData, shouldAutoDeploy = false) => {
+    let updatedProjects;
     if (editingProject) {
       updateProject(editingProject.id, projectData);
+      updatedProjects = projects.map(p => p.id === editingProject.id ? { ...p, ...projectData } : p);
       setEditingProject(null);
     } else {
-      addProject(projectData);
+      const newProj = addProject(projectData);
+      updatedProjects = [newProj, ...projects];
       setIsAddingProject(false);
+    }
+
+    if (shouldAutoDeploy && githubToken) {
+      setIsDeployingGlobal(true);
+      const res = await pushToGitHub({
+        token: githubToken,
+        projects: updatedProjects,
+        profile,
+        commitMessage: `feat(cms): ${editingProject ? 'update' : 'add'} project "${projectData.title}" via Admin`,
+      });
+      setIsDeployingGlobal(false);
+      if (res.success) {
+        setLastDeployInfo(res);
+        alert(`✅ Project saved and pushed to GitHub! Vercel will deploy it live across all devices in ~45 seconds.`);
+      } else {
+        alert(`Project saved locally, but GitHub deployment failed: ${res.error}`);
+      }
     }
   };
 
@@ -131,6 +158,23 @@ export default function AdminDashboard() {
           </button>
 
           <button
+            onClick={() => setActiveTab('deployment')}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
+              activeTab === 'deployment'
+                ? 'bg-white text-black border-white font-semibold'
+                : 'bg-zinc-950 border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+            }`}
+          >
+            <UploadCloud className="w-4 h-4" />
+            <span>GitHub &amp; Vercel Live</span>
+            {githubToken ? (
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            ) : (
+              <span className="w-2 h-2 rounded-full bg-amber-400" />
+            )}
+          </button>
+
+          <button
             onClick={() => setActiveTab('security')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
               activeTab === 'security'
@@ -153,17 +197,28 @@ export default function AdminDashboard() {
                   Portfolio Works ({projects.length})
                 </h3>
                 <p className="text-zinc-400 text-xs font-mono mt-0.5">
-                  Manage the showcased projects displayed on the homepage
+                  Manage showcased projects displayed on the homepage across all devices
                 </p>
               </div>
 
-              <button
-                onClick={() => setIsAddingProject(true)}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-xs font-mono uppercase hover:bg-zinc-200 transition-all shadow-lg"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add New Project</span>
-              </button>
+              <div className="flex items-center gap-2.5">
+                <button
+                  onClick={() => setActiveTab('deployment')}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-400 hover:text-emerald-300 text-xs font-mono uppercase transition-all"
+                  title="Deploy changes live to GitHub & Vercel across all devices"
+                >
+                  <UploadCloud className="w-4 h-4" />
+                  <span>Publish Live</span>
+                </button>
+
+                <button
+                  onClick={() => setIsAddingProject(true)}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-xs font-mono uppercase hover:bg-zinc-200 transition-all shadow-lg"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add New Project</span>
+                </button>
+              </div>
             </div>
 
             {/* Projects Table / List */}
@@ -255,6 +310,9 @@ export default function AdminDashboard() {
 
         {/* Tab 4: Security & Password */}
         {activeTab === 'security' && <PasswordEditor />}
+
+        {/* Tab 5: GitHub & Vercel Live Deployment */}
+        {activeTab === 'deployment' && <GitHubSyncManager />}
 
 
         {/* Modal: Project Form (Add or Edit) */}

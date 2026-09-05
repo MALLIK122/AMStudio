@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, Check, Sparkles } from 'lucide-react';
+import { X, Upload, Check, Sparkles, UploadCloud } from 'lucide-react';
+import { useStudio } from '../../context/StudioContext';
 
 export default function ProjectForm({ project, onSave, onCancel }) {
+  const { githubToken } = useStudio();
+  const [autoDeploy, setAutoDeploy] = useState(Boolean(githubToken));
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
@@ -61,7 +64,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
       longDescription: formData.description,
     };
 
-    onSave(payload);
+    onSave(payload, autoDeploy);
   };
 
   return (
@@ -233,6 +236,27 @@ export default function ProjectForm({ project, onSave, onCancel }) {
               <span>Mark as Featured Project</span>
             </label>
           </div>
+
+          {/* Auto-Deploy to GitHub & Vercel toggle */}
+          {githubToken ? (
+            <div className="flex items-center gap-3 p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-950/20">
+              <input
+                type="checkbox"
+                id="autoDeploy"
+                checked={autoDeploy}
+                onChange={(e) => setAutoDeploy(e.target.checked)}
+                className="w-4 h-4 rounded border-emerald-500/40 text-emerald-500 focus:ring-0 cursor-pointer accent-emerald-500"
+              />
+              <label htmlFor="autoDeploy" className="text-xs font-mono uppercase tracking-wider text-emerald-300 cursor-pointer flex items-center gap-2">
+                <UploadCloud className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Auto-Deploy to GitHub &amp; Vercel (Live on all devices)</span>
+              </label>
+            </div>
+          ) : (
+            <div className="p-3 rounded-xl border border-amber-500/20 bg-amber-950/10 text-[11px] font-mono text-amber-300/90 flex items-center justify-between">
+              <span>💡 Connect GitHub token in "GitHub &amp; Vercel Live" tab to auto-deploy projects across all devices.</span>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">

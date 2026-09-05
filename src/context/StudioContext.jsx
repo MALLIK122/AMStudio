@@ -9,6 +9,8 @@ const STORAGE_KEYS = {
   PASSWORD: 'amstudio_admin_pwd_v1',
   INQUIRIES: 'amstudio_inquiries_v1',
   AUTH: 'amstudio_auth_token_v1',
+  GITHUB_TOKEN: 'amstudio_gh_token_v1',
+  LAST_DEPLOY: 'amstudio_last_deploy_v1',
 };
 
 export const StudioProvider = ({ children }) => {
@@ -96,6 +98,25 @@ export const StudioProvider = ({ children }) => {
     }
   });
 
+  // GitHub Personal Access Token for automated Vercel deployment
+  const [githubToken, setGithubToken] = useState(() => {
+    try {
+      return localStorage.getItem(STORAGE_KEYS.GITHUB_TOKEN) || '';
+    } catch {
+      return '';
+    }
+  });
+
+  // Last successful live deployment metadata
+  const [lastDeployInfo, setLastDeployInfo] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEYS.LAST_DEPLOY);
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
   // Auth State (Session-persisted)
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
     try {
@@ -160,6 +181,30 @@ export const StudioProvider = ({ children }) => {
       console.error('Failed saving password to localStorage', e);
     }
   }, [adminPassword]);
+
+  useEffect(() => {
+    try {
+      if (githubToken) {
+        localStorage.setItem(STORAGE_KEYS.GITHUB_TOKEN, githubToken);
+      } else {
+        localStorage.removeItem(STORAGE_KEYS.GITHUB_TOKEN);
+      }
+    } catch (e) {
+      console.error('Failed saving githubToken to localStorage', e);
+    }
+  }, [githubToken]);
+
+  useEffect(() => {
+    try {
+      if (lastDeployInfo) {
+        localStorage.setItem(STORAGE_KEYS.LAST_DEPLOY, JSON.stringify(lastDeployInfo));
+      } else {
+        localStorage.removeItem(STORAGE_KEYS.LAST_DEPLOY);
+      }
+    } catch (e) {
+      console.error('Failed saving lastDeployInfo to localStorage', e);
+    }
+  }, [lastDeployInfo]);
 
   // Actions
   const addProject = (projectData) => {
@@ -306,6 +351,10 @@ export const StudioProvider = ({ children }) => {
       resetToDefaults,
       exportDataAsJSON,
       importDataFromJSON,
+      githubToken,
+      setGithubToken,
+      lastDeployInfo,
+      setLastDeployInfo,
     }}>
       {children}
     </StudioContext.Provider>
