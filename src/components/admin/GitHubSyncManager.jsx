@@ -177,10 +177,10 @@ export default function GitHubSyncManager() {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 font-bold text-sm text-emerald-400">
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Success! Pushed to GitHub (commit {deployResult.commitSha})</span>
+                  <span>Success! Synced to GitHub & Live Cloud (commit {deployResult.commitSha})</span>
                 </div>
                 <p className="text-zinc-300">
-                  Vercel has automatically started building your update. In approximately 45 seconds, all new projects will be live on every mobile device and browser!
+                  Your wedding projects and details have been published. All mobile phones, tablets, and devices worldwide will immediately display the updated projects!
                 </p>
                 <div className="flex items-center gap-3 pt-1">
                   <a
