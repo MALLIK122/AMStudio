@@ -67,19 +67,18 @@ export default function AdminLogin() {
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          _subject: '🔐 AM Studio Admin: Password Reset Code & Recovery',
+          _subject: '🔐 AM Studio Admin: One-Time Verification Code',
           _template: 'table',
           service: 'AM Studio Executive Content Management System',
           recipient: 'amstudio.support.in@gmail.com',
-          verification_code: generatedCode,
-          current_password: adminPassword,
-          instructions: 'Enter the 6-digit verification code on the AM Studio admin reset screen to set your new password, or use your current password above to log in directly.',
+          one_time_verification_code: generatedCode,
+          instructions: 'Enter this 6-digit verification code on the AM Studio admin portal to configure your private master password.',
           requested_at: new Date().toLocaleString(),
         }),
       });
 
       setCodeSent(true);
-      setResetSuccess('Reset code and recovery details sent to amstudio.support.in@gmail.com');
+      setResetSuccess('A 6-digit verification code has been dispatched to amstudio.support.in@gmail.com');
       
       // 30s Cooldown
       setResendCooldown(30);
@@ -94,9 +93,9 @@ export default function AdminLogin() {
       }, 1000);
 
     } catch (err) {
-      console.warn('Reset email dispatch finished', err);
+      console.warn('Verification email dispatch finished', err);
       setCodeSent(true);
-      setResetSuccess('Reset request dispatched. Please check amstudio.support.in@gmail.com inbox and spam folder.');
+      setResetSuccess('Verification request dispatched. Please check amstudio.support.in@gmail.com inbox and spam folder.');
     } finally {
       setIsSendingCode(false);
     }
@@ -169,10 +168,16 @@ export default function AdminLogin() {
         <div className="flex flex-col items-center justify-center text-center mb-6">
           <AMLogo size="lg" withText={false} className="mb-4" />
           <h2 className="font-display text-2xl font-bold text-white tracking-tight">
-            {isForgotMode ? 'PASSWORD RECOVERY' : 'AM STUDIO ADMIN'}
+            {!adminPassword 
+              ? 'SETUP ADMIN ACCESS' 
+              : isForgotMode 
+              ? 'PASSWORD RECOVERY' 
+              : 'AM STUDIO ADMIN'}
           </h2>
           <p className="text-zinc-400 text-xs font-mono mt-1">
-            {isForgotMode 
+            {!adminPassword
+              ? 'Zero default passwords. Configure your private access'
+              : isForgotMode 
               ? 'Reset credentials via amstudio.support.in@gmail.com' 
               : 'Executive Content Management System'}
           </p>
@@ -194,8 +199,122 @@ export default function AdminLogin() {
           </div>
         )}
 
-        {/* --- STANDARD LOGIN VIEW --- */}
-        {!isForgotMode ? (
+        {/* --- 1. INITIAL SETUP REQUIRED (NO DEFAULT PASSWORD) --- */}
+        {!adminPassword ? (
+          <div className="space-y-5 animate-fade-in">
+            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200/90 leading-relaxed space-y-2">
+              <div className="flex items-center gap-2 font-semibold text-amber-300">
+                <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <span>Zero Default Password Security</span>
+              </div>
+              <p>
+                All default passwords have been completely purged so nobody can misuse your admin panel. Click below to receive a <strong>6-digit verification code</strong> at your official email to establish your private password:
+              </p>
+              <p className="font-mono text-white bg-black/60 px-2.5 py-1.5 rounded-lg border border-white/10 break-all text-center">
+                amstudio.support.in@gmail.com
+              </p>
+            </div>
+
+            {!codeSent ? (
+              <button
+                type="button"
+                onClick={sendResetEmail}
+                disabled={isSendingCode}
+                className="w-full py-3.5 rounded-xl bg-white text-black font-semibold text-xs font-mono uppercase tracking-wider hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
+              >
+                {isSendingCode ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Dispatching Code...</span>
+                  </>
+                ) : (
+                  <>
+                    <Mail className="w-4 h-4" />
+                    <span>Send Verification Code to Email</span>
+                  </>
+                )}
+              </button>
+            ) : (
+              <form onSubmit={handleResetSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                    6-Digit Verification Code *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={6}
+                    placeholder="e.g. 482910"
+                    value={userCodeInput}
+                    onChange={(e) => setUserCodeInput(e.target.value.replace(/\D/g, ''))}
+                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-widest text-center"
+                    autoFocus
+                  />
+                  <p className="text-[11px] text-zinc-400 mt-1 font-mono">
+                    Check inbox/spam at amstudio.support.in@gmail.com
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                    Your Private Master Password *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showNewPassword ? "text" : "password"}
+                      required
+                      placeholder="Minimum 6 characters"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full glass-input px-4 py-2.5 rounded-xl text-sm pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-1"
+                    >
+                      {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                    Confirm Private Password *
+                  </label>
+                  <input
+                    type={showNewPassword ? "text" : "password"}
+                    required
+                    placeholder="Re-enter password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3.5 rounded-xl bg-white text-black font-semibold text-xs font-mono uppercase tracking-wider hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 shadow-lg mt-2"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Save Password &amp; Log In</span>
+                </button>
+
+                <div className="text-center pt-2">
+                  <button
+                    type="button"
+                    onClick={sendResetEmail}
+                    disabled={resendCooldown > 0 || isSendingCode}
+                    className="text-xs font-mono text-zinc-400 hover:text-white disabled:opacity-40 transition-colors"
+                  >
+                    {resendCooldown > 0 ? `Resend Code in ${resendCooldown}s` : 'Resend Code'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        ) : !isForgotMode ? (
+          /* --- 2. STANDARD LOGIN VIEW --- */
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -247,7 +366,7 @@ export default function AdminLogin() {
             </button>
           </form>
         ) : (
-          /* --- FORGOT PASSWORD / RECOVERY VIEW --- */
+          /* --- 3. FORGOT PASSWORD / RECOVERY VIEW --- */
           <div className="space-y-5 animate-fade-in">
             {!codeSent ? (
               <div className="space-y-4 text-center">
@@ -257,7 +376,7 @@ export default function AdminLogin() {
                     <span>Email Verification</span>
                   </div>
                   <p>
-                    Clicking below will dispatch an email containing a <strong>6-digit verification code</strong> and recovery instructions directly to:
+                    Clicking below will dispatch an email containing a <strong>6-digit verification code</strong> directly to:
                   </p>
                   <p className="font-mono text-white bg-black/60 px-2.5 py-1.5 rounded-lg border border-white/10 break-all">
                     amstudio.support.in@gmail.com

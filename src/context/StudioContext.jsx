@@ -81,13 +81,17 @@ export const StudioProvider = ({ children }) => {
     }
   });
 
-  // Admin Password
+  // Admin Password (strictly configured by studio owner, no public default)
   const [adminPassword, setAdminPassword] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.PASSWORD);
-      return saved || 'amstudio2026!';
+      if (saved === 'amstudio2026!') {
+        localStorage.removeItem(STORAGE_KEYS.PASSWORD);
+        return '';
+      }
+      return saved || '';
     } catch {
-      return 'amstudio2026!';
+      return '';
     }
   });
 
@@ -240,7 +244,7 @@ export const StudioProvider = ({ children }) => {
   const resetToDefaults = () => {
     setProjects(INITIAL_PROJECTS);
     setProfile(INITIAL_STUDIO_PROFILE);
-    setAdminPassword('amstudio2026!');
+    setAdminPassword('');
     localStorage.removeItem(STORAGE_KEYS.PROJECTS);
     localStorage.removeItem(STORAGE_KEYS.PROFILE);
     localStorage.removeItem(STORAGE_KEYS.PASSWORD);
