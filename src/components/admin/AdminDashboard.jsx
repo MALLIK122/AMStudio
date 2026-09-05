@@ -69,6 +69,10 @@ export default function AdminDashboard() {
       } else {
         alert(`Project saved locally, but GitHub deployment failed: ${res.error}`);
       }
+    } else if (!githubToken) {
+      if (confirm(`⚠️ Project saved in this browser, but NOT yet on GitHub!\n\nTo make this update visible on all mobile devices worldwide, you need to connect your GitHub Token once.\n\nWould you like to open the "GitHub & Vercel Live" tab to connect now?`)) {
+        setActiveTab('deployment');
+      }
     }
   };
 
