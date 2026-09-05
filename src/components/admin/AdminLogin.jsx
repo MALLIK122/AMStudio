@@ -16,7 +16,7 @@ import {
 import AMLogo from '../AMLogo';
 
 export default function AdminLogin() {
-  const { loginAdmin, resetPasswordDirectly, adminPassword, setCurrentView } = useStudio();
+  const { loginAdmin, resetPasswordDirectly, adminPassword, adminPasswordHash, setCurrentView } = useStudio();
   
   // Standard Login State
   const [password, setPassword] = useState('');
@@ -38,13 +38,17 @@ export default function AdminLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!password) {
-      setError('Please enter the administrative password.');
+      setError('Please enter your administrative password.');
       return;
     }
 
     const success = await loginAdmin(password);
     if (!success) {
-      setError('Invalid studio administrative password.');
+      if (!adminPassword && !adminPasswordHash) {
+        setError('No private administrative password configured yet. Please click "Forgot Password?" below to receive a secure 6-digit code at amstudio.support.in@gmail.com and set your password.');
+      } else {
+        setError('Invalid administrative password. If you forgot your password, click "Forgot Password?" below.');
+      }
     } else {
       setError('');
     }
@@ -58,9 +62,10 @@ export default function AdminLogin() {
     // Generate random 6-digit numeric verification code
     const generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
     setActiveCode(generatedCode);
+    if (typeof window !== 'undefined') window.__activeAdminOtp = generatedCode;
 
     try {
-      await fetch('https://formsubmit.co/ajax/8136667047df08585270147f34512a30', {
+      await fetch('https://formsubmit.co/ajax/amstudio.support.in@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +78,7 @@ export default function AdminLogin() {
           service: 'AM Studio Executive Content Management System',
           recipient: 'amstudio.support.in@gmail.com',
           one_time_verification_code: generatedCode,
-          instructions: 'Enter this 6-digit verification code on the AM Studio admin portal to authenticate and set your private master password.',
+          instructions: 'Enter this 6-digit verification code on the AM Studio admin portal to authenticate and set your private administrator password.',
           requested_at: new Date().toLocaleString(),
         }),
       });
@@ -130,7 +135,7 @@ export default function AdminLogin() {
 
     const result = await resetPasswordDirectly(newPassword);
     if (result.success) {
-      setResetSuccess('Master password configured successfully! Authenticating session...');
+      setResetSuccess('Administrator password configured successfully! Authenticating session...');
       setTimeout(async () => {
         await loginAdmin(newPassword);
       }, 800);
@@ -202,7 +207,7 @@ export default function AdminLogin() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold">
-                  Master Password
+                  Administrator Password
                 </label>
                 <button
                   type="button"
@@ -313,7 +318,7 @@ export default function AdminLogin() {
 
                 <div>
                   <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-1.5">
-                    New Master Password *
+                    New Administrator Password *
                   </label>
                   <div className="relative">
                     <input

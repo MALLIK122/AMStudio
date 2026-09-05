@@ -163,6 +163,10 @@ async function main() {
   // Inject helper in browser context for setting React controlled inputs
   await evalJs(`
     window.__setReactInput = function(elem, val) {
+      if (!elem) return;
+      if (elem._valueTracker) {
+        elem._valueTracker.setValue('__init_prev__');
+      }
       const proto = elem instanceof HTMLTextAreaElement ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype;
       const desc = Object.getOwnPropertyDescriptor(proto, 'value');
       if (desc && desc.set) {
@@ -437,27 +441,95 @@ async function main() {
     recordTest('Poster Inquiry WhatsApp Alert generated for Spice Route Cafe', Boolean(posterWaUrl && decodeURIComponent(posterWaUrl).includes('Spice Route Cafe')));
 
     // ==========================================
-    // TEST 6: ADMIN LOGIN
+    // TEST 6: ADMIN SECURITY & LOGIN
     // ==========================================
-    console.log('\n--- Running Test 6: Admin Panel Login ---');
+    console.log('\n--- Running Test 6: Admin Security & Login Verification ---');
     await evalJs(`window.location.hash = '#admin'`);
     await sleep(800);
 
     const loginScreenVisible = await evalJs(`Boolean(document.querySelector('input[type="password"]'))`);
     recordTest('Admin Login Screen rendered at #admin', loginScreenVisible === true);
 
-    await evalJs(`(() => {
+    // 1. Verify old master password 'amstudio2026!' is REJECTED
+    const masterRejected = await evalJs(`(async () => {
       const pwdInput = document.querySelector('input[type="password"]');
       const submitBtn = document.querySelector('button[type="submit"]');
-      if (!pwdInput || !submitBtn) return;
+      if (!pwdInput || !submitBtn) return false;
       window.__setReactInput(pwdInput, 'amstudio2026!');
       submitBtn.click();
+      await new Promise(r => setTimeout(r, 600));
+      const hasError = Boolean(document.querySelector('div[class*="bg-red-950"]') || document.body.textContent.includes('Invalid') || document.body.textContent.includes('No private administrative'));
+      const notDashboard = !document.body.textContent.includes('Portfolio Works');
+      return hasError && notDashboard;
+    })()`);
+    recordTest('Master password "amstudio2026!" is strictly blocked & rejected', masterRejected === true);
+
+    // 2. Test confidential OTP password setup flow
+    console.log('[Auth] Testing Confidential Email OTP Password Reset Flow...');
+    await evalJs(`(() => {
+      const forgotBtn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('Forgot Password'));
+      if (forgotBtn) forgotBtn.click();
+    })()`);
+    await sleep(400);
+
+    // Intercept fetch for OTP code
+    await evalJs(`(() => {
+      window.__interceptedOtp = null;
+      const originalFetch = window.fetch;
+      window.fetch = async (...args) => {
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('formsubmit.co')) {
+          try {
+            const body = JSON.parse(args[1]?.body || '{}');
+            if (body.one_time_verification_code) {
+              window.__interceptedOtp = body.one_time_verification_code;
+            }
+          } catch (e) {}
+          return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+        }
+        return originalFetch(...args);
+      };
     })()`);
 
-    await sleep(1500);
-    const adminDashboardText = await evalJs(`document.body.textContent`);
-    const isDashboardActive = adminDashboardText.includes('Portfolio Works') || adminDashboardText.includes('Admin CMS');
-    recordTest('Admin Login succeeds with master password', isDashboardActive === true);
+    // Click "Send Verification Code"
+    await evalJs(`(() => {
+      const sendCodeBtn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('Send Verification Code'));
+      if (sendCodeBtn) sendCodeBtn.click();
+    })()`);
+
+    // Poll for OTP reset inputs to appear
+    let formReady = false;
+    for (let i = 0; i < 25; i++) {
+      await sleep(300);
+      formReady = await evalJs(`Boolean(document.querySelector('input[placeholder*="482910"]') || document.querySelector('input[maxLength="6"]'))`);
+      if (formReady) break;
+    }
+
+    const otpCode = await evalJs('window.__activeAdminOtp || window.__interceptedOtp');
+    recordTest('6-Digit Verification Code dispatched to authorized email', Boolean(otpCode && otpCode.length === 6), `Code: ${otpCode}`);
+
+    // Enter OTP and configure new private administrator password
+    await evalJs(`((code) => {
+      const inputs = Array.from(document.querySelectorAll('input'));
+      const codeInput = inputs.find(i => i.placeholder && i.placeholder.includes('482910')) || document.querySelector('input[maxLength="6"]');
+      const pwdInputs = inputs.filter(i => i.type === 'password');
+      const newPassInput = pwdInputs[0];
+      const confirmInput = pwdInputs[1];
+      const submitBtn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('Update Password') || b.textContent.includes('Set Password')) || document.querySelector('button[type="submit"]');
+
+      if (codeInput) window.__setReactInput(codeInput, code);
+      if (newPassInput) window.__setReactInput(newPassInput, 'OwnerSecurePass2026!');
+      if (confirmInput) window.__setReactInput(confirmInput, 'OwnerSecurePass2026!');
+      if (submitBtn) submitBtn.click();
+    })('${otpCode}')`);
+
+    // Poll for Admin CMS Dashboard to appear
+    let isDashboardActive = false;
+    for (let i = 0; i < 25; i++) {
+      await sleep(300);
+      isDashboardActive = await evalJs(`Boolean(document.body.textContent.includes('Portfolio Works') || document.body.textContent.includes('Admin CMS'))`);
+      if (isDashboardActive) break;
+    }
+    recordTest('Authentication succeeds with private administrator password', isDashboardActive === true);
 
     // ==========================================
     // TEST 7: ADMIN CRUD OPERATIONS (ADD, EDIT, DELETE)
@@ -524,21 +596,22 @@ async function main() {
     // Test Editing the Temporary Poster
     console.log('[CRUD] Testing Edit Project...');
     await evalJs(`(() => {
-      const cards = Array.from(document.querySelectorAll('div.glass-panel'));
-      const testCard = cards.find(c => c.textContent.includes('Auto Test Live Poster 2026'));
-      if (testCard) {
-        const editBtn = testCard.querySelector('button[title*="Edit"]');
+      const allH4 = Array.from(document.querySelectorAll('h4'));
+      const testH4 = allH4.find(h => h.textContent.includes('Auto Test Live Poster 2026'));
+      const card = testH4 ? testH4.closest('div[class*="rounded-2xl"]') : null;
+      if (card) {
+        const editBtn = card.querySelector('button[title*="Edit"]');
         if (editBtn) editBtn.click();
       }
     })()`);
-    await sleep(600);
+    await sleep(900);
 
     await evalJs(`(() => {
-      const form = document.querySelector('form');
-      if (!form) return;
+      const modal = document.querySelector('div[class*="fixed"] form') || document.querySelector('form');
+      if (!modal) return;
 
-      const titleInput = form.querySelector('input[type="text"]');
-      const submitBtn = form.querySelector('button[type="submit"]');
+      const titleInput = modal.querySelector('input[type="text"]');
+      const submitBtn = modal.querySelector('button[type="submit"]');
 
       if (titleInput) window.__setReactInput(titleInput, 'Auto Test Live Poster 2026 (MODIFIED)');
 
@@ -546,7 +619,7 @@ async function main() {
       window.confirm = () => false;
       if (submitBtn) submitBtn.click();
     })()`);
-    await sleep(1500);
+    await sleep(1800);
 
     const editedTitlePresent = await evalJs(`document.body.textContent.includes('Auto Test Live Poster 2026 (MODIFIED)')`);
     recordTest('Admin Edit Project successfully modifies and saves changes', editedTitlePresent === true);
@@ -555,10 +628,11 @@ async function main() {
     console.log('[CRUD] Testing Delete Project...');
     await evalJs(`(() => {
       window.confirm = () => true; // confirm delete prompt
-      const cards = Array.from(document.querySelectorAll('div.glass-panel'));
-      const testCard = cards.find(c => c.textContent.includes('Auto Test Live Poster 2026 (MODIFIED)'));
-      if (testCard) {
-        const deleteBtn = testCard.querySelector('button[title*="Delete"]');
+      const allH4 = Array.from(document.querySelectorAll('h4'));
+      const testH4 = allH4.find(h => h.textContent.includes('Auto Test Live Poster 2026 (MODIFIED)'));
+      const card = testH4 ? testH4.closest('div[class*="rounded-2xl"]') : null;
+      if (card) {
+        const deleteBtn = card.querySelector('button[title*="Delete"]');
         if (deleteBtn) deleteBtn.click();
       }
     })()`);

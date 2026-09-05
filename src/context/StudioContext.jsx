@@ -126,16 +126,26 @@ export const StudioProvider = ({ children }) => {
   // Synchronized Password Hash across all devices
   const [adminPasswordHash, setAdminPasswordHash] = useState(() => {
     try {
-      return localStorage.getItem('amstudio_pwd_hash_v1') || DEFAULT_ADMIN_PASSWORD_HASH;
+      const saved = localStorage.getItem('amstudio_pwd_hash_v1');
+      if (saved === 'ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da') {
+        localStorage.removeItem('amstudio_pwd_hash_v1');
+        return '';
+      }
+      return saved || DEFAULT_ADMIN_PASSWORD_HASH || '';
     } catch {
-      return DEFAULT_ADMIN_PASSWORD_HASH;
+      return DEFAULT_ADMIN_PASSWORD_HASH || '';
     }
   });
 
   // Admin Password
   const [adminPassword, setAdminPassword] = useState(() => {
     try {
-      return localStorage.getItem(STORAGE_KEYS.PASSWORD) || '';
+      const saved = localStorage.getItem(STORAGE_KEYS.PASSWORD);
+      if (saved === 'amstudio2026!') {
+        localStorage.removeItem(STORAGE_KEYS.PASSWORD);
+        return '';
+      }
+      return saved || '';
     } catch {
       return '';
     }
@@ -530,34 +540,34 @@ export const StudioProvider = ({ children }) => {
     const clean = (passwordAttempt || '').trim();
     if (!clean) return false;
 
+    // Explicitly block legacy master password under all circumstances
+    if (clean === 'amstudio2026!') {
+      return false;
+    }
+
+    // Read freshly from localStorage as well to avoid stale React state closures!
+    const activeStoredPass = adminPassword || (typeof localStorage !== 'undefined' ? localStorage.getItem(STORAGE_KEYS.PASSWORD) : '') || '';
+    const activeStoredHash = adminPasswordHash || (typeof localStorage !== 'undefined' ? localStorage.getItem('amstudio_pwd_hash_v1') : '') || '';
+
     // 1. Direct match with locally saved password
-    if (adminPassword && clean === adminPassword) {
+    if (activeStoredPass && clean === activeStoredPass) {
       setIsAdminLoggedIn(true);
       sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
       return true;
     }
 
     // 2. Hash match with synchronized adminPasswordHash across all devices
-    const attemptHash = await computePasswordHash(clean);
-    if (attemptHash && attemptHash === adminPasswordHash) {
-      setAdminPassword(clean);
-      try {
-        localStorage.setItem(STORAGE_KEYS.PASSWORD, clean);
-      } catch (e) {}
-      setIsAdminLoggedIn(true);
-      sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
-      return true;
-    }
-
-    // 3. Fallback to master default password
-    if (clean === 'amstudio2026!') {
-      setAdminPassword(clean);
-      try {
-        localStorage.setItem(STORAGE_KEYS.PASSWORD, clean);
-      } catch (e) {}
-      setIsAdminLoggedIn(true);
-      sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
-      return true;
+    if (activeStoredHash && activeStoredHash.trim()) {
+      const attemptHash = await computePasswordHash(clean);
+      if (attemptHash && attemptHash === activeStoredHash) {
+        setAdminPassword(clean);
+        try {
+          localStorage.setItem(STORAGE_KEYS.PASSWORD, clean);
+        } catch (e) {}
+        setIsAdminLoggedIn(true);
+        sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
+        return true;
+      }
     }
 
     return false;
@@ -582,6 +592,10 @@ export const StudioProvider = ({ children }) => {
     } catch (e) {
       console.error(e);
     }
+
+    // Immediately authorize session upon successful OTP password reset
+    setIsAdminLoggedIn(true);
+    sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
 
     // Synchronize new credentials to GitHub so ALL devices can immediately log in
     if (githubToken) {
