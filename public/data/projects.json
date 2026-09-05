@@ -1,6 +1,6 @@
 {
-  "version": 1788606231443,
-  "updatedAt": "2026-09-05T11:03:51.443Z",
+  "version": 1788606772518,
+  "updatedAt": "2026-09-05T11:12:52.518Z",
   "adminPasswordHash": "ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da",
   "projects": [
     {
@@ -61,7 +61,7 @@
         "Countdown Engine"
       ],
       "featured": true,
-      "year": "2026",
+      "year": "2025",
       "metrics": "Optimized Social Sharing • 60 FPS"
     }
   ],
