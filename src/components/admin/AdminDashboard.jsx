@@ -19,10 +19,12 @@ import {
   ArrowLeft, 
   Sparkles,
   UploadCloud,
-  RefreshCw
+  RefreshCw,
+  QrCode
 } from 'lucide-react';
 import { Github } from '../Icons';
 import AMLogo from '../AMLogo';
+import QRCodeGeneratorModal from './QRCodeGeneratorModal';
 
 export default function AdminDashboard() {
   const { 
@@ -44,6 +46,7 @@ export default function AdminDashboard() {
   const [addingType, setAddingType] = useState('website');
   const [isDeployingGlobal, setIsDeployingGlobal] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [qrProject, setQrProject] = useState(null);
 
   const handleDeleteProject = async (project) => {
     if (!confirm(`Permanently delete project "${project.title}"?`)) {
@@ -325,6 +328,13 @@ export default function AdminDashboard() {
                       </a>
                     )}
                     <button
+                      onClick={() => setQrProject(project)}
+                      className="p-2 rounded-lg border border-white/15 hover:border-white/40 hover:bg-white/10 text-white transition-colors"
+                      title="Generate Instant QR Code & Printable Table Standee"
+                    >
+                      <QrCode className="w-4 h-4" />
+                    </button>
+                    <button
                       onClick={() => setEditingProject(project)}
                       className="p-2 rounded-lg border border-white/10 hover:bg-white text-zinc-300 hover:text-black transition-colors"
                       title="Edit Project"
@@ -373,6 +383,14 @@ export default function AdminDashboard() {
               setIsAddingProject(false);
               setEditingProject(null);
             }}
+          />
+        )}
+
+        {/* Modal: Instant QR Code & Printable Table Standee Generator */}
+        {qrProject && (
+          <QRCodeGeneratorModal
+            project={qrProject}
+            onClose={() => setQrProject(null)}
           />
         )}
       </div>

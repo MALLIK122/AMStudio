@@ -41,6 +41,24 @@ export default function ContactSection() {
     Object.values(profile.socials).some(url => typeof url === 'string' && url.trim().length > 0)
   );
 
+  const getWhatsAppAlertText = (data) => {
+    if (!data) return '';
+    return [
+      '*AM STUDIO - NEW CLIENT INQUIRY*',
+      '----------------------------------------',
+      `*Client Name:* ${data.name}`,
+      `*Phone:* ${data.phone}`,
+      `*Email:* ${data.email}`,
+      `*Service / Style:* ${data.invitationStyle}`,
+      `*Event Date:* ${data.weddingDate || 'Not specified'}`,
+      '',
+      '*Client Message / Requirements:*',
+      `"${data.message}"`,
+      '----------------------------------------',
+      '_Dispatched via AM Studio Website_'
+    ].join('\n');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.phone || !formData.message) return;
@@ -49,76 +67,39 @@ export default function ContactSection() {
     const currentData = { ...formData };
     setSubmittedData(currentData);
 
-    // 1. Save to Admin Inbox
+    // 1. Save to Admin Inbox (CMS)
     submitInquiry({
       name: currentData.name,
       email: currentData.email,
       phone: currentData.phone,
-      projectType: `${currentData.invitationStyle} Invitation`,
-      budget: currentData.weddingDate ? `Wedding: ${currentData.weddingDate}` : 'Wedding Invitation',
+      projectType: currentData.invitationStyle,
+      budget: currentData.weddingDate ? `Date: ${currentData.weddingDate}` : 'Wedding / Event',
       message: currentData.message,
     });
 
-    // 2. Dispatch real email notification to AM Studio + Autoresponder to Client
+    // 2. Dispatch real-time formatted WhatsApp Alert directly to AM Studio (+91 97316 96952)
+    const alertMessage = getWhatsAppAlertText(currentData);
+    const studioPhone = fullPhoneNumber || '919731696952';
+    const waAlertUrl = `https://wa.me/${studioPhone}?text=${encodeURIComponent(alertMessage)}`;
+    
+    try {
+      window.open(waAlertUrl, '_blank', 'noopener,noreferrer');
+    } catch (err) {
+      console.warn('Auto WhatsApp dispatch notice:', err);
+    }
+
+    // 3. Fallback Mailto notification
     try {
       const studioEmail = profile.email || 'amstudio.support.in@gmail.com';
-      const cleanStudioPhone = (profile.phone || '9731696952').replace(/\D/g, '');
-      const studioPhoneWithCountry = cleanStudioPhone.length === 10 ? `91${cleanStudioPhone}` : cleanStudioPhone;
-
-      const preFilledWhatsAppText = `Hi AM Studio! I have submitted a wedding invitation inquiry for ${currentData.name} (${currentData.invitationStyle} Style, Date: ${currentData.weddingDate || 'TBD'}). Please share the preview and details!`;
-
-      const autoResponseText = `Dear ${currentData.name},
-
-Thank you for choosing AM Studio! We have safely received your wedding invitation request.
-
---- YOUR SUBMITTED DETAILS ---
-• Name: ${currentData.name}
-• Email: ${currentData.email}
-• Phone: ${currentData.phone}
-• Preferred Style: ${currentData.invitationStyle} Invitation
-• Wedding Date: ${currentData.weddingDate || 'To be decided'}
-• Message: ${currentData.message}
-
---- WHAT HAPPENS NEXT ---
-1. Concept Review: Our design team is reviewing your requirements and story.
-2. Live Mobile Preview: We will prepare an interactive live mobile preview link with your theme, background music, RSVP tracking, and Google Maps venue navigation.
-3. We will get in touch with you within 24 hours.
-
---- DIRECT STUDIO CONTACT ---
-• WhatsApp (Click to chat with auto-typed message):
-https://wa.me/${studioPhoneWithCountry}?text=${encodeURIComponent(preFilledWhatsAppText)}
-
-• Call Direct (Click on mobile to open phone dialpad):
-tel:+${studioPhoneWithCountry} (or call +91 97316 96952)
-
-• Official Email (Click to auto-compose):
-mailto:${studioEmail}?subject=${encodeURIComponent(`Wedding Invitation Follow-up - ${currentData.name}`)}
-
-Warm regards,
-AM Studio | Digital Wedding Invitations
-Davanagere, Karnataka
-Website: https://am-studio-umber.vercel.app/`;
-
-      const mailtoAdmin = `mailto:${studioEmail}?subject=${encodeURIComponent(`New Wedding Invitation Inquiry - ${currentData.name}`)}&body=${encodeURIComponent(
-        `NEW CLIENT INQUIRY RECEIVED:\n\nName: ${currentData.name}\nEmail: ${currentData.email}\nPhone: ${currentData.phone}\nStyle: ${currentData.invitationStyle}\nWedding Date: ${currentData.weddingDate}\nMessage: ${currentData.message}`
-      )}`;
-
-      const mailtoClient = `mailto:${currentData.email}?subject=${encodeURIComponent(`Wedding Invitation Request Received - AM Studio`)}&body=${encodeURIComponent(autoResponseText)}`;
+      const mailtoAdmin = `mailto:${studioEmail}?subject=${encodeURIComponent(`New Client Inquiry - ${currentData.name}`)}&body=${encodeURIComponent(alertMessage)}`;
 
       const hiddenIframe = document.createElement('iframe');
       hiddenIframe.style.display = 'none';
       hiddenIframe.src = mailtoAdmin;
       document.body.appendChild(hiddenIframe);
       setTimeout(() => hiddenIframe.remove(), 1000);
-
-      const clientIframe = document.createElement('iframe');
-      clientIframe.style.display = 'none';
-      clientIframe.src = mailtoClient;
-      document.body.appendChild(clientIframe);
-      setTimeout(() => clientIframe.remove(), 2000);
-
     } catch (err) {
-      console.warn('Notification trigger fallback:', err);
+      console.warn('Mail notification fallback:', err);
     }
 
     setIsSubmitting(false);
@@ -387,6 +368,49 @@ Website: https://am-studio-umber.vercel.app/`;
                   <div className="w-12 h-12 rounded-2xl bg-white text-black flex-shrink-0 flex items-center justify-center shadow-lg">
                     <CheckCircle2 className="w-7 h-7" />
                   </div>
+                </div>
+
+                {/* Real-time WhatsApp Notification to AM Studio (+91 97316 96952) */}
+                <div className="p-4 sm:p-5 rounded-xl bg-emerald-950/40 border border-emerald-500/40 space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono font-semibold uppercase tracking-wider">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>
+                        {language === 'kn'
+                          ? 'AM Studio ವಾಟ್ಸಾಪ್ ಅಧಿಸೂಚನೆ'
+                          : language === 'te'
+                          ? 'AM Studio వాట్సాప్ అలర్ట్ నోటిఫికేషన్'
+                          : 'AM Studio WhatsApp Notification'}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono text-emerald-300 font-semibold">
+                      +91 97316 96952
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-zinc-200 leading-relaxed">
+                    {language === 'kn'
+                      ? 'ನಿಮ್ಮ ಪ್ರಾಜೆಕ್ಟ್ ವಿವರಗಳನ್ನು ನೇರವಾಗಿ AM Studio ಮೊಬೈಲ್ ನಂಬರ್‌ಗೆ ವಾಟ್ಸಾಪ್ ಮುಖಾಂತರ ತಕ್ಷಣ ರವಾನಿಸಲು ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ.'
+                      : language === 'te'
+                      ? 'మీ ప్రాజెక్ట్ వివరాలను నేరుగా AM Studio మొబైల్ నంబర్‌కు వాట్సాప్ ద్వారా వెంటనే పంపడానికి క్రింది బటన్ నొక్కండి.'
+                      : 'To guarantee immediate delivery to AM Studio designers, click below to forward this inquiry directly to WhatsApp.'}
+                  </p>
+
+                  <a
+                    href={`https://wa.me/${fullPhoneNumber}?text=${encodeURIComponent(getWhatsAppAlertText(submittedData))}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs sm:text-sm tracking-wider uppercase transition-all shadow-lg"
+                  >
+                    <WhatsApp className="w-4 h-4 fill-current" />
+                    <span>
+                      {language === 'kn'
+                        ? 'ವಾಟ್ಸಾಪ್ ಸಂದೇಶ ರವಾನಿಸಿ (+91 97316 96952)'
+                        : language === 'te'
+                        ? 'వాట్సాಪ್ మెసేజ్ పంపండి (+91 97316 96952)'
+                        : 'Send WhatsApp Alert to AM Studio (+91 97316 96952)'}
+                    </span>
+                  </a>
                 </div>
 
                 {/* Summary Badges */}
