@@ -1,20 +1,8 @@
-export const DATA_VERSION = 1788597683370;
+export const DATA_VERSION = 1788605818385;
 
 export const DEFAULT_ADMIN_PASSWORD_HASH = 'ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da';
 
 export const INITIAL_PROJECTS = [
-  {
-    "title": "Vinay & Vidya",
-    "subtitle": "Royal Palace Celebration",
-    "category": "Luxury Invitation",
-    "description": "good",
-    "imageUrl": "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg",
-    "liveUrl": "https://cyber-nexus-seven.vercel.app/login",
-    "featured": true,
-    "year": "2026",
-    "longDescription": "good",
-    "id": "proj-1788596902753"
-  },
   {
     "id": "proj-wedding-1",
     "title": "Arjun & Ananya | Luxury Wedding Invitation",
