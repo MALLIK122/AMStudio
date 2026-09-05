@@ -69,15 +69,15 @@ export default function BackgroundSpotlight() {
         pts[i].y += (pts[i - 1].y - pts[i].y) * springEasing[i];
       }
 
-      // Update multi-point radial gradient directly on the DOM element (perfect middle size)
+      // Update multi-point radial gradient directly on the DOM element (compact / small size)
       if (spotlightEl) {
         spotlightEl.style.background = `
-          radial-gradient(140px circle at ${Math.round(pts[0].x)}px ${Math.round(pts[0].y)}px, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.18) 40%, transparent 75%),
-          radial-gradient(165px circle at ${Math.round(pts[1].x)}px ${Math.round(pts[1].y)}px, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.14) 45%, transparent 80%),
-          radial-gradient(185px circle at ${Math.round(pts[2].x)}px ${Math.round(pts[2].y)}px, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.10) 50%, transparent 85%),
-          radial-gradient(155px circle at ${Math.round(pts[3].x)}px ${Math.round(pts[3].y)}px, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.07) 45%, transparent 80%),
-          radial-gradient(125px circle at ${Math.round(pts[4].x)}px ${Math.round(pts[4].y)}px, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 75%),
-          radial-gradient(95px circle at ${Math.round(pts[5].x)}px ${Math.round(pts[5].y)}px, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.02) 35%, transparent 70%)
+          radial-gradient(42px circle at ${Math.round(pts[0].x)}px ${Math.round(pts[0].y)}px, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.25) 40%, transparent 75%),
+          radial-gradient(48px circle at ${Math.round(pts[1].x)}px ${Math.round(pts[1].y)}px, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.18) 45%, transparent 80%),
+          radial-gradient(54px circle at ${Math.round(pts[2].x)}px ${Math.round(pts[2].y)}px, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0.12) 50%, transparent 85%),
+          radial-gradient(44px circle at ${Math.round(pts[3].x)}px ${Math.round(pts[3].y)}px, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 45%, transparent 80%),
+          radial-gradient(34px circle at ${Math.round(pts[4].x)}px ${Math.round(pts[4].y)}px, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.04) 40%, transparent 75%),
+          radial-gradient(24px circle at ${Math.round(pts[5].x)}px ${Math.round(pts[5].y)}px, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 35%, transparent 70%)
         `;
       }
 
