@@ -25,6 +25,8 @@ const STORAGE_KEYS = {
   DATA_VERSION: 'amstudio_data_version_v2',
 };
 
+const StudioContext = createContext(null);
+
 export const StudioProvider = ({ children }) => {
   // Load Projects from localStorage or fallback with version check
   const [projects, setProjects] = useState(() => {
@@ -43,8 +45,8 @@ export const StudioProvider = ({ children }) => {
         return parsed.filter(p => 
           p.id !== 'proj-aether-4' && 
           p.id !== 'proj-monolith-5' && 
-          !p.title.toLowerCase().includes('aether') && 
-          !p.title.toLowerCase().includes('monolith')
+          !(p.title || '').toLowerCase().includes('aether') && 
+          !(p.title || '').toLowerCase().includes('monolith')
         );
       }
       return INITIAL_PROJECTS;
