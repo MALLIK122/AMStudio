@@ -49,7 +49,8 @@ export const base64ToUtf8 = (base64) => {
  * Generate source code string for src/data/initialData.js
  */
 export const generateInitialDataFile = (projects, profile) => {
-  return `export const INITIAL_PROJECTS = ${JSON.stringify(projects, null, 2)};\n\nexport const INITIAL_STUDIO_PROFILE = ${JSON.stringify(profile, null, 2)};\n`;
+  const version = Date.now();
+  return `export const DATA_VERSION = ${version};\n\nexport const INITIAL_PROJECTS = ${JSON.stringify(projects, null, 2)};\n\nexport const INITIAL_STUDIO_PROFILE = ${JSON.stringify(profile, null, 2)};\n`;
 };
 
 /**

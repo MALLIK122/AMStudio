@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { INITIAL_PROJECTS, INITIAL_STUDIO_PROFILE } from '../data/initialData';
+import { INITIAL_PROJECTS, INITIAL_STUDIO_PROFILE, DATA_VERSION } from '../data/initialData';
 
 const StudioContext = createContext();
 
@@ -11,12 +11,21 @@ const STORAGE_KEYS = {
   AUTH: 'amstudio_auth_token_v1',
   GITHUB_TOKEN: 'amstudio_gh_token_v1',
   LAST_DEPLOY: 'amstudio_last_deploy_v1',
+  DATA_VERSION: 'amstudio_data_version_v2',
 };
 
 export const StudioProvider = ({ children }) => {
-  // Load Projects from localStorage or fallback
+  // Load Projects from localStorage or fallback with version check
   const [projects, setProjects] = useState(() => {
     try {
+      const savedVersion = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
+      // If deployed version is newer than device cache, invalidate old cache immediately!
+      if (!savedVersion || Number(savedVersion) !== Number(DATA_VERSION)) {
+        localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(DATA_VERSION));
+        localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(INITIAL_PROJECTS));
+        return INITIAL_PROJECTS;
+      }
+
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -33,9 +42,15 @@ export const StudioProvider = ({ children }) => {
     }
   });
 
-  // Load Profile from localStorage or fallback
+  // Load Profile from localStorage or fallback with version check
   const [profile, setProfile] = useState(() => {
     try {
+      const savedVersion = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
+      if (!savedVersion || Number(savedVersion) !== Number(DATA_VERSION)) {
+        localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(INITIAL_STUDIO_PROFILE));
+        return INITIAL_STUDIO_PROFILE;
+      }
+
       const saved = localStorage.getItem(STORAGE_KEYS.PROFILE);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -147,6 +162,22 @@ export const StudioProvider = ({ children }) => {
     };
     window.addEventListener('hashchange', handleHash);
     return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  // Auto-sync with new builds across all devices
+  useEffect(() => {
+    try {
+      const savedVersion = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
+      if (!savedVersion || Number(savedVersion) !== Number(DATA_VERSION)) {
+        localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(DATA_VERSION));
+        localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(INITIAL_PROJECTS));
+        localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(INITIAL_STUDIO_PROFILE));
+        setProjects(INITIAL_PROJECTS);
+        setProfile(INITIAL_STUDIO_PROFILE);
+      }
+    } catch (e) {
+      console.warn('Version check error:', e);
+    }
   }, []);
 
   // Sync to localStorage

@@ -31,19 +31,44 @@ export default function ProjectForm({ project, onSave, onCancel }) {
     }
   }, [project]);
 
-  // Handle local image file upload (converts to base64 Data URL)
+  // Handle local image file upload (auto-compresses with canvas to keep size light & fast)
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image file size exceeds 5MB. Please choose a smaller file or paste an image URL.');
+    if (file.size > 15 * 1024 * 1024) {
+      alert('Image file size exceeds 15MB. Please choose a smaller file.');
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (uploadEvent) => {
-      setFormData(prev => ({ ...prev, imageUrl: uploadEvent.target?.result }));
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDim = 1280;
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        setFormData(prev => ({ ...prev, imageUrl: optimizedDataUrl }));
+      };
+      img.src = uploadEvent.target?.result;
     };
     reader.readAsDataURL(file);
   };
@@ -61,6 +86,9 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
     const payload = {
       ...formData,
+      tags: typeof formData.tags === 'string'
+        ? formData.tags.split(',').map(t => t.trim()).filter(Boolean)
+        : formData.tags,
       longDescription: formData.description,
     };
 
@@ -160,8 +188,8 @@ export default function ProjectForm({ project, onSave, onCancel }) {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
               <div className="md:col-span-8">
                 <input
-                  type="url"
-                  placeholder="Paste image URL (https://...)"
+                  type="text"
+                  placeholder="Paste image URL (https://... or /images/...) or upload file"
                   value={formData.imageUrl}
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                   className="w-full glass-input px-4 py-2.5 rounded-xl text-sm"
