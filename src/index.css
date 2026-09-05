@@ -27,7 +27,7 @@
 
 /* Glassmorphism & Monochrome Utilities */
 .glass-panel {
-  background: rgba(18, 18, 18, 0.7);
+  background: rgba(18, 18, 18, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
