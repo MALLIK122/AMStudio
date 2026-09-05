@@ -11,8 +11,6 @@ export const GITHUB_CONFIG = {
   BRANCH: 'main',
   DATA_PATH: 'src/data/initialData.js',
   JSON_DATA_PATH: 'public/data/projects.json',
-  LIVE_URL: 'https://mallik122.github.io/AMStudio',
-  GITHUB_PAGES_URL: 'https://mallik122.github.io/AMStudio',
   VERCEL_URL: 'https://am-studioma.vercel.app',
 };
 
@@ -52,19 +50,22 @@ export const base64ToUtf8 = (base64) => {
 /**
  * Generate source code string for src/data/initialData.js
  */
-export const generateInitialDataFile = (projects, profile) => {
+export const generateInitialDataFile = (projects, profile, adminPasswordHash) => {
   const version = Date.now();
-  return `export const DATA_VERSION = ${version};\n\nexport const INITIAL_PROJECTS = ${JSON.stringify(projects, null, 2)};\n\nexport const INITIAL_STUDIO_PROFILE = ${JSON.stringify(profile, null, 2)};\n`;
+  const hashVal = adminPasswordHash || 'ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da';
+  return `export const DATA_VERSION = ${version};\n\nexport const DEFAULT_ADMIN_PASSWORD_HASH = '${hashVal}';\n\nexport const INITIAL_PROJECTS = ${JSON.stringify(projects, null, 2)};\n\nexport const INITIAL_STUDIO_PROFILE = ${JSON.stringify(profile, null, 2)};\n`;
 };
 
 /**
  * Generate JSON string for public/data/projects.json
  */
-export const generateProjectsJson = (projects, profile) => {
+export const generateProjectsJson = (projects, profile, adminPasswordHash) => {
   const version = Date.now();
+  const hashVal = adminPasswordHash || 'ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da';
   return JSON.stringify({
     version,
     updatedAt: new Date().toISOString(),
+    adminPasswordHash: hashVal,
     projects,
     profile,
   }, null, 2);
@@ -253,7 +254,7 @@ export const pushSingleFile = async ({ token, filePath, contentStr, commitMessag
  * Syncs BOTH public/data/projects.json (for instant client fetches)
  * AND src/data/initialData.js (for Vite bundle builds).
  */
-export const pushToGitHub = async ({ token, projects, profile, commitMessage }) => {
+export const pushToGitHub = async ({ token, projects, profile, adminPasswordHash, commitMessage }) => {
   if (!token || !token.trim()) {
     return {
       success: false,
@@ -268,7 +269,7 @@ export const pushToGitHub = async ({ token, projects, profile, commitMessage }) 
 
   try {
     // 1. Commit public/data/projects.json (enables instant live multi-device fetch)
-    const jsonStr = generateProjectsJson(projects, profile);
+    const jsonStr = generateProjectsJson(projects, profile, adminPasswordHash);
     const jsonRes = await pushSingleFile({
       token: cleanToken,
       filePath: GITHUB_CONFIG.JSON_DATA_PATH,
@@ -277,7 +278,7 @@ export const pushToGitHub = async ({ token, projects, profile, commitMessage }) 
     });
 
     // 2. Commit src/data/initialData.js (updates repo code for Vercel builds)
-    const codeStr = generateInitialDataFile(projects, profile);
+    const codeStr = generateInitialDataFile(projects, profile, adminPasswordHash);
     const codeRes = await pushSingleFile({
       token: cleanToken,
       filePath: GITHUB_CONFIG.DATA_PATH,

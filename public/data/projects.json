@@ -1,6 +1,7 @@
 {
   "version": 1788597683370,
   "updatedAt": "2026-09-05T15:08:00.000Z",
+  "adminPasswordHash": "ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da",
   "projects": [
     {
       "id": "proj-1788596902753",

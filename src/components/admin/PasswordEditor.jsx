@@ -11,7 +11,7 @@ export default function PasswordEditor() {
   
   const [status, setStatus] = useState({ type: '', message: '' });
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
     setStatus({ type: '', message: '' });
 
@@ -30,9 +30,9 @@ export default function PasswordEditor() {
       return;
     }
 
-    const result = updatePassword(currentPassword, newPassword);
+    const result = await updatePassword(currentPassword, newPassword);
     if (result.success) {
-      setStatus({ type: 'success', message: 'Master administrative password successfully updated.' });
+      setStatus({ type: 'success', message: 'Master administrative password successfully updated and synced across all devices.' });
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');

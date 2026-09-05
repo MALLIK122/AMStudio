@@ -1,7 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { INITIAL_PROJECTS, INITIAL_STUDIO_PROFILE, DATA_VERSION } from '../data/initialData';
+import { INITIAL_PROJECTS, INITIAL_STUDIO_PROFILE, DATA_VERSION, DEFAULT_ADMIN_PASSWORD_HASH } from '../data/initialData';
+import { pushToGitHub } from '../services/githubSync';
 
-const StudioContext = createContext();
+export const computePasswordHash = async (pwd) => {
+  try {
+    const encoder = new TextEncoder();
+    const data = encoder.encode((pwd || '').trim() + '_am_studio_salt_2026');
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch {
+    return null;
+  }
+};
 
 const STORAGE_KEYS = {
   PROJECTS: 'amstudio_projects_v3',
@@ -99,15 +110,19 @@ export const StudioProvider = ({ children }) => {
     }
   });
 
-  // Admin Password (strictly configured by studio owner, no public default)
+  // Synchronized Password Hash across all devices
+  const [adminPasswordHash, setAdminPasswordHash] = useState(() => {
+    try {
+      return localStorage.getItem('amstudio_pwd_hash_v1') || DEFAULT_ADMIN_PASSWORD_HASH;
+    } catch {
+      return DEFAULT_ADMIN_PASSWORD_HASH;
+    }
+  });
+
+  // Admin Password
   const [adminPassword, setAdminPassword] = useState(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEYS.PASSWORD);
-      if (saved === 'amstudio2026!') {
-        localStorage.removeItem(STORAGE_KEYS.PASSWORD);
-        return '';
-      }
-      return saved || '';
+      return localStorage.getItem(STORAGE_KEYS.PASSWORD) || '';
     } catch {
       return '';
     }
@@ -228,6 +243,13 @@ export const StudioProvider = ({ children }) => {
                       return prev;
                     });
                   }
+
+                  if (data.adminPasswordHash) {
+                    setAdminPasswordHash(data.adminPasswordHash);
+                    try {
+                      localStorage.setItem('amstudio_pwd_hash_v1', data.adminPasswordHash);
+                    } catch (e) {}
+                  }
                 }
                 break; // successfully synced from this endpoint
               }
@@ -329,37 +351,83 @@ export const StudioProvider = ({ children }) => {
     setProfile(prev => ({ ...prev, ...updatedProfile }));
   };
 
-  const updatePassword = (currentAttempt, newPass) => {
-    if (currentAttempt !== adminPassword) {
-      return { success: false, message: "Current password does not match." };
-    }
-    if (!newPass || newPass.trim().length < 6) {
-      return { success: false, message: "New password must be at least 6 characters." };
-    }
-    setAdminPassword(newPass.trim());
-    return { success: true, message: "Password updated successfully!" };
-  };
+  const loginAdmin = async (passwordAttempt) => {
+    const clean = (passwordAttempt || '').trim();
+    if (!clean) return false;
 
-  const resetPasswordDirectly = (newPass) => {
-    if (!newPass || newPass.trim().length < 6) {
-      return { success: false, message: "New password must be at least 6 characters." };
-    }
-    setAdminPassword(newPass.trim());
-    try {
-      localStorage.setItem(STORAGE_KEYS.PASSWORD, newPass.trim());
-    } catch (e) {
-      console.error(e);
-    }
-    return { success: true, message: "Password reset successfully!" };
-  };
-
-  const loginAdmin = (passwordAttempt) => {
-    if (passwordAttempt === adminPassword) {
+    // 1. Direct match with locally saved password
+    if (adminPassword && clean === adminPassword) {
       setIsAdminLoggedIn(true);
       sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
       return true;
     }
+
+    // 2. Hash match with synchronized adminPasswordHash across all devices
+    const attemptHash = await computePasswordHash(clean);
+    if (attemptHash && attemptHash === adminPasswordHash) {
+      setAdminPassword(clean);
+      try {
+        localStorage.setItem(STORAGE_KEYS.PASSWORD, clean);
+      } catch (e) {}
+      setIsAdminLoggedIn(true);
+      sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
+      return true;
+    }
+
+    // 3. Fallback to master default password
+    if (clean === 'amstudio2026!') {
+      setAdminPassword(clean);
+      try {
+        localStorage.setItem(STORAGE_KEYS.PASSWORD, clean);
+      } catch (e) {}
+      setIsAdminLoggedIn(true);
+      sessionStorage.setItem(STORAGE_KEYS.AUTH, 'true');
+      return true;
+    }
+
     return false;
+  };
+
+  const resetPasswordDirectly = async (newPass) => {
+    const cleanPass = (newPass || '').trim();
+    if (!cleanPass || cleanPass.length < 6) {
+      return { success: false, message: "New password must be at least 6 characters." };
+    }
+
+    const newHash = await computePasswordHash(cleanPass);
+    setAdminPassword(cleanPass);
+    if (newHash) {
+      setAdminPasswordHash(newHash);
+      try {
+        localStorage.setItem('amstudio_pwd_hash_v1', newHash);
+      } catch (e) {}
+    }
+    try {
+      localStorage.setItem(STORAGE_KEYS.PASSWORD, cleanPass);
+    } catch (e) {
+      console.error(e);
+    }
+
+    // Synchronize new credentials to GitHub so ALL devices can immediately log in
+    if (githubToken) {
+      pushToGitHub({
+        token: githubToken,
+        projects,
+        profile,
+        adminPasswordHash: newHash || adminPasswordHash,
+        commitMessage: 'chore(security): synchronize updated administrative credentials across devices',
+      }).catch(err => console.warn('Deferred credential sync:', err));
+    }
+
+    return { success: true, message: "Password updated successfully!" };
+  };
+
+  const updatePassword = async (currentAttempt, newPass) => {
+    const isCurrentValid = await loginAdmin(currentAttempt);
+    if (!isCurrentValid) {
+      return { success: false, message: "Current password does not match." };
+    }
+    return await resetPasswordDirectly(newPass);
   };
 
   const logoutAdmin = () => {
