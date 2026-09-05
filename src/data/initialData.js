@@ -1,4 +1,4 @@
-export const DATA_VERSION = 1788606778453;
+export const DATA_VERSION = 1788606843935;
 
 export const DEFAULT_ADMIN_PASSWORD_HASH = 'ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da';
 
@@ -61,7 +61,7 @@ export const INITIAL_PROJECTS = [
       "Countdown Engine"
     ],
     "featured": true,
-    "year": "2025",
+    "year": "2026",
     "metrics": "Optimized Social Sharing • 60 FPS"
   }
 ];
