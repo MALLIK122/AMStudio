@@ -190,6 +190,19 @@ export const StudioProvider = ({ children }) => {
     return { success: true, message: "Password updated successfully!" };
   };
 
+  const resetPasswordDirectly = (newPass) => {
+    if (!newPass || newPass.trim().length < 6) {
+      return { success: false, message: "New password must be at least 6 characters." };
+    }
+    setAdminPassword(newPass.trim());
+    try {
+      localStorage.setItem(STORAGE_KEYS.PASSWORD, newPass.trim());
+    } catch (e) {
+      console.error(e);
+    }
+    return { success: true, message: "Password reset successfully!" };
+  };
+
   const loginAdmin = (passwordAttempt) => {
     if (passwordAttempt === adminPassword) {
       setIsAdminLoggedIn(true);
@@ -279,6 +292,7 @@ export const StudioProvider = ({ children }) => {
       deleteProject,
       updateProfile,
       updatePassword,
+      resetPasswordDirectly,
       loginAdmin,
       logoutAdmin,
       submitInquiry,
