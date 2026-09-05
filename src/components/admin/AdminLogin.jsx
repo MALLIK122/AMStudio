@@ -67,7 +67,7 @@ export default function AdminLogin() {
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          _subject: '🔐 AM Studio Admin: Confidential One-Time Verification Code',
+          _subject: 'AM Studio Admin: Confidential One-Time Verification Code',
           _template: 'table',
           _captcha: 'false',
           service: 'AM Studio Executive Content Management System',

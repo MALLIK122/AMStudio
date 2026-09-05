@@ -19,7 +19,7 @@ export const TRANSLATIONS = {
     },
     hero: {
       trustBadge: '5-Star Rated • Wedding Websites & All Custom Posters • 24-48h Delivery',
-      posterBadge: '🎉 Now Designing: Wedding Cards • Baby Shower • Event & Business Posters',
+      posterBadge: 'Now Designing: Wedding Cards • Baby Shower • Event & Business Posters',
       heading: 'BEAUTIFULLY CRAFTED WEDDING INVITATIONS & CUSTOM POSTERS FOR EVERY CELEBRATION.',
       subheading: 'Crafting breathtaking digital wedding invitation websites, luxury wedding cards, baby shower posters, party flyers, and business graphics designed for your unforgettable moments.',
       ctaExplore: 'Explore Invitations & Posters',
@@ -342,7 +342,7 @@ export const TRANSLATIONS = {
     },
     hero: {
       trustBadge: '5-Star ರೇಟಿಂಗ್ • ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್‌ಗಳು & ಎಲ್ಲಾ ಬಗೆಯ ಪೋಸ್ಟರ್‌ಗಳು • 24-48 ಗಂಟೆಗಳ ಡೆಲಿವರಿ',
-      posterBadge: '🎉 ಹೊಸ ಸೇವೆ: ವೆಡ್ಡಿಂಗ್ ಕಾರ್ಡ್ಸ್ • ಬೇಬಿ ಶವರ್ • ಇವೆಂಟ್ & ಬ್ಯುಸಿನೆಸ್ ಪೋಸ್ಟರ್‌ಗಳು',
+      posterBadge: 'ಹೊಸ ಸೇವೆ: ವೆಡ್ಡಿಂಗ್ ಕಾರ್ಡ್ಸ್ • ಬೇಬಿ ಶವರ್ • ಇವೆಂಟ್ & ಬ್ಯುಸಿನೆಸ್ ಪೋಸ್ಟರ್‌ಗಳು',
       heading: 'ನಿಮ್ಮ ಪ್ರತಿಯೊಂದು ಸಂಭ್ರಮಕ್ಕೂ ಸುಂದರ ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್‌ಗಳು & ಆಕರ್ಷಕ ಪೋಸ್ಟರ್‌ಗಳು.',
       subheading: 'ವಿಶಿಷ್ಟ ಡಿಜಿಟಲ್ ವೆಡ್ಡಿಂಗ್ ಇನ್ವಿಟೇಶನ್ ವೆಬ್‌ಸೈಟ್‌ಗಳು, ವೆಡ್ಡಿಂಗ್ ಕಾರ್ಡ್ಸ್, ಬೇಬಿ ಶವರ್ ಆಮಂತ್ರಣ ಪೋಸ್ಟರ್‌ಗಳು, ಪಾರ್ಟಿ ಮತ್ತು ಬ್ಯುಸಿನೆಸ್ ಪೋಸ್ಟರ್‌ಗಳನ್ನು ಅತ್ಯಂತ ಸುಂದರವಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸುತ್ತೇವೆ.',
       ctaExplore: 'ಆಮಂತ್ರಣ & ಪೋಸ್ಟರ್‌ಗಳನ್ನು ನೋಡಿ',
@@ -665,7 +665,7 @@ export const TRANSLATIONS = {
     },
     hero: {
       trustBadge: '5-Star రేటింగ్ • వెడ్డింగ్ వెబ్‌సైట్లు & అన్ని రకాల పోస్టర్లు • 24-48h డెలివరీ',
-      posterBadge: '🎉 సరికొత్త సర్వీస్: వెడ్డింగ్ కార్డ్స్ • బేబీ షవర్ • ఈవెంట్ & బిజినెస్ పోస్టర్లు',
+      posterBadge: 'సరికొత్త సర్వీస్: వెడ్డింగ్ కార్డ్స్ • బేబీ షవర్ • ఈవెంట్ & బిజినెస్ పోస్టర్లు',
       heading: 'మీ ప్రతి వేడుక కోసం అందమైన వెడ్డింగ్ వెబ్‌సైట్లు & ఆకర్షణీయమైన పోస్టర్లు.',
       subheading: 'డిజిటల్ వెడ్డింగ్ ఇన్విటేషన్ వెబ్‌సైట్లు, వెడ్డింగ్ కార్డ్స్, బేబీ షవర్ ఆహ్వాన పోస్టర్లు, పార్టీ మరియు బిజినెస్ పోస్టర్లను అద్భుతంగా రూపొందిస్తాము.',
       ctaExplore: 'ఆహ్వానాలు & పోస్టర్లను చూడండి',

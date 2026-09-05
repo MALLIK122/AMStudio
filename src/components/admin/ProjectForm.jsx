@@ -159,7 +159,7 @@ export default function ProjectForm({ project, initialType = 'website', onSave, 
                 : 'text-zinc-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🌐 Wedding Website</span>
+            <span>Wedding Website</span>
           </button>
           <button
             type="button"
@@ -175,7 +175,7 @@ export default function ProjectForm({ project, initialType = 'website', onSave, 
                 : 'text-zinc-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🎨 Poster / Card Design</span>
+            <span>Poster / Card Design</span>
           </button>
         </div>
 
@@ -357,7 +357,7 @@ export default function ProjectForm({ project, initialType = 'website', onSave, 
           ) : (
             <div className="p-3.5 rounded-xl border border-amber-500/30 bg-amber-950/20 text-xs font-mono text-amber-300 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
-              <span>💡 Connect your GitHub token in the "GitHub &amp; Vercel Live" tab to automatically push changes to all other devices.</span>
+              <span>Connect your GitHub token in the "GitHub &amp; Vercel Live" tab to automatically push changes to all other devices.</span>
             </div>
           )}
 

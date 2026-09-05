@@ -70,7 +70,7 @@ export default function AdminDashboard() {
         setEditingProject(null);
         if (res && res.success && githubToken) {
           setLastDeployInfo(res);
-          alert(`✅ Project "${projectData.title}" updated and synced live across all devices!`);
+          alert(`Project "${projectData.title}" updated and synced live across all devices!`);
         } else if (res && !res.success) {
           alert(`Project updated locally, but GitHub deployment error: ${res.error}`);
         }
@@ -79,7 +79,7 @@ export default function AdminDashboard() {
         setIsAddingProject(false);
         if (res && res.success && githubToken) {
           setLastDeployInfo(res);
-          alert(`✅ Project "${projectData.title}" published and synced live across all devices!`);
+          alert(`Project "${projectData.title}" published and synced live across all devices!`);
         } else if (res && !res.success) {
           alert(`Project published locally, but GitHub deployment error: ${res.error}`);
         }
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
     }
 
     if (!githubToken) {
-      if (confirm(`⚠️ Project saved in this browser, but NOT yet on GitHub!\n\nTo make this update visible on all mobile devices worldwide, you need to connect your GitHub Token once.\n\nWould you like to open the "GitHub & Vercel Live" tab to connect now?`)) {
+      if (confirm(`Project saved in this browser, but NOT yet on GitHub!\n\nTo make this update visible on all mobile devices worldwide, you need to connect your GitHub Token once.\n\nWould you like to open the "GitHub & Vercel Live" tab to connect now?`)) {
         setActiveTab('deployment');
       }
     }
@@ -279,11 +279,11 @@ export default function AdminDashboard() {
                         </h4>
                         {project.isPoster ? (
                           <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold">
-                            🎨 Poster / Card
+                            Poster / Card
                           </span>
                         ) : (
                           <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold">
-                            🌐 Website
+                            Website
                           </span>
                         )}
                         {project.featured && (

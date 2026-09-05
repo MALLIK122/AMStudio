@@ -40,7 +40,7 @@ export default function PricingSection() {
                 : 'text-zinc-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🌐 {t('pricing', 'websiteTab') || 'Wedding Websites'}</span>
+            <span>{t('pricing', 'websiteTab') || 'Wedding Websites'}</span>
             <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
               activeCategory === 'websites' ? 'bg-black/15 text-black' : 'bg-white/10 text-zinc-300'
             }`}>
@@ -57,7 +57,7 @@ export default function PricingSection() {
                 : 'text-zinc-300 hover:text-white hover:bg-white/5'
             }`}
           >
-            <span>🎨 {t('pricing', 'cardTab') || 'Posters & Digital Cards'}</span>
+            <span>{t('pricing', 'cardTab') || 'Posters & Digital Cards'}</span>
             <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
               activeCategory === 'cards' ? 'bg-black/15 text-black' : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
             }`}>
@@ -158,7 +158,7 @@ export default function PricingSection() {
             onClick={() => setActiveCategory('cards')}
             className="inline-flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
           >
-            <span>🎨 {language === 'kn' ? 'ಪೋಸ್ಟರ್ & ಡಿಜಿಟಲ್ ಕಾರ್ಡ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹199 ರಿಂದ ₹299)' : language === 'te' ? 'పోస్టర్లు & డిజిటల్ కార్డుల ప్యాకేజీలు చూడండి (₹199 నుండి ₹299)' : 'Looking for Posters & Digital Cards? View packages from ₹199 to ₹299'}</span>
+            <span>{language === 'kn' ? 'ಪೋಸ್ಟರ್ & ಡಿಜಿಟಲ್ ಕಾರ್ಡ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹199 ರಿಂದ ₹299)' : language === 'te' ? 'పోస్టర్లు & డిజిటల్ కార్డుల ప్యాకేజీలు చూడండి (₹199 నుండి ₹299)' : 'Looking for Posters & Digital Cards? View packages from ₹199 to ₹299'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         ) : (
@@ -167,7 +167,7 @@ export default function PricingSection() {
             onClick={() => setActiveCategory('websites')}
             className="inline-flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
           >
-            <span>🌐 {language === 'kn' ? 'ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹1,999 ರಿಂದ ₹2,999)' : language === 'te' ? 'వెడ్డింగ్ వెబ్‌సైట్ల ప్యాకేజీలు చూడండి (₹1,999 నుండి ₹2,999)' : 'Looking for Interactive Wedding Websites? View packages from ₹1,999 to ₹2,999'}</span>
+            <span>{language === 'kn' ? 'ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹1,999 ರಿಂದ ₹2,999)' : language === 'te' ? 'వెడ్డింగ్ వెబ్‌సైట్ల ప్యాకేజీలు చూడండి (₹1,999 నుండి ₹2,999)' : 'Looking for Interactive Wedding Websites? View packages from ₹1,999 to ₹2,999'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         )}
