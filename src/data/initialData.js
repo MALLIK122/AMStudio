@@ -1,4 +1,4 @@
-export const DATA_VERSION = 1788605818385;
+export const DATA_VERSION = 1788605834382;
 
 export const DEFAULT_ADMIN_PASSWORD_HASH = 'ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da';
 
@@ -54,14 +54,8 @@ export const INITIAL_PROJECTS = [
     "imageUrl": "https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/images/project-3.jpg",
     "liveUrl": "https://m-invitation-demo1.vercel.app/",
     "githubUrl": "https://github.com",
-    "tags": [
-      "React",
-      "Tailwind CSS",
-      "Social Previews",
-      "Countdown Engine"
-    ],
     "featured": true,
-    "year": "2026",
+    "year": "2025",
     "metrics": "Optimized Social Sharing • 60 FPS"
   }
 ];
