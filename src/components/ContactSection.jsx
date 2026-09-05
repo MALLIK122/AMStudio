@@ -8,7 +8,8 @@ export default function ContactSection() {
 
   const [formData, setFormData] = useState({
     name: '',
-    contact: '',
+    email: '',
+    phone: '',
     invitationStyle: 'Modern',
     weddingDate: '',
     message: '',
@@ -42,7 +43,7 @@ export default function ContactSection() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.contact || !formData.message) return;
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) return;
 
     setIsSubmitting(true);
     const currentData = { ...formData };
@@ -51,7 +52,8 @@ export default function ContactSection() {
     // 1. Save to Admin Inbox
     submitInquiry({
       name: currentData.name,
-      email: currentData.contact,
+      email: currentData.email,
+      phone: currentData.phone,
       projectType: `${currentData.invitationStyle} Invitation`,
       budget: currentData.weddingDate ? `Wedding: ${currentData.weddingDate}` : 'Wedding Invitation',
       message: currentData.message,
@@ -59,10 +61,45 @@ export default function ContactSection() {
 
     // 2. Dispatch real email notification to AM Studio + Autoresponder to Client
     try {
-      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(currentData.contact.trim());
-      const adminEmail = profile.email || 'amstudio.support.in@gmail.com';
-      
-      await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(adminEmail)}`, {
+      const studioEmail = profile.email || 'amstudio.support.in@gmail.com';
+      const cleanStudioPhone = (profile.phone || '9731696952').replace(/\D/g, '');
+      const studioPhoneWithCountry = cleanStudioPhone.length === 10 ? `91${cleanStudioPhone}` : cleanStudioPhone;
+
+      const preFilledWhatsAppText = `Hi AM Studio! I have submitted a wedding invitation inquiry for ${currentData.name} (${currentData.invitationStyle} Style, Date: ${currentData.weddingDate || 'TBD'}). Please share the preview and details!`;
+
+      const autoResponseText = `Dear ${currentData.name},
+
+Thank you for choosing AM Studio! We have safely received your wedding invitation request.
+
+--- YOUR SUBMITTED DETAILS ---
+• Name: ${currentData.name}
+• Email: ${currentData.email}
+• Phone: ${currentData.phone}
+• Preferred Style: ${currentData.invitationStyle} Invitation
+• Wedding Date: ${currentData.weddingDate || 'To be decided'}
+• Message: ${currentData.message}
+
+--- WHAT HAPPENS NEXT ---
+1. Concept Review: Our design team is reviewing your requirements and story.
+2. Live Mobile Preview: We will prepare an interactive live mobile preview link with your theme, background music, RSVP tracking, and Google Maps venue navigation.
+3. We will get in touch with you within 24 hours.
+
+--- DIRECT STUDIO CONTACT ---
+• WhatsApp (Click to chat with auto-typed message):
+https://wa.me/${studioPhoneWithCountry}?text=${encodeURIComponent(preFilledWhatsAppText)}
+
+• Call Direct (Click on mobile to open phone dialpad):
+tel:+${studioPhoneWithCountry} (or call +91 97316 96952)
+
+• Official Email (Click to auto-compose):
+mailto:${studioEmail}?subject=${encodeURIComponent(`Wedding Invitation Follow-up - ${currentData.name}`)}
+
+Warm regards,
+AM Studio | Digital Wedding Invitations
+Davanagere, Karnataka
+Website: https://am-studioin.vercel.app/`;
+
+      await fetch('https://formsubmit.co/ajax/8136667047df08585270147f34512a30', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,14 +107,16 @@ export default function ContactSection() {
         },
         body: JSON.stringify({
           name: currentData.name,
-          contact: currentData.contact,
+          email: currentData.email,
+          phone: currentData.phone,
           invitation_style: currentData.invitationStyle,
           wedding_date: currentData.weddingDate || 'To be decided',
           message: currentData.message,
           _subject: `💍 New Wedding Invitation Request: ${currentData.name} (${currentData.invitationStyle})`,
           _template: 'table',
-          _autoresponse: `Dear ${currentData.name},\n\nThank you for reaching out to AM Studio! We have safely received your wedding invitation request for the ${currentData.invitationStyle} style.\n\nOur creative team will review your specifications and get in touch with you within 24 hours with custom design concepts and a live mobile preview.\n\nWarm regards,\nAM Studio Team\nDavanagere, Karnataka\nPhone/WhatsApp: +91 97316 96952\nEmail: amstudio.support.in@gmail.com`,
-          ...(isEmail ? { email: currentData.contact.trim() } : {}),
+          _captcha: 'false',
+          _replyto: currentData.email,
+          _autoresponse: autoResponseText,
         }),
       });
     } catch (err) {
@@ -88,7 +127,8 @@ export default function ContactSection() {
     setSubmitted(true);
     setFormData({
       name: '',
-      contact: '',
+      email: '',
+      phone: '',
       invitationStyle: 'Modern',
       weddingDate: '',
       message: '',
@@ -341,7 +381,7 @@ export default function ContactSection() {
                 </div>
 
                 {/* Summary Badges */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
                     <p className="text-[10px] font-mono uppercase text-zinc-400">Preferred Style</p>
                     <p className="text-sm font-semibold text-white mt-0.5">{submittedData?.invitationStyle || 'Custom'}</p>
@@ -351,10 +391,21 @@ export default function ContactSection() {
                     <p className="text-sm font-semibold text-white mt-0.5">{submittedData?.weddingDate || 'To be decided'}</p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-400">Contact Provided</p>
-                    <p className="text-sm font-semibold text-white mt-0.5 truncate">{submittedData?.contact}</p>
+                    <p className="text-[10px] font-mono uppercase text-zinc-400">Client Email</p>
+                    <p className="text-sm font-semibold text-white mt-0.5 truncate">{submittedData?.email}</p>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
+                    <p className="text-[10px] font-mono uppercase text-zinc-400">Client Phone</p>
+                    <p className="text-sm font-semibold text-white mt-0.5 truncate">{submittedData?.phone}</p>
                   </div>
                 </div>
+
+                {submittedData?.message && (
+                  <div className="p-3.5 rounded-xl bg-black/30 border border-white/5 text-xs text-zinc-300 font-light">
+                    <span className="text-[10px] font-mono uppercase text-zinc-400 block mb-1">Your Wedding Vision & Notes:</span>
+                    "{submittedData.message}"
+                  </div>
+                )}
 
                 {/* What Happens Next Section */}
                 <div className="space-y-3 pt-2">
@@ -365,43 +416,69 @@ export default function ContactSection() {
                     <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
                       <Clock className="w-4 h-4 text-white flex-shrink-0 mt-0.5" />
                       <div>
-                        <strong className="text-white font-medium">Concept Review within 24 Hours:</strong> Our creative lead will review your dates, preferred style, and story to prepare interactive concept proposals.
+                        <strong className="text-white font-medium">Review within 24 Hours:</strong> Our design lead is reviewing your dates, story, and preferred style to prepare interactive concept proposals.
                       </div>
                     </div>
                     <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
                       <Smartphone className="w-4 h-4 text-white flex-shrink-0 mt-0.5" />
                       <div>
-                        <strong className="text-white font-medium">Interactive Live Mobile Preview:</strong> You’ll receive a private testing link to experience your wedding website on mobile with music, photo albums, and RSVP tracking.
+                        <strong className="text-white font-medium">Interactive Live Mobile Preview:</strong> You’ll receive a private testing link to experience your wedding website on mobile with music, photo albums, RSVP tracking, and Google Maps.
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Direct Action Buttons */}
-                <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
-                  <a
-                    href={`https://wa.me/919731696952?text=${encodeURIComponent(
-                      `Hi AM Studio! I just submitted a wedding invitation request for ${submittedData?.name || 'our wedding'} (${submittedData?.invitationStyle || 'Custom'} Style, Date: ${submittedData?.weddingDate || 'TBD'}). Looking forward to discussing!`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white text-black font-semibold text-xs tracking-wider uppercase hover:bg-zinc-200 transition-all shadow-md"
-                  >
-                    <WhatsApp className="w-4 h-4" />
-                    <span>Fast-Track on WhatsApp</span>
-                  </a>
+                {/* Direct Action Buttons: WhatsApp auto-typed, Call dialpad, Email auto-compose */}
+                <div className="pt-4 border-t border-white/10 space-y-3">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
+                    Connect Directly with AM Studio:
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {/* 1. WhatsApp with Auto-Typed message */}
+                    <a
+                      href={`https://wa.me/${fullPhoneNumber}?text=${encodeURIComponent(
+                        `Hi AM Studio! I have submitted a wedding invitation inquiry for ${submittedData?.name || 'our wedding'} (${submittedData?.invitationStyle || 'Custom'} Style, Date: ${submittedData?.weddingDate || 'TBD'}). Please share the preview and details!`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 py-3 px-3.5 rounded-xl bg-white text-black font-semibold text-xs tracking-wider uppercase hover:bg-zinc-200 transition-all shadow-md text-center"
+                    >
+                      <WhatsApp className="w-4 h-4 flex-shrink-0" />
+                      <span>WhatsApp Chat</span>
+                    </a>
 
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="py-3 px-5 rounded-xl border border-white/20 hover:border-white/40 text-xs font-mono uppercase text-zinc-300 hover:text-white transition-colors"
-                  >
-                    Send Another Request
-                  </button>
+                    {/* 2. Direct Phone Call -> Dialpad on mobile */}
+                    <a
+                      href={`tel:+${fullPhoneNumber}`}
+                      className="flex items-center justify-center gap-2 py-3 px-3.5 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-xs tracking-wider uppercase hover:bg-white/20 transition-all shadow-md text-center"
+                    >
+                      <Phone className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>Call Dialpad</span>
+                    </a>
+
+                    {/* 3. Direct Email Compose -> Auto-compose */}
+                    <a
+                      href={`mailto:${profile.email || 'amstudio.support.in@gmail.com'}?subject=${encodeURIComponent(`Wedding Invitation Inquiry Follow-up - ${submittedData?.name || ''}`)}&body=${encodeURIComponent(`Hello AM Studio Team,\n\nI have submitted an inquiry for ${submittedData?.name || 'our wedding'} (${submittedData?.invitationStyle || 'Custom'} Style).\n\nLooking forward to hearing from you!`)}`}
+                      className="flex items-center justify-center gap-2 py-3 px-3.5 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-xs tracking-wider uppercase hover:bg-white/20 transition-all shadow-md text-center"
+                    >
+                      <Mail className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span>Email Compose</span>
+                    </a>
+                  </div>
+
+                  <div className="pt-2 text-center">
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="text-xs font-mono uppercase text-zinc-400 hover:text-white transition-colors underline underline-offset-4"
+                    >
+                      Send Another Request
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
                     <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
                       YOUR NAME *
@@ -418,14 +495,28 @@ export default function ContactSection() {
 
                   <div>
                     <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
-                      EMAIL / PHONE *
+                      EMAIL ADDRESS *
                     </label>
                     <input
-                      type="text"
+                      type="email"
                       required
                       placeholder="e.g. yourname@gmail.com"
-                      value={formData.contact}
-                      onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full glass-input px-4 py-3 rounded-xl text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                      PHONE / WHATSAPP *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. +91 98765 43210"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full glass-input px-4 py-3 rounded-xl text-sm"
                     />
                   </div>

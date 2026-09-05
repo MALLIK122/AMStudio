@@ -60,7 +60,7 @@ export default function AdminLogin() {
     setActiveCode(generatedCode);
 
     try {
-      await fetch('https://formsubmit.co/ajax/amstudio.support.in@gmail.com', {
+      await fetch('https://formsubmit.co/ajax/8136667047df08585270147f34512a30', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
