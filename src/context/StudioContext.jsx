@@ -290,14 +290,20 @@ export const StudioProvider = ({ children }) => {
                     const remoteStr = JSON.stringify(activeRemoteProjects);
 
                     const savedVersion = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
-                    const isNewerVersion = data.version && (!savedVersion || Number(data.version) > Number(savedVersion));
+                    const remoteVersion = Number(data.version || 0);
+                    const localBuildVersion = Number(DATA_VERSION);
+
+                    // Ignore stale remote data if it has an older version than this release build
+                    if (remoteVersion < localBuildVersion) {
+                      return activePrev;
+                    }
+
+                    const isNewerVersion = remoteVersion > Number(savedVersion || 0);
 
                     // Update if version is newer, count changed, or content changed
                     if (isNewerVersion || currentIds !== remoteIds || currentStr !== remoteStr) {
                       localStorage.setItem(STORAGE_KEYS.PROJECTS, remoteStr);
-                      if (data.version) {
-                        localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(data.version));
-                      }
+                      localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(remoteVersion));
                       return activeRemoteProjects;
                     }
                     return activePrev;

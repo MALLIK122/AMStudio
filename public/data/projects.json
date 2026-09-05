@@ -1,6 +1,6 @@
 {
-  "version": 1788616200000,
-  "updatedAt": "2026-09-05T13:42:00.000Z",
+  "version": 1788623000000,
+  "updatedAt": "2026-09-05T15:20:00.000Z",
   "adminPasswordHash": "ae5ff6dab11475e32c73c5ab95c7404e572278b99f49552c3d7866ec12ae05da",
   "projects": [
     {
@@ -243,6 +243,27 @@
       "featured": false,
       "year": "2026",
       "metrics": "Print & Social Media Flyer"
+    },
+    {
+      "id": "proj-poster-food-menu",
+      "title": "Our Food Menu | Restaurant & Cafe Poster",
+      "subtitle": "Vibrant Food & Beverage Menu Design",
+      "category": "Business & Promotion",
+      "isPoster": true,
+      "description": "Vibrant restaurant and fast food promotional menu poster showcasing gourmet burgers, crispy fries, hot pizza, and combo offers.",
+      "longDescription": "Eye-catching commercial food and restaurant advertising poster designed in high contrast orange and dark slate. Highlights combo meal deals, signature dishes, delivery hotline, and special weekend discounts in ultra-high resolution.",
+      "imageUrl": "/images/posters/poster-food-menu.png",
+      "liveUrl": "/images/posters/poster-food-menu.png",
+      "tags": [
+        "Food Menu",
+        "Restaurant Flyer",
+        "Cafe Poster",
+        "Fast Food",
+        "Promotion"
+      ],
+      "featured": true,
+      "year": "2026",
+      "metrics": "High-Res Food Flyer • Print & WhatsApp Share"
     }
   ],
   "profile": {
