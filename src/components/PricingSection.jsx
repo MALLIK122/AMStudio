@@ -61,7 +61,7 @@ export default function PricingSection() {
             <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
               activeCategory === 'cards' ? 'bg-black/15 text-black' : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
             }`}>
-              ₹299 - ₹999
+              ₹199 - ₹299
             </span>
           </button>
         </div>
@@ -158,7 +158,7 @@ export default function PricingSection() {
             onClick={() => setActiveCategory('cards')}
             className="inline-flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
           >
-            <span>🎨 {language === 'kn' ? 'ಪೋಸ್ಟರ್ & ಡಿಜಿಟಲ್ ಕಾರ್ಡ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹299 ರಿಂದ ₹999)' : language === 'te' ? 'పోస్టర్లు & డిజిటల్ కార్డుల ప్యాకేజీలు చూడండి (₹299 నుండి ₹999)' : 'Looking for Posters & Digital Cards? View packages from ₹299 to ₹999'}</span>
+            <span>🎨 {language === 'kn' ? 'ಪೋಸ್ಟರ್ & ಡಿಜಿಟಲ್ ಕಾರ್ಡ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹199 ರಿಂದ ₹299)' : language === 'te' ? 'పోస్టర్లు & డిజిటల్ కార్డుల ప్యాకేజీలు చూడండి (₹199 నుండి ₹299)' : 'Looking for Posters & Digital Cards? View packages from ₹199 to ₹299'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         ) : (
