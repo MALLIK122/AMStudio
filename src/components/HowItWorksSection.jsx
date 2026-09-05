@@ -11,14 +11,14 @@ export default function HowItWorksSection() {
   return (
     <section id="process" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
       <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono tracking-widest text-zinc-300 uppercase">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono tracking-widest text-zinc-200 uppercase font-medium">
           <Sparkles className="w-3.5 h-3.5 text-white" />
           <span>{t('howItWorks', 'tag')}</span>
         </div>
         <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
           {t('howItWorks', 'title')}
         </h2>
-        <p className="text-zinc-400 text-xs sm:text-sm md:text-base font-light leading-relaxed">
+        <p className="text-zinc-200 text-xs sm:text-sm md:text-base font-normal leading-relaxed">
           {t('howItWorks', 'subtitle')}
         </p>
       </div>
@@ -40,7 +40,7 @@ export default function HowItWorksSection() {
                   <span className="w-8 h-8 rounded-lg bg-white text-black font-mono font-bold text-xs flex items-center justify-center shadow-lg">
                     {item.step || `0${idx + 1}`}
                   </span>
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-300 group-hover:text-white group-hover:border-white/30 transition-all">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-200 group-hover:text-white group-hover:border-white/30 transition-all">
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
@@ -48,16 +48,16 @@ export default function HowItWorksSection() {
                 <h3 className="font-display text-base sm:text-lg font-bold text-white mb-2">
                   {item.title}
                 </h3>
-                <p className="text-zinc-400 text-xs sm:text-sm font-light leading-relaxed">
+                <p className="text-zinc-200 text-xs sm:text-sm font-normal leading-relaxed">
                   {item.desc}
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-1.5 text-[11px] font-mono text-zinc-400">
+              <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-1.5 text-[11px] font-mono text-zinc-300 font-medium">
                 <span>
                   {language === 'kn' ? `ಹಂತ ${idx + 1} / 4` : language === 'te' ? `దశ ${idx + 1} / 4` : `Step ${idx + 1} of 4`}
                 </span>
-                {idx < 3 && <ArrowRight className="w-3 h-3 text-zinc-600 hidden lg:block ml-auto" />}
+                {idx < 3 && <ArrowRight className="w-3 h-3 text-zinc-500 hidden lg:block ml-auto" />}
               </div>
             </div>
           );

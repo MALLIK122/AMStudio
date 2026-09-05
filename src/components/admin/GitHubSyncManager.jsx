@@ -99,19 +99,19 @@ export default function GitHubSyncManager() {
             <UploadCloud className="w-6 h-6 text-white" />
             <span>GitHub &amp; Vercel Live Deployment</span>
           </h3>
-          <p className="text-zinc-400 text-xs font-mono mt-1">
+          <p className="text-zinc-200 text-xs font-mono mt-1 font-medium">
             Push wedding invitation projects directly to GitHub and automatically deploy live on Vercel across all devices
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           {isConnected ? (
-            <span className="px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono flex items-center gap-2">
+            <span className="px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono flex items-center gap-2 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>GitHub Connected</span>
             </span>
           ) : (
-            <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono flex items-center gap-2">
+            <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono flex items-center gap-2 font-medium">
               <span className="w-2 h-2 rounded-full bg-amber-400" />
               <span>Token Needed for Live Sync</span>
             </span>
@@ -123,21 +123,21 @@ export default function GitHubSyncManager() {
       <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/15 relative overflow-hidden bg-zinc-950/70">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-xs font-mono text-zinc-200 uppercase tracking-wider font-semibold">
               <Globe className="w-4 h-4 text-white" />
               <span>Global Multi-Device Deployment</span>
             </div>
             <h4 className="font-display text-xl sm:text-2xl font-extrabold text-white tracking-tight">
               Publish All Projects to Live Website
             </h4>
-            <p className="text-zinc-300 text-xs sm:text-sm font-light leading-relaxed">
+            <p className="text-zinc-200 text-xs sm:text-sm font-normal leading-relaxed">
               When you click this button, your current {projects.length} wedding projects are uploaded directly to the 
               <strong className="text-white font-mono"> {GITHUB_CONFIG.OWNER}/{GITHUB_CONFIG.REPO}</strong> repository. 
               Vercel will detect the update, build the website, and make all new invitation links visible on every mobile phone and device worldwide.
             </p>
 
             {lastDeployInfo?.deployedAt && (
-              <div className="text-[11px] font-mono text-zinc-400 flex items-center gap-2 pt-1">
+              <div className="text-[11px] font-mono text-zinc-300 flex items-center gap-2 pt-1 font-medium">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Last live deploy: {new Date(lastDeployInfo.deployedAt).toLocaleString()} (commit {lastDeployInfo.commitSha})</span>
               </div>
@@ -158,7 +158,7 @@ export default function GitHubSyncManager() {
               href={GITHUB_CONFIG.VERCEL_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/15 hover:bg-white/5 text-xs font-mono text-zinc-300 hover:text-white transition-colors text-center"
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/15 hover:bg-white/5 text-xs font-mono text-zinc-200 hover:text-white transition-colors text-center font-medium"
             >
               <span>Open Vercel Live Website</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
@@ -179,7 +179,7 @@ export default function GitHubSyncManager() {
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Success! Synced to GitHub & Live Cloud (commit {deployResult.commitSha})</span>
                 </div>
-                <p className="text-zinc-300">
+                <p className="text-zinc-200">
                   Your wedding projects and details have been published. All mobile phones, tablets, and devices worldwide will immediately display the updated projects!
                 </p>
                 <div className="flex items-center gap-3 pt-1">
@@ -187,17 +187,17 @@ export default function GitHubSyncManager() {
                     href={deployResult.commitUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline text-emerald-400 hover:text-white flex items-center gap-1"
+                    className="underline text-emerald-400 hover:text-white flex items-center gap-1 font-medium"
                   >
                     <span>View GitHub Commit</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
-                  <span className="text-zinc-600">•</span>
+                  <span className="text-zinc-500">•</span>
                   <a
                     href={GITHUB_CONFIG.VERCEL_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline text-emerald-400 hover:text-white flex items-center gap-1"
+                    className="underline text-emerald-400 hover:text-white flex items-center gap-1 font-medium"
                   >
                     <span>Check Vercel Link</span>
                     <ExternalLink className="w-3 h-3" />
@@ -209,7 +209,7 @@ export default function GitHubSyncManager() {
                 <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold block">Deployment Failed</span>
-                  <span className="text-zinc-300">{deployResult.error}</span>
+                  <span className="text-zinc-200">{deployResult.error}</span>
                 </div>
               </div>
             )}
@@ -225,7 +225,7 @@ export default function GitHubSyncManager() {
               <Key className="w-4 h-4 text-white" />
               <span>GitHub Personal Access Token</span>
             </h4>
-            <p className="text-zinc-400 text-xs font-mono mt-1">
+            <p className="text-zinc-200 text-xs font-mono mt-1 font-medium">
               Your token is stored safely only in your browser's private storage to authenticate commits to your repo
             </p>
           </div>
@@ -234,7 +234,7 @@ export default function GitHubSyncManager() {
             href="https://github.com/settings/tokens/new?scopes=repo&description=AM+Studio+Auto+Deploy"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono text-white transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono text-white font-medium transition-colors"
           >
             <span>Create Token on GitHub</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -243,20 +243,20 @@ export default function GitHubSyncManager() {
 
         {/* 3 Step Guide */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">Step 1</span>
-            <p className="text-xs text-zinc-300 font-medium">Click "Create Token on GitHub"</p>
-            <p className="text-[11px] text-zinc-500 font-light">The <code className="text-zinc-400">repo</code> scope is pre-selected for you.</p>
+          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-1">
+            <span className="text-[10px] font-mono text-zinc-300 uppercase font-semibold">Step 1</span>
+            <p className="text-xs text-zinc-100 font-semibold">Click "Create Token on GitHub"</p>
+            <p className="text-[11px] text-zinc-300 font-normal">The <code className="text-zinc-200 font-semibold">repo</code> scope is pre-selected for you.</p>
           </div>
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">Step 2</span>
-            <p className="text-xs text-zinc-300 font-medium">Click "Generate token" &amp; Copy</p>
-            <p className="text-[11px] text-zinc-500 font-light">Copy the token that starts with <code className="text-zinc-400">ghp_...</code></p>
+          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-1">
+            <span className="text-[10px] font-mono text-zinc-300 uppercase font-semibold">Step 2</span>
+            <p className="text-xs text-zinc-100 font-semibold">Click "Generate token" &amp; Copy</p>
+            <p className="text-[11px] text-zinc-300 font-normal">Copy the token that starts with <code className="text-zinc-200 font-semibold">ghp_...</code></p>
           </div>
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">Step 3</span>
-            <p className="text-xs text-zinc-300 font-medium">Paste &amp; Save Below</p>
-            <p className="text-[11px] text-zinc-500 font-light">You're ready to deploy live with 1 click anytime!</p>
+          <div className="p-4 rounded-xl bg-white/[0.04] border border-white/10 space-y-1">
+            <span className="text-[10px] font-mono text-zinc-300 uppercase font-semibold">Step 3</span>
+            <p className="text-xs text-zinc-100 font-semibold">Paste &amp; Save Below</p>
+            <p className="text-[11px] text-zinc-300 font-normal">You're ready to deploy live with 1 click anytime!</p>
           </div>
         </div>
 
@@ -273,7 +273,7 @@ export default function GitHubSyncManager() {
             <button
               type="button"
               onClick={() => setShowToken(!showToken)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white transition-colors"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-300 hover:text-white transition-colors"
             >
               {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
@@ -301,8 +301,8 @@ export default function GitHubSyncManager() {
               )}
             </div>
 
-            <span className="text-[11px] font-mono text-zinc-500">
-              Repository: <strong className="text-zinc-300">MALLIK122/AMStudio</strong> (branch: <strong className="text-zinc-300">main</strong>)
+            <span className="text-[11px] font-mono text-zinc-300 font-medium">
+              Repository: <strong className="text-white font-semibold">MALLIK122/AMStudio</strong> (branch: <strong className="text-white font-semibold">main</strong>)
             </span>
           </div>
 

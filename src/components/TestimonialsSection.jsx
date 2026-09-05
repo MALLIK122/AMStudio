@@ -9,14 +9,14 @@ export default function TestimonialsSection() {
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
       <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono tracking-widest text-zinc-300 uppercase">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono tracking-widest text-zinc-200 uppercase font-medium">
           <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
           <span>{t('testimonials', 'tag')}</span>
         </div>
         <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
           {t('testimonials', 'title')}
         </h2>
-        <p className="text-zinc-400 text-xs sm:text-sm md:text-base font-light leading-relaxed">
+        <p className="text-zinc-200 text-xs sm:text-sm md:text-base font-normal leading-relaxed">
           {t('testimonials', 'subtitle')}
         </p>
       </div>
@@ -34,7 +34,7 @@ export default function TestimonialsSection() {
                 ))}
               </div>
 
-              <p className="text-zinc-300 text-xs sm:text-sm font-light leading-relaxed mb-6 italic font-serif">
+              <p className="text-zinc-100 text-xs sm:text-sm font-normal leading-relaxed mb-6 italic">
                 &ldquo;{rev.quote}&rdquo;
               </p>
             </div>
@@ -44,11 +44,11 @@ export default function TestimonialsSection() {
                 <div className="font-display font-bold text-white text-sm sm:text-base">
                   {rev.couple}
                 </div>
-                <div className="text-[11px] font-mono text-zinc-400">
+                <div className="text-[11px] font-mono text-zinc-300 font-medium">
                   {rev.location}
                 </div>
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-1 rounded bg-white/5 border border-white/10 text-zinc-300">
+              <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-1 rounded bg-white/10 border border-white/15 text-zinc-200 font-medium">
                 {rev.weddingType}
               </span>
             </div>

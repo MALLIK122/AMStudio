@@ -92,14 +92,14 @@ export default function FeaturesSection() {
   return (
     <section id="features" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
       <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono tracking-widest text-zinc-300 uppercase">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono tracking-widest text-zinc-200 uppercase font-medium">
           <Sparkles className="w-3.5 h-3.5 text-white" />
           <span>{t('features', 'tag')}</span>
         </div>
         <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
           {t('features', 'title')}
         </h2>
-        <p className="text-zinc-400 text-xs sm:text-sm md:text-base font-light leading-relaxed">
+        <p className="text-zinc-200 text-xs sm:text-sm md:text-base font-normal leading-relaxed">
           {t('features', 'subtitle')}
         </p>
       </div>
@@ -127,7 +127,7 @@ export default function FeaturesSection() {
                       className={`px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all ${
                         isPlayingAudio 
                           ? 'bg-white text-black font-semibold shadow-lg shadow-white/10' 
-                          : 'bg-white/10 text-zinc-300 hover:bg-white/20'
+                          : 'bg-white/10 text-zinc-200 hover:bg-white/20 font-medium'
                       }`}
                       title="Preview sample wedding instrumental melody"
                     >
@@ -140,13 +140,13 @@ export default function FeaturesSection() {
                 <h3 className="font-display text-base sm:text-lg font-bold text-white mb-2 group-hover:text-zinc-100 transition-colors">
                   {feat.title}
                 </h3>
-                <p className="text-zinc-400 text-xs sm:text-sm font-light leading-relaxed">
+                <p className="text-zinc-200 text-xs sm:text-sm font-normal leading-relaxed">
                   {feat.description}
                 </p>
               </div>
 
               {isAudio && isPlayingAudio && (
-                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-zinc-400">
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-zinc-300 font-medium">
                   <span>Sample Wedding Melody</span>
                   <div className="flex items-center gap-1">
                     <span className="w-1 h-3 bg-white animate-pulse rounded-full" />

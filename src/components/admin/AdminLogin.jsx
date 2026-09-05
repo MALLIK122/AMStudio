@@ -162,7 +162,7 @@ export default function AdminLogin() {
               setCurrentView('public');
             }
           }}
-          className="flex items-center gap-1.5 text-xs font-mono text-zinc-400 hover:text-white transition-colors mb-6"
+          className="flex items-center gap-1.5 text-xs font-mono text-zinc-300 hover:text-white font-medium transition-colors mb-6"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>{isForgotMode ? 'Back to Login' : 'Return to Showcase'}</span>
@@ -173,7 +173,7 @@ export default function AdminLogin() {
           <h2 className="font-display text-2xl font-bold text-white tracking-tight">
             {isForgotMode ? 'PASSWORD RECOVERY' : 'AM STUDIO ADMIN'}
           </h2>
-          <p className="text-zinc-400 text-xs font-mono mt-1">
+          <p className="text-zinc-300 text-xs font-mono mt-1 font-medium">
             {isForgotMode 
               ? 'Authorized Administrator Security Verification' 
               : 'Executive Content Management System'}
@@ -201,7 +201,7 @@ export default function AdminLogin() {
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400">
+                <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold">
                   Master Password
                 </label>
                 <button
@@ -211,7 +211,7 @@ export default function AdminLogin() {
                     setError('');
                     setResetSuccess('');
                   }}
-                  className="text-[11px] font-mono text-zinc-400 hover:text-white transition-colors underline underline-offset-4"
+                  className="text-[11px] font-mono text-zinc-300 hover:text-white font-medium transition-colors underline underline-offset-4"
                 >
                   Forgot Password?
                 </button>
@@ -293,7 +293,7 @@ export default function AdminLogin() {
             ) : (
               <form onSubmit={handleResetSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-1.5">
                     6-Digit Verification Code *
                   </label>
                   <input
@@ -306,13 +306,13 @@ export default function AdminLogin() {
                     className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-widest text-center"
                     autoFocus
                   />
-                  <p className="text-[11px] text-zinc-400 mt-1 font-mono text-center">
+                  <p className="text-[11px] text-zinc-300 mt-1 font-mono text-center font-medium">
                     Enter the 6-digit code received in your registered email
                   </p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-1.5">
                     New Master Password *
                   </label>
                   <div className="relative">
@@ -327,7 +327,7 @@ export default function AdminLogin() {
                     <button
                       type="button"
                       onClick={() => setShowNewPassword(!showNewPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-1"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-300 hover:text-white p-1"
                     >
                       {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -335,7 +335,7 @@ export default function AdminLogin() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-1.5">
                     Confirm New Password *
                   </label>
                   <input
@@ -361,7 +361,7 @@ export default function AdminLogin() {
                     type="button"
                     onClick={sendResetEmail}
                     disabled={resendCooldown > 0 || isSendingCode}
-                    className="text-zinc-400 hover:text-white disabled:opacity-40 transition-colors"
+                    className="text-zinc-300 hover:text-white font-medium disabled:opacity-40 transition-colors"
                   >
                     {resendCooldown > 0 ? `Resend Code in ${resendCooldown}s` : 'Resend Code'}
                   </button>
@@ -369,7 +369,7 @@ export default function AdminLogin() {
                   <button
                     type="button"
                     onClick={resetForgotState}
-                    className="text-zinc-400 hover:text-white transition-colors"
+                    className="text-zinc-300 hover:text-white font-medium transition-colors"
                   >
                     Back to Login
                   </button>

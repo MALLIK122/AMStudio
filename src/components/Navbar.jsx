@@ -81,37 +81,37 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-6 lg:gap-7">
           <button 
             onClick={() => scrollToSection('features')}
-            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+            className="text-sm font-medium tracking-wide text-zinc-200 hover:text-white transition-colors duration-200"
           >
             {t('nav', 'features')}
           </button>
           <button 
             onClick={() => scrollToSection('process')}
-            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+            className="text-sm font-medium tracking-wide text-zinc-200 hover:text-white transition-colors duration-200"
           >
             {t('nav', 'howItWorks')}
           </button>
           <button 
             onClick={() => scrollToSection('projects')}
-            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+            className="text-sm font-medium tracking-wide text-zinc-200 hover:text-white transition-colors duration-200"
           >
             {t('nav', 'invitations')}
           </button>
           <button 
             onClick={() => scrollToSection('pricing')}
-            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+            className="text-sm font-medium tracking-wide text-zinc-200 hover:text-white transition-colors duration-200"
           >
             {t('nav', 'packages')}
           </button>
           <button 
             onClick={() => scrollToSection('faq')}
-            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+            className="text-sm font-medium tracking-wide text-zinc-200 hover:text-white transition-colors duration-200"
           >
             {t('nav', 'faq')}
           </button>
           <button 
             onClick={() => scrollToSection('contact')}
-            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+            className="text-sm font-medium tracking-wide text-zinc-200 hover:text-white transition-colors duration-200"
           >
             {t('nav', 'contact')}
           </button>
@@ -120,11 +120,11 @@ export default function Navbar() {
           <div className="relative" ref={langDropdownRef}>
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 hover:border-white/50 text-xs font-mono tracking-wider text-zinc-300 hover:text-white bg-white/5 hover:bg-white/10 transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/20 hover:border-white/50 text-xs font-mono tracking-wider text-zinc-200 hover:text-white bg-white/5 hover:bg-white/10 transition-all"
               aria-label="Select Language"
             >
-              <Globe className="w-3.5 h-3.5 text-zinc-400" />
-              <span className="font-semibold">{currentLangObj.label}</span>
+              <Globe className="w-3.5 h-3.5 text-zinc-300" />
+              <span className="font-semibold text-white">{currentLangObj.label}</span>
               <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${langOpen ? 'rotate-180' : ''}`} />
             </button>
 
@@ -140,11 +140,11 @@ export default function Navbar() {
                     className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center justify-between transition-all ${
                       language === lang.code
                         ? 'bg-white text-black font-bold'
-                        : 'text-zinc-300 hover:bg-white/10 hover:text-white'
+                        : 'text-zinc-200 hover:bg-white/10 hover:text-white'
                     }`}
                   >
                     <span>{lang.label}</span>
-                    <span className={`text-[10px] font-mono ${language === lang.code ? 'text-zinc-700' : 'text-zinc-500'}`}>
+                    <span className={`text-[10px] font-mono ${language === lang.code ? 'text-zinc-700' : 'text-zinc-400'}`}>
                       {lang.shortLabel}
                     </span>
                   </button>
@@ -159,7 +159,7 @@ export default function Navbar() {
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono tracking-wider border transition-all ${
               currentView === 'admin'
                 ? 'bg-white text-black border-white font-semibold'
-                : 'border-white/20 text-zinc-400 hover:text-white hover:border-white/50'
+                : 'border-white/20 text-zinc-300 hover:text-white hover:border-white/50'
             }`}
             title="Studio Admin Management Panel"
           >
@@ -188,7 +188,7 @@ export default function Navbar() {
                 className={`px-2 py-1 rounded text-[11px] font-mono transition-all ${
                   language === lang.code
                     ? 'bg-white text-black font-bold shadow'
-                    : 'text-zinc-400 hover:text-white'
+                    : 'text-zinc-300 hover:text-white'
                 }`}
               >
                 {lang.shortLabel}
@@ -198,14 +198,14 @@ export default function Navbar() {
 
           <button
             onClick={() => setCurrentView(currentView === 'admin' ? 'public' : 'admin')}
-            className="p-2 rounded-lg border border-white/15 text-zinc-300 hover:text-white"
+            className="p-2 rounded-lg border border-white/20 text-zinc-200 hover:text-white"
             aria-label="Toggle Admin"
           >
             <ShieldCheck className="w-4 h-4" />
           </button>
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-zinc-300 hover:text-white"
+            className="p-2 text-zinc-200 hover:text-white"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -218,8 +218,8 @@ export default function Navbar() {
         <div className="md:hidden border-b border-white/10 bg-black/95 backdrop-blur-xl px-6 py-6 space-y-4 animate-fade-in">
           {/* Mobile Language Selector Pill Bar */}
           <div className="pb-3 border-b border-white/10">
-            <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 mb-2 flex items-center gap-1.5">
-              <Globe className="w-3.5 h-3.5 text-zinc-400" />
+            <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-300 font-semibold mb-2 flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5 text-zinc-300" />
               <span>Select Language / ಭಾಷೆ / భాష</span>
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -230,7 +230,7 @@ export default function Navbar() {
                   className={`py-2 px-3 rounded-xl text-xs font-semibold text-center border transition-all ${
                     language === lang.code
                       ? 'bg-white text-black border-white shadow-lg'
-                      : 'bg-zinc-900 border-white/10 text-zinc-300 hover:border-white/30'
+                      : 'bg-zinc-900 border-white/15 text-zinc-200 hover:border-white/30 hover:text-white'
                   }`}
                 >
                   {lang.label}
@@ -241,37 +241,37 @@ export default function Navbar() {
 
           <button 
             onClick={() => scrollToSection('features')}
-            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+            className="block w-full text-left py-2 text-base font-semibold text-zinc-100 hover:text-white"
           >
             {t('nav', 'features')}
           </button>
           <button 
             onClick={() => scrollToSection('process')}
-            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+            className="block w-full text-left py-2 text-base font-semibold text-zinc-100 hover:text-white"
           >
             {t('nav', 'howItWorks')}
           </button>
           <button 
             onClick={() => scrollToSection('projects')}
-            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+            className="block w-full text-left py-2 text-base font-semibold text-zinc-100 hover:text-white"
           >
             {t('nav', 'invitations')}
           </button>
           <button 
             onClick={() => scrollToSection('pricing')}
-            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+            className="block w-full text-left py-2 text-base font-semibold text-zinc-100 hover:text-white"
           >
             {t('nav', 'packages')}
           </button>
           <button 
             onClick={() => scrollToSection('faq')}
-            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+            className="block w-full text-left py-2 text-base font-semibold text-zinc-100 hover:text-white"
           >
             {t('nav', 'faq')}
           </button>
           <button 
             onClick={() => scrollToSection('contact')}
-            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+            className="block w-full text-left py-2 text-base font-semibold text-zinc-100 hover:text-white"
           >
             {t('nav', 'contact')}
           </button>
@@ -281,7 +281,7 @@ export default function Navbar() {
                 setMobileMenuOpen(false);
                 setCurrentView(currentView === 'admin' ? 'public' : 'admin');
               }}
-              className="flex items-center gap-2 text-xs font-mono text-zinc-400 hover:text-white"
+              className="flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white"
             >
               <ShieldCheck className="w-4 h-4" />
               <span>{currentView === 'admin' ? (language === 'kn' ? 'ಸೈಟ್ ನೋಡಿ' : language === 'te' ? 'సైట్ చూడండి' : 'View Site') : t('nav', 'admin')}</span>

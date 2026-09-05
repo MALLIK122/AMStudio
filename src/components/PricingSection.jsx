@@ -13,14 +13,14 @@ export default function PricingSection() {
   return (
     <section id="pricing" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
       <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono tracking-widest text-zinc-300 uppercase">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono tracking-widest text-zinc-200 uppercase font-medium">
           <Sparkles className="w-3.5 h-3.5 text-white" />
           <span>{t('pricing', 'tag')}</span>
         </div>
         <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
           {t('pricing', 'title')}
         </h2>
-        <p className="text-zinc-400 text-xs sm:text-sm md:text-base font-light leading-relaxed">
+        <p className="text-zinc-200 text-xs sm:text-sm md:text-base font-normal leading-relaxed">
           {t('pricing', 'subtitle')}
         </p>
       </div>
@@ -55,18 +55,18 @@ export default function PricingSection() {
                     <span className="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                       {pkg.price}
                     </span>
-                    <span className="text-xs font-mono text-zinc-500 uppercase">
+                    <span className="text-xs font-mono text-zinc-300 font-medium uppercase">
                       {pkg.period || 'one-time'}
                     </span>
                   </div>
-                  <p className="text-zinc-400 text-xs sm:text-sm font-light leading-relaxed">
+                  <p className="text-zinc-200 text-xs sm:text-sm font-normal leading-relaxed">
                     {pkg.desc}
                   </p>
                 </div>
 
                 <div className="space-y-3 pt-4 border-t border-white/10 mb-8">
                   {(pkg.features || []).map((feat, fIdx) => (
-                    <div key={fIdx} className="flex items-start gap-3 text-xs sm:text-sm text-zinc-300 font-light">
+                    <div key={fIdx} className="flex items-start gap-3 text-xs sm:text-sm text-zinc-100 font-normal">
                       <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </div>
@@ -104,7 +104,7 @@ export default function PricingSection() {
             <div className="text-xs font-mono uppercase tracking-wider text-white font-bold">
               {language === 'kn' ? '100% ತೃಪ್ತಿಯ ಭರವಸೆ' : language === 'te' ? '100% సంతృప్తి హామీ' : '100% Satisfaction Guarantee'}
             </div>
-            <div className="text-[11px] text-zinc-400 font-light">
+            <div className="text-xs text-zinc-200 font-normal mt-0.5">
               {language === 'kn' 
                 ? 'ನಿಮ್ಮ ಲೈವ್ ಪ್ರಿವ್ಯೂ ಪರಿಪೂರ್ಣವಾಗುವವರೆಗೆ ಮ್ಯೂಸಿಕ್, ಫೋಟೋ ಮತ್ತು ವಿವರಗಳ ಮೇಲೆ ಅನ್‌ಲಿಮಿಟೆಡ್ ಬದಲಾವಣೆಗಳು.'
                 : language === 'te'
@@ -113,8 +113,8 @@ export default function PricingSection() {
             </div>
           </div>
         </div>
-        <div className="text-xs font-mono text-zinc-400 mx-auto sm:mx-0">
-          {language === 'kn' ? 'ವಿಶೇಷ ಅಗತ್ಯತೆಗಳಿವೆಯೇ?' : language === 'te' ? 'ప్రత్యేక అవసరాలు ఉన్నాయా?' : 'Need custom requirements?'}{' '}
+        <div className="text-xs font-mono text-zinc-300 font-medium mx-auto sm:mx-0">
+          {language === 'kn' ? 'ವಿಶೇಷ ಅಗತ್ಯತೆಗಳಿವೆಯೇ?' : language === 'te' ? 'ప్రత్యేక అవసరాలు ఉన్నాయಾ?' : 'Need custom requirements?'}{' '}
           <a href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent("Hi AM Studio! I have custom requirements for our wedding invitation website.")}`} target="_blank" rel="noopener noreferrer" className="text-white underline hover:text-zinc-200 font-semibold">
             {language === 'kn' ? 'ನಮ್ಮೊಂದಿಗೆ ಮಾತನಾಡಿ' : language === 'te' ? 'మాతో మాట్లాడండి' : 'Chat with us'}
           </a>

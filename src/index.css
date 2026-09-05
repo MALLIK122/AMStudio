@@ -6,6 +6,19 @@
   color-scheme: dark;
 }
 
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #f4f4f5;
+}
+
 /* Minimalist Dark Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -27,10 +40,10 @@
 
 /* Glassmorphism & Monochrome Utilities */
 .glass-panel {
-  background: rgba(18, 18, 18, 0.94);
+  background: rgba(16, 16, 18, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .glass-panel-hover {
@@ -38,24 +51,29 @@
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(26, 26, 26, 0.85);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(26, 26, 28, 0.9);
   transform: translateY(-2px);
   box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
 }
 
 .glass-input {
-  background: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(18, 18, 20, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
+  font-weight: 400;
   transition: all 0.2s ease;
+}
+
+.glass-input::placeholder {
+  color: #a1a1aa;
 }
 
 .glass-input:focus {
   outline: none;
   border-color: #ffffff;
   box-shadow: 0 0 0 1px #ffffff;
-  background: rgba(28, 28, 28, 0.95);
+  background: rgba(28, 28, 30, 0.98);
 }
 
 /* 3D Perspective Container */

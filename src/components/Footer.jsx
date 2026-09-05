@@ -17,7 +17,7 @@ export default function Footer() {
         {/* Left: Branding & Copyright */}
         <div className="flex flex-col items-center md:items-start gap-3 text-center md:text-left">
           <AMLogo size="sm" />
-          <p className="text-zinc-500 text-xs font-mono">
+          <p className="text-zinc-300 text-xs font-mono font-medium">
             &copy; {new Date().getFullYear()} AM Studio. {t('footer', 'rights') || 'All rights reserved.'}
           </p>
         </div>
@@ -31,7 +31,7 @@ export default function Footer() {
               setCurrentView(currentView === 'admin' ? 'public' : 'admin');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-white transition-colors px-3 py-1.5 rounded border border-white/5 hover:border-white/20"
+            className="flex items-center gap-1.5 text-xs font-mono text-zinc-300 hover:text-white font-medium transition-colors px-3 py-1.5 rounded border border-white/10 hover:border-white/30"
           >
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>
@@ -43,7 +43,7 @@ export default function Footer() {
 
           <button
             onClick={scrollToTop}
-            className="p-2.5 rounded-xl bg-white/5 hover:bg-white text-zinc-400 hover:text-black transition-all border border-white/10"
+            className="p-2.5 rounded-xl bg-white/5 hover:bg-white text-zinc-200 hover:text-black transition-all border border-white/15"
             title="Return to top"
             aria-label="Back to top"
           >

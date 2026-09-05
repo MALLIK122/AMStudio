@@ -39,13 +39,13 @@ export default function ContactEditor() {
           <h3 className="font-display text-2xl font-bold text-white tracking-tight">
             Studio Information & Contact Channels
           </h3>
-          <p className="text-zinc-400 text-xs font-mono mt-1">
+          <p className="text-zinc-200 text-xs font-mono mt-1 font-medium">
             Update studio metadata, contact details, and commission availability
           </p>
         </div>
 
         {savedNotice && (
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white text-black text-xs font-mono animate-fade-in">
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white text-black text-xs font-mono font-semibold animate-fade-in">
             <CheckCircle2 className="w-4 h-4" />
             <span>Changes Saved to Live Site!</span>
           </div>
@@ -55,14 +55,14 @@ export default function ContactEditor() {
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Basic Brand & Status */}
         <div className="p-6 rounded-2xl glass-panel border border-white/10 space-y-6">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-white" />
             Studio Identity & Availability
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Studio Brand Name
               </label>
               <input
@@ -74,7 +74,7 @@ export default function ContactEditor() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Availability Badge Text
               </label>
               <input
@@ -95,7 +95,7 @@ export default function ContactEditor() {
               onChange={(e) => setFormData({ ...formData, isAvailable: e.target.checked })}
               className="w-4 h-4 rounded border-white/20 text-white focus:ring-0 cursor-pointer accent-white"
             />
-            <label htmlFor="isAvailable" className="text-xs font-mono uppercase tracking-wider text-zinc-300 cursor-pointer">
+            <label htmlFor="isAvailable" className="text-xs font-mono uppercase tracking-wider text-zinc-200 font-medium cursor-pointer">
               Show "Available for Commissions" beacon in header
             </label>
           </div>
@@ -103,14 +103,14 @@ export default function ContactEditor() {
 
         {/* Contact Coordinates */}
         <div className="p-6 rounded-2xl glass-panel border border-white/10 space-y-6">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold flex items-center gap-2">
             <Mail className="w-3.5 h-3.5 text-white" />
             Direct Communication Coordinates
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Studio Official Email *
               </label>
               <input
@@ -123,7 +123,7 @@ export default function ContactEditor() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Direct Telephone
               </label>
               <input
@@ -135,7 +135,7 @@ export default function ContactEditor() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Location
               </label>
               <input
@@ -150,7 +150,7 @@ export default function ContactEditor() {
 
         {/* Studio Bio / Manifesto */}
         <div className="p-6 rounded-2xl glass-panel border border-white/10 space-y-4">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-400">
+          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold">
             Studio Manifesto / Bio Text
           </h4>
           <textarea
@@ -164,14 +164,14 @@ export default function ContactEditor() {
 
         {/* Social Media Channels */}
         <div className="p-6 rounded-2xl glass-panel border border-white/10 space-y-6">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-400 flex items-center gap-2">
+          <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-200 font-bold flex items-center gap-2">
             <Globe className="w-3.5 h-3.5 text-white" />
             Social & Distribution Links
           </h4>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 GitHub URL
               </label>
               <input
@@ -186,7 +186,7 @@ export default function ContactEditor() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Twitter / X URL
               </label>
               <input
@@ -201,7 +201,7 @@ export default function ContactEditor() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 LinkedIn URL
               </label>
               <input
@@ -216,7 +216,7 @@ export default function ContactEditor() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Instagram URL
               </label>
               <input
@@ -231,7 +231,7 @@ export default function ContactEditor() {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Dribbble URL
               </label>
               <input

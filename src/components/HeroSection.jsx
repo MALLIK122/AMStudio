@@ -20,7 +20,7 @@ export default function HeroSection() {
         <div className="lg:col-span-6 space-y-6 sm:space-y-8 z-10 text-center lg:text-left">
 
           {/* Social Proof Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/15 text-[11px] sm:text-xs font-mono tracking-wider text-zinc-300">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[11px] sm:text-xs font-mono tracking-wider text-zinc-100 font-medium">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>{t('hero', 'trustBadge')}</span>
           </div>
@@ -29,7 +29,7 @@ export default function HeroSection() {
             {t('hero', 'heading') || profile.heroHeading || "BEAUTIFULLY CRAFTED WEDDING INVITATION WEBSITES MADE JUST FOR YOU."}
           </h1>
 
-          <p className="text-zinc-400 text-sm sm:text-base md:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+          <p className="text-zinc-200 text-sm sm:text-base md:text-lg max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
             {t('hero', 'subheading')}
           </p>
 
@@ -53,7 +53,7 @@ export default function HeroSection() {
 
             <button
               onClick={() => scrollToSection('contact')}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/15 hover:border-white/40 text-zinc-300 hover:text-white font-semibold text-xs font-mono tracking-wider uppercase bg-black/40 hover:bg-white/5 transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/20 hover:border-white/50 text-zinc-200 hover:text-white font-semibold text-xs font-mono tracking-wider uppercase bg-black/40 hover:bg-white/5 transition-all flex items-center justify-center gap-2"
             >
               <span>{t('hero', 'ctaContact')}</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
@@ -74,7 +74,7 @@ export default function HeroSection() {
       </div>
 
       {/* Bottom Scroll Prompt Bar */}
-      <div className="flex items-center justify-start pt-6 border-t border-white/10 text-xs font-mono text-zinc-500">
+      <div className="flex items-center justify-start pt-6 border-t border-white/10 text-xs font-mono text-zinc-300 font-medium">
         <div className="flex items-center gap-2">
           <span>{t('hero', 'scrollPrompt')}</span>
           <ArrowDown className="w-3.5 h-3.5 animate-bounce" />

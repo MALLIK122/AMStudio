@@ -145,14 +145,14 @@ Website: https://am-studio-umber.vercel.app/`;
         {/* Left Column: Direct Contact Details */}
         <div className="lg:col-span-5 space-y-6 sm:space-y-8">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-400 uppercase mb-2 sm:mb-3">
+            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-zinc-300 font-semibold uppercase mb-2 sm:mb-3">
               <span className="w-2 h-2 rounded-full bg-white" />
               {t('contact', 'tag')}
             </div>
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight break-words">
               {t('contact', 'title')}
             </h2>
-            <p className="text-zinc-400 text-xs sm:text-sm md:text-base mt-3 sm:mt-4 font-light leading-relaxed">
+            <p className="text-zinc-200 text-xs sm:text-sm md:text-base mt-3 sm:mt-4 font-normal leading-relaxed">
               {t('contact', 'subtitle')}
             </p>
           </div>
@@ -170,12 +170,12 @@ Website: https://am-studio-umber.vercel.app/`;
                 <Mail className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-[11px] font-mono uppercase text-zinc-400">
+                <div className="text-xs font-mono uppercase text-zinc-300 font-medium">
                   {language === 'kn' ? 'ಅಧಿಕೃತ ಸ್ಟುಡಿಯೋ ಇಮೇಲ್' : language === 'te' ? 'అధికారిక స్టూడియో ఈమెయిల్' : 'Official Studio Email'}
                 </div>
-                <div className="text-white text-sm font-medium">{profile.email}</div>
+                <div className="text-white text-sm font-semibold">{profile.email}</div>
               </div>
-              <ArrowUpRight className="w-4 h-4 text-zinc-500 ml-auto group-hover:text-white transition-colors" />
+              <ArrowUpRight className="w-4 h-4 text-zinc-400 ml-auto group-hover:text-white transition-colors" />
             </a>
 
             {profile.phone && (
@@ -190,10 +190,10 @@ Website: https://am-studio-umber.vercel.app/`;
                   <Phone className="w-4 h-4" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-[11px] font-mono uppercase text-zinc-400 flex items-center gap-1.5">
+                  <div className="text-xs font-mono uppercase text-zinc-300 font-medium flex items-center gap-1.5">
                     <span>Direct Call &amp; WhatsApp</span>
                   </div>
-                  <div className="text-white text-sm font-medium">{profile.phone}</div>
+                  <div className="text-white text-sm font-semibold">{profile.phone}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <a
@@ -201,7 +201,7 @@ Website: https://am-studio-umber.vercel.app/`;
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="p-2 rounded-lg border border-white/10 hover:bg-emerald-500 hover:border-emerald-500 hover:text-black text-zinc-400 transition-colors"
+                    className="p-2 rounded-lg border border-white/15 hover:bg-emerald-500 hover:border-emerald-500 hover:text-black text-zinc-300 transition-colors"
                     title="Direct WhatsApp"
                   >
                     <WhatsApp className="w-4 h-4" />
@@ -209,7 +209,7 @@ Website: https://am-studio-umber.vercel.app/`;
                   <a
                     href={`tel:+${fullPhoneNumber}`}
                     onClick={(e) => e.stopPropagation()}
-                    className="p-2 rounded-lg border border-white/10 hover:bg-white hover:text-black text-zinc-400 transition-colors"
+                    className="p-2 rounded-lg border border-white/15 hover:bg-white hover:text-black text-zinc-300 transition-colors"
                     title="Direct Phone Call"
                   >
                     <ArrowUpRight className="w-4 h-4" />
@@ -231,18 +231,18 @@ Website: https://am-studio-umber.vercel.app/`;
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div className="flex-1">
-                    <div className="text-[11px] font-mono uppercase text-zinc-400 flex items-center gap-1.5">
+                    <div className="text-xs font-mono uppercase text-zinc-300 font-medium flex items-center gap-1.5">
                       <span>Location</span>
-                      <span className="text-[10px] text-zinc-500 font-mono">({showMap ? 'Hide Map' : 'Click to View Map'})</span>
+                      <span className="text-[10px] text-zinc-400 font-mono">({showMap ? 'Hide Map' : 'Click to View Map'})</span>
                     </div>
-                    <div className="text-white text-sm font-medium">{profile.location}</div>
+                    <div className="text-white text-sm font-semibold">{profile.location}</div>
                   </div>
                   <a
                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(profile.location || 'Davanagere, Karnataka')}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="p-2 rounded-lg border border-white/10 hover:bg-white hover:text-black text-zinc-400 transition-colors"
+                    className="p-2 rounded-lg border border-white/15 hover:bg-white hover:text-black text-zinc-300 transition-colors"
                     title="Open in Google Maps"
                   >
                     <ArrowUpRight className="w-4 h-4" />
@@ -360,7 +360,7 @@ Website: https://am-studio-umber.vercel.app/`;
             <h3 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight mb-2">
               {language === 'kn' ? 'ನಿಮ್ಮ ಆಮಂತ್ರಣದ ವಿವರ ತಿಳಿಸಿ' : language === 'te' ? 'మీ వివాహ వివరాలను పంపండి' : 'START YOUR INVITATION JOURNEY'}
             </h3>
-            <p className="text-zinc-400 text-xs md:text-sm font-light mb-6 sm:mb-8 leading-relaxed">
+            <p className="text-zinc-200 text-xs md:text-sm font-normal mb-6 sm:mb-8 leading-relaxed">
               {language === 'kn'
                 ? 'ನಿಮ್ಮ ಮದುವೆ ಮತ್ತು ನೀವು ಬಯಸುವ ಡಿಜಿಟಲ್ ಆಮಂತ್ರಣದ ಬಗ್ಗೆ ತಿಳಿಸಿ. ನಾವು 24 ಗಂಟೆಗಳಲ್ಲಿ ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸುತ್ತೇವೆ.'
                 : language === 'te'
@@ -380,7 +380,7 @@ Website: https://am-studio-umber.vercel.app/`;
                     <h4 className="font-display text-2xl md:text-3xl font-extrabold text-white tracking-tight">
                       {language === 'kn' ? `ಧನ್ಯವಾದಗಳು, ${submittedData?.name || 'ಸ್ನೇಹಿತರೆ'}!` : language === 'te' ? `ధన్యవాదాలు, ${submittedData?.name || 'మిత్రమా'}!` : `Thank You, ${submittedData?.name || 'Friend'}!`}
                     </h4>
-                    <p className="text-zinc-300 text-xs md:text-sm font-light leading-relaxed">
+                    <p className="text-zinc-200 text-xs md:text-sm font-normal leading-relaxed">
                       {t('contact', 'successMsg')}
                     </p>
                   </div>
@@ -392,81 +392,33 @@ Website: https://am-studio-umber.vercel.app/`;
                 {/* Summary Badges */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-400">
+                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">
                       {language === 'kn' ? 'ಶೈಲಿ' : language === 'te' ? 'శైలి' : 'Preferred Style'}
                     </p>
                     <p className="text-sm font-semibold text-white mt-0.5">{submittedData?.invitationStyle || 'Custom'}</p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-400">
+                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">
                       {language === 'kn' ? 'ದಿನಾಂಕ' : language === 'te' ? 'తేదీ' : 'Wedding Date'}
                     </p>
                     <p className="text-sm font-semibold text-white mt-0.5">{submittedData?.weddingDate || 'To be decided'}</p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-400">Email</p>
+                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">Email</p>
                     <p className="text-sm font-semibold text-white mt-0.5 truncate">{submittedData?.email}</p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-400">Phone</p>
+                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">Phone</p>
                     <p className="text-sm font-semibold text-white mt-0.5 truncate">{submittedData?.phone}</p>
                   </div>
                 </div>
 
-                {submittedData?.message && (
-                  <div className="p-3.5 rounded-xl bg-black/30 border border-white/5 text-xs text-zinc-300 font-light">
-                    <span className="text-[10px] font-mono uppercase text-zinc-400 block mb-1">
-                      {language === 'kn' ? 'ನಿಮ್ಮ ಸಂದೇಶ:' : language === 'te' ? 'మీ సందేశం:' : 'Your Wedding Vision & Notes:'}
-                    </span>
-                    "{submittedData.message}"
-                  </div>
-                )}
-
-                {/* What Happens Next Section */}
-                <div className="space-y-3 pt-2">
-                  <h5 className="text-xs font-mono uppercase tracking-widest text-zinc-400">
-                    {language === 'kn' ? 'ಮುಂದಿನ ಹಂತಗಳು:' : language === 'te' ? 'తదుపరి విధానం:' : 'What Happens Next:'}
-                  </h5>
-                  <div className="space-y-2.5 text-xs md:text-sm text-zinc-300 font-light">
-                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-                      <Clock className="w-4 h-4 text-white flex-shrink-0 mt-0.5" />
-                      <div>
-                        <strong className="text-white font-medium">
-                          {language === 'kn' ? '24 ಗಂಟೆಗಳಲ್ಲಿ ವಿಮರ್ಶೆ: ' : language === 'te' ? '24 గంటల్లో సమీక్ష: ' : 'Review within 24 Hours: '}
-                        </strong>
-                        {language === 'kn' 
-                          ? 'ನಮ್ಮ ಡಿಸೈನ್ ತಂಡ ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಪ್ರಸ್ತಾವನೆಯನ್ನು ಸಿದ್ಧಪಡಿಸುತ್ತದೆ.'
-                          : language === 'te'
-                          ? 'మా డిజైన్ బృందం మీ వివరాలను పరిశీలించి ప్రణాళికను సిద్ధం చేస్తుంది.'
-                          : 'Our design lead is reviewing your dates, story, and preferred style to prepare interactive concept proposals.'}
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-                      <Smartphone className="w-4 h-4 text-white flex-shrink-0 mt-0.5" />
-                      <div>
-                        <strong className="text-white font-medium">
-                          {language === 'kn' ? 'ಮೊಬೈಲ್ ಲೈವ್ ಪ್ರಿವ್ಯೂ: ' : language === 'te' ? 'మొబైల్ లైవ్ ప్రివ్యూ: ' : 'Interactive Live Mobile Preview: '}
-                        </strong>
-                        {language === 'kn'
-                          ? 'ಮ್ಯೂಸಿಕ್, ಫೋಟೋಗಳು, RSVP ಮತ್ತು ಗೂಗಲ್ ಮ್ಯಾಪ್ಸ್ ಹೊಂದಿರುವ ಲೈವ್ ಟೆಸ್ಟಿಂಗ್ ಲಿಂಕ್ ನಿಮಗೆ ತಲುಪುತ್ತದೆ.'
-                          : language === 'te'
-                          ? 'సంగీతం, ఫోటోలు, RSVP మరియు గూగుల్ మ్యాప్స్ ఉన్న లైవ్ టెస్టింగ్ లింక్ మీకు పంపబడుతుంది.'
-                          : 'You’ll receive a private testing link to experience your wedding website on mobile with music, photo albums, RSVP tracking, and Google Maps.'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Direct Action Buttons: WhatsApp auto-typed, Call dialpad, Email auto-compose */}
-                <div className="pt-4 border-t border-white/10 space-y-3">
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
-                    {language === 'kn' ? 'ಸ್ಟುಡಿಯೋ ಜೊತೆ ನೇರ ಸಂಪರ್ಕ:' : language === 'te' ? 'స్టూడియోతో నేరుగా మాట్లాడండి:' : 'Connect Directly with AM Studio:'}
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                    {/* 1. WhatsApp with Auto-Typed message */}
+                <div className="space-y-3 pt-2 border-t border-white/10">
+                  <div className="text-xs font-mono uppercase text-zinc-300 font-medium">Instant One-Touch Connect:</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <a
                       href={`https://wa.me/${fullPhoneNumber}?text=${encodeURIComponent(
-                        `Hi AM Studio! I have submitted a wedding invitation inquiry for ${submittedData?.name || 'our wedding'} (${submittedData?.invitationStyle || 'Custom'} Style, Date: ${submittedData?.weddingDate || 'TBD'}). Please share the preview and details!`
+                        `Hi AM Studio! I have submitted an inquiry for ${submittedData?.name || 'our wedding'} (${submittedData?.invitationStyle || 'Custom'} Style, Date: ${submittedData?.weddingDate || 'TBD'}). Can you share custom design samples?`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -476,7 +428,6 @@ Website: https://am-studio-umber.vercel.app/`;
                       <span>{t('contact', 'directWhatsApp')}</span>
                     </a>
 
-                    {/* 2. Direct Phone Call -> Dialpad on mobile */}
                     <a
                       href={`tel:+${fullPhoneNumber}`}
                       className="flex items-center justify-center gap-2 py-3 px-3.5 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-xs tracking-wider uppercase hover:bg-white/20 transition-all shadow-md text-center"
@@ -485,7 +436,6 @@ Website: https://am-studio-umber.vercel.app/`;
                       <span>{t('contact', 'directCall')}</span>
                     </a>
 
-                    {/* 3. Direct Email Compose -> Auto-compose */}
                     <a
                       href={`mailto:${profile.email || 'amstudio.support.in@gmail.com'}?subject=${encodeURIComponent(`Wedding Invitation Inquiry Follow-up - ${submittedData?.name || ''}`)}&body=${encodeURIComponent(`Hello AM Studio Team,\n\nI have submitted an inquiry for ${submittedData?.name || 'our wedding'} (${submittedData?.invitationStyle || 'Custom'} Style).\n\nLooking forward to hearing from you!`)}`}
                       className="flex items-center justify-center gap-2 py-3 px-3.5 rounded-xl bg-white/10 border border-white/20 text-white font-semibold text-xs tracking-wider uppercase hover:bg-white/20 transition-all shadow-md text-center"
@@ -498,7 +448,7 @@ Website: https://am-studio-umber.vercel.app/`;
                   <div className="pt-2 text-center">
                     <button
                       onClick={handleResetForm}
-                      className="text-xs font-mono uppercase text-zinc-400 hover:text-white transition-colors underline underline-offset-4"
+                      className="text-xs font-mono uppercase text-zinc-300 hover:text-white font-medium transition-colors underline underline-offset-4"
                     >
                       {language === 'kn' ? 'ಮತ್ತೊಂದು ಮನವಿ ಕಳುಹಿಸಿ' : language === 'te' ? 'మరొక వినతి పంపండి' : 'Send Another Request'}
                     </button>
@@ -509,7 +459,7 @@ Website: https://am-studio-umber.vercel.app/`;
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                       {t('contact', 'nameLabel')} *
                     </label>
                     <input
@@ -523,7 +473,7 @@ Website: https://am-studio-umber.vercel.app/`;
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                       {t('contact', 'emailLabel')} *
                     </label>
                     <input
@@ -537,7 +487,7 @@ Website: https://am-studio-umber.vercel.app/`;
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                       {t('contact', 'phoneLabel')} *
                     </label>
                     <input
@@ -553,7 +503,7 @@ Website: https://am-studio-umber.vercel.app/`;
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                       {language === 'kn' ? 'ಆಮಂತ್ರಣ ಶೈಲಿ' : language === 'te' ? 'ఆహ్వాన శైలి' : 'INVITATION STYLE'}
                     </label>
                     <select
@@ -571,7 +521,7 @@ Website: https://am-studio-umber.vercel.app/`;
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                       {t('contact', 'dateLabel')}
                     </label>
                     <input
@@ -585,7 +535,7 @@ Website: https://am-studio-umber.vercel.app/`;
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                     {t('contact', 'messageLabel')} *
                   </label>
                   <textarea

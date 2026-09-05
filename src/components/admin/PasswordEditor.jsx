@@ -47,7 +47,7 @@ export default function PasswordEditor() {
         <h3 className="font-display text-2xl font-bold text-white tracking-tight">
           Administrative Security & Credentials
         </h3>
-        <p className="text-zinc-400 text-xs font-mono mt-1">
+        <p className="text-zinc-200 text-xs font-mono mt-1 font-medium">
           Modify the master access key used to authenticate into AM Studio CMS
         </p>
       </div>
@@ -71,7 +71,7 @@ export default function PasswordEditor() {
 
       <form onSubmit={handlePasswordChange} className="p-6 md:p-8 rounded-2xl glass-panel border border-white/10 space-y-6">
         <div>
-          <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+          <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
             Current Password *
           </label>
           <div className="relative">
@@ -88,7 +88,7 @@ export default function PasswordEditor() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
               New Password *
             </label>
             <input
@@ -102,7 +102,7 @@ export default function PasswordEditor() {
           </div>
 
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
               Confirm New Password *
             </label>
             <input
@@ -120,9 +120,9 @@ export default function PasswordEditor() {
           <button
             type="button"
             onClick={() => setShowPasswords(!showPasswords)}
-            className="flex items-center gap-2 text-xs font-mono text-zinc-400 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-xs font-mono text-zinc-200 hover:text-white font-medium transition-colors"
           >
-            {showPasswords ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5 text-zinc-400" />}
+            {showPasswords ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5 text-zinc-300" />}
             <span>{showPasswords ? 'Hide Password Characters' : 'Reveal Passwords'}</span>
           </button>
 
@@ -136,8 +136,8 @@ export default function PasswordEditor() {
         </div>
       </form>
 
-      <div className="p-4 rounded-xl border border-white/10 bg-white/[0.02] flex items-start gap-3 text-zinc-400 text-xs font-mono">
-        <ShieldAlert className="w-4 h-4 text-zinc-300 flex-shrink-0 mt-0.5" />
+      <div className="p-4 rounded-xl border border-white/10 bg-white/[0.04] flex items-start gap-3 text-zinc-200 text-xs font-mono font-medium">
+        <ShieldAlert className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
         <p>
           Your password is encrypted and saved directly in your browser's persistent storage.
           Make sure to store your new password in your password manager.

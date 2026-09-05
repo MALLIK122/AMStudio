@@ -56,7 +56,7 @@ export default function ProjectModal() {
                 <span className="px-2.5 sm:px-3 py-1 rounded text-[11px] sm:text-xs font-mono uppercase tracking-wider bg-white/15 backdrop-blur-md text-white border border-white/20">
                   {selectedProject.category}
                 </span>
-                <span className="text-[11px] sm:text-xs font-mono text-zinc-400">
+                <span className="text-[11px] sm:text-xs font-mono text-zinc-200 font-medium">
                   {selectedProject.year}
                 </span>
               </div>
@@ -111,10 +111,10 @@ export default function ProjectModal() {
 
           {/* Description Breakdown */}
           <div className="space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-500">
+            <h4 className="text-xs font-mono uppercase tracking-widest text-zinc-300 font-medium">
               {t('projectModal', 'overview') || 'Project Overview'}
             </h4>
-            <p className="text-base text-zinc-200 leading-relaxed font-normal">
+            <p className="text-base text-zinc-100 leading-relaxed font-normal">
               {selectedProject.longDescription || selectedProject.description}
             </p>
           </div>

@@ -80,7 +80,7 @@ export default function ProjectCard({ project }) {
         </div>
 
         <div className="absolute top-4 right-4">
-          <span className="px-2.5 py-1 text-[11px] font-mono text-zinc-400 bg-black/80 backdrop-blur-md border border-white/10 rounded-md">
+          <span className="px-2.5 py-1 text-[11px] font-mono text-zinc-200 font-medium bg-black/80 backdrop-blur-md border border-white/20 rounded-md">
             {project.year || "2026"}
           </span>
         </div>
@@ -103,7 +103,7 @@ export default function ProjectCard({ project }) {
             <span>{t('projects', 'viewLive') || 'Live to see the project'}</span>
           </a>
         ) : (
-          <span className="text-xs text-zinc-500 font-mono italic">
+          <span className="text-xs text-zinc-400 font-mono italic">
             {language === 'kn' ? 'ಪ್ರೈವೇಟ್ ಪ್ರಿವ್ಯೂನಲ್ಲಿದೆ' : language === 'te' ? 'ప్రైవేట్ ప్రివ్యూలో ఉంది' : 'Demo in private preview'}
           </span>
         )}
@@ -123,7 +123,7 @@ export default function ProjectCard({ project }) {
         <button
           onClick={() => setSelectedProject(project)}
           title="Project Case Study & Breakdown"
-          className="p-2 rounded-lg border border-white/15 bg-black/60 hover:bg-white/10 text-zinc-300 hover:text-white transition-colors"
+          className="p-2 rounded-lg border border-white/15 bg-black/60 hover:bg-white/10 text-zinc-200 hover:text-white transition-colors"
         >
           <Eye className="w-4 h-4" />
         </button>
@@ -137,16 +137,16 @@ export default function ProjectCard({ project }) {
             className="font-display text-xl font-bold text-white tracking-tight cursor-pointer hover:underline decoration-white/30 transition-all flex items-center justify-between gap-2"
           >
             <span>{project.title}</span>
-            <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
+            <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-1 transition-all" />
           </h3>
 
           {project.subtitle && (
-            <p className="text-xs font-mono text-zinc-400 mt-1 uppercase tracking-wider">
+            <p className="text-xs font-mono text-zinc-300 mt-1 uppercase tracking-wider font-medium">
               {project.subtitle}
             </p>
           )}
 
-          <p className="text-zinc-300 text-sm mt-3.5 line-clamp-3 leading-relaxed font-light">
+          <p className="text-zinc-200 text-sm mt-3.5 line-clamp-3 leading-relaxed font-normal">
             {project.description}
           </p>
         </div>

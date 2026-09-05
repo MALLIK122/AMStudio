@@ -105,13 +105,13 @@ export default function ProjectForm({ project, onSave, onCancel }) {
             <h3 className="font-display text-2xl font-bold text-white tracking-tight">
               {project ? 'Edit Project' : 'Add New Showcase Project'}
             </h3>
-            <p className="text-zinc-400 text-xs font-mono mt-0.5">
+            <p className="text-zinc-300 text-xs font-mono mt-0.5 font-medium">
               Enter wedding invitation details, live link, and visual cover
             </p>
           </div>
           <button
             onClick={onCancel}
-            className="p-2 rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
+            className="p-2 rounded-full hover:bg-white/10 text-zinc-300 hover:text-white transition-colors"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -121,7 +121,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Project Title *
               </label>
               <input
@@ -135,7 +135,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Subtitle / Pitch
               </label>
               <input
@@ -150,7 +150,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Invitation Category / Style
               </label>
               <select
@@ -168,7 +168,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                 Year
               </label>
               <input
@@ -183,7 +183,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
           {/* Image URL & File Upload */}
           <div className="space-y-2.5">
-            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400">
+            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold">
               Project Preview Visual
             </label>
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
@@ -197,7 +197,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
                 />
               </div>
               <div className="md:col-span-4">
-                <label className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 cursor-pointer text-xs font-mono text-zinc-300 hover:text-white transition-colors">
+                <label className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 cursor-pointer text-xs font-mono text-zinc-200 hover:text-white font-medium transition-colors">
                   <Upload className="w-4 h-4" />
                   <span>Upload Local File</span>
                   <input
@@ -223,7 +223,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
           {/* Live URL */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
               Live to see the project URL *
             </label>
             <input
@@ -238,7 +238,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">
+            <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
               Project Description *
             </label>
             <textarea
@@ -260,7 +260,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
               onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
               className="w-4 h-4 rounded border-white/20 text-white focus:ring-0 cursor-pointer accent-white"
             />
-            <label htmlFor="featured" className="text-xs font-mono uppercase tracking-wider text-zinc-300 cursor-pointer flex items-center gap-2">
+            <label htmlFor="featured" className="text-xs font-mono uppercase tracking-wider text-zinc-200 cursor-pointer font-medium flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-white" />
               <span>Mark as Featured Project</span>
             </label>
@@ -287,7 +287,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
             <button
               type="button"
               onClick={onCancel}
-              className="px-5 py-2.5 rounded-xl border border-white/15 text-zinc-300 hover:text-white text-xs font-mono uppercase transition-colors"
+              className="px-5 py-2.5 rounded-xl border border-white/20 text-zinc-200 hover:text-white text-xs font-mono uppercase font-medium transition-colors"
             >
               Cancel
             </button>

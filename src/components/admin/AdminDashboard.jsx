@@ -141,7 +141,7 @@ export default function AdminDashboard() {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
               activeTab === 'projects'
                 ? 'bg-white text-black border-white font-semibold'
-                : 'bg-zinc-950 border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                : 'bg-zinc-950 border-white/15 text-zinc-200 hover:text-white hover:border-white/40 font-medium'
             }`}
           >
             <FolderGit2 className="w-4 h-4" />
@@ -153,7 +153,7 @@ export default function AdminDashboard() {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
               activeTab === 'contact'
                 ? 'bg-white text-black border-white font-semibold'
-                : 'bg-zinc-950 border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                : 'bg-zinc-950 border-white/15 text-zinc-200 hover:text-white hover:border-white/40 font-medium'
             }`}
           >
             <UserCog className="w-4 h-4" />
@@ -165,7 +165,7 @@ export default function AdminDashboard() {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
               activeTab === 'inquiries'
                 ? 'bg-white text-black border-white font-semibold'
-                : 'bg-zinc-950 border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                : 'bg-zinc-950 border-white/15 text-zinc-200 hover:text-white hover:border-white/40 font-medium'
             }`}
           >
             <MessageSquare className="w-4 h-4" />
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
               activeTab === 'deployment'
                 ? 'bg-white text-black border-white font-semibold'
-                : 'bg-zinc-950 border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                : 'bg-zinc-950 border-white/15 text-zinc-200 hover:text-white hover:border-white/40 font-medium'
             }`}
           >
             <UploadCloud className="w-4 h-4" />
@@ -201,7 +201,7 @@ export default function AdminDashboard() {
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all border ${
               activeTab === 'security'
                 ? 'bg-white text-black border-white font-semibold'
-                : 'bg-zinc-950 border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                : 'bg-zinc-950 border-white/15 text-zinc-200 hover:text-white hover:border-white/40 font-medium'
             }`}
           >
             <Lock className="w-4 h-4" />
@@ -218,7 +218,7 @@ export default function AdminDashboard() {
                 <h3 className="font-display text-2xl font-bold text-white tracking-tight">
                   Portfolio Works ({projects.length})
                 </h3>
-                <p className="text-zinc-400 text-xs font-mono mt-0.5">
+                <p className="text-zinc-300 text-xs font-mono mt-0.5 font-medium">
                   Manage showcased projects displayed on the homepage across all devices
                 </p>
               </div>
@@ -267,10 +267,10 @@ export default function AdminDashboard() {
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-zinc-400 font-mono mt-0.5">
+                      <p className="text-xs text-zinc-300 font-mono mt-0.5 font-medium">
                         {project.category} • {project.year}
                       </p>
-                      <p className="text-xs text-zinc-400 line-clamp-1 mt-1 max-w-xl">
+                      <p className="text-xs text-zinc-200 line-clamp-1 mt-1 max-w-xl font-normal">
                         {project.description}
                       </p>
                     </div>

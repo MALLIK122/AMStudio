@@ -23,8 +23,10 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['"Inter"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['"Space Grotesk"', '"Inter"', 'sans-serif'],
+        sans: ['"Inter"', '"Noto Sans Kannada"', '"Noto Sans Telugu"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['"Space Grotesk"', '"Noto Sans Kannada"', '"Noto Sans Telugu"', '"Inter"', 'sans-serif'],
+        kannada: ['"Noto Sans Kannada"', 'sans-serif'],
+        telugu: ['"Noto Sans Telugu"', 'sans-serif'],
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',

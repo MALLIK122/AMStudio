@@ -13,16 +13,16 @@ export default function InquiriesManager() {
           <h3 className="font-display text-2xl font-bold text-white tracking-tight">
             Client Inquiries & Dispatches
           </h3>
-          <p className="text-zinc-400 text-xs font-mono mt-1">
+          <p className="text-zinc-200 text-xs font-mono mt-1 font-medium">
             Review wedding briefs, reply directly via WhatsApp or Gmail, and connect with couples
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] text-xs font-mono text-zinc-300">
+          <span className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] text-xs font-mono text-zinc-100 font-semibold">
             Total: {inquiries.length}
           </span>
-          <span className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] text-xs font-mono text-zinc-300">
+          <span className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.03] text-xs font-mono text-zinc-100 font-semibold">
             Unread: {inquiries.filter(i => !i.read).length}
           </span>
         </div>
@@ -30,9 +30,9 @@ export default function InquiriesManager() {
 
       {inquiries.length === 0 ? (
         <div className="p-16 text-center rounded-2xl glass-panel border border-white/10">
-          <MessageSquare className="w-8 h-8 text-zinc-600 mx-auto mb-3" />
-          <p className="font-mono text-zinc-400 text-sm">No inquiries received yet.</p>
-          <p className="text-xs text-zinc-500 font-mono mt-1">
+          <MessageSquare className="w-8 h-8 text-zinc-400 mx-auto mb-3" />
+          <p className="font-mono text-zinc-200 text-sm font-medium">No inquiries received yet.</p>
+          <p className="text-xs text-zinc-300 font-mono mt-1">
             Client submissions via the contact form will automatically populate here.
           </p>
         </div>
@@ -80,10 +80,10 @@ export default function InquiriesManager() {
                       {inq.email && (
                         <a
                           href={`mailto:${inq.email}`}
-                          className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors"
+                          className="text-xs font-mono text-zinc-200 hover:text-white flex items-center gap-1.5 transition-colors font-medium"
                           title="Click to email"
                         >
-                          <Mail className="w-3.5 h-3.5 text-zinc-400" />
+                          <Mail className="w-3.5 h-3.5 text-zinc-300" />
                           <span>{inq.email}</span>
                         </a>
                       )}
@@ -93,15 +93,15 @@ export default function InquiriesManager() {
                           href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(whatsappMessage)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors"
+                          className="text-xs font-mono text-zinc-200 hover:text-white flex items-center gap-1.5 transition-colors font-medium"
                           title="Open WhatsApp chat with client"
                         >
-                          <WhatsApp className="w-3.5 h-3.5 fill-current text-zinc-400" />
+                          <WhatsApp className="w-3.5 h-3.5 fill-current text-emerald-400" />
                           <span>{inq.phone}</span>
                         </a>
                       ) : (
-                        <span className="text-xs font-mono text-zinc-500 flex items-center gap-1">
-                          <Phone className="w-3.5 h-3.5 text-zinc-600" />
+                        <span className="text-xs font-mono text-zinc-300 flex items-center gap-1 font-medium">
+                          <Phone className="w-3.5 h-3.5 text-zinc-400" />
                           <span>No phone provided</span>
                         </span>
                       )}
@@ -109,24 +109,24 @@ export default function InquiriesManager() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-1 rounded bg-white/[0.04] border border-white/10 text-[11px] font-mono text-zinc-300">
+                    <span className="px-2.5 py-1 rounded bg-white/[0.06] border border-white/10 text-[11px] font-mono text-zinc-200 font-medium">
                       {inq.projectType}
                     </span>
                     {inq.budget && (
-                      <span className="px-2.5 py-1 rounded bg-white/[0.04] border border-white/10 text-[11px] font-mono text-zinc-300 flex items-center gap-1">
-                        <Calendar className="w-3 h-3 text-zinc-400" />
+                      <span className="px-2.5 py-1 rounded bg-white/[0.06] border border-white/10 text-[11px] font-mono text-zinc-200 font-medium flex items-center gap-1">
+                        <Calendar className="w-3 h-3 text-zinc-300" />
                         {inq.budget}
                       </span>
                     )}
-                    <span className="text-[11px] font-mono text-zinc-500 ml-1">
+                    <span className="text-[11px] font-mono text-zinc-300 ml-1 font-medium">
                       {formattedDate}
                     </span>
                   </div>
                 </div>
 
                 <div className="py-4">
-                  <div className="text-[11px] font-mono uppercase text-zinc-500 mb-1">Client Message:</div>
-                  <p className="text-zinc-200 text-sm leading-relaxed whitespace-pre-wrap font-light bg-black/20 p-3.5 rounded-xl border border-white/5">
+                  <div className="text-[11px] font-mono uppercase text-zinc-300 font-semibold tracking-wider mb-1">Client Message:</div>
+                  <p className="text-zinc-100 text-sm leading-relaxed whitespace-pre-wrap font-normal bg-black/40 p-3.5 rounded-xl border border-white/10">
                     {inq.message}
                   </p>
                 </div>
@@ -153,7 +153,7 @@ export default function InquiriesManager() {
                         href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(inq.email)}&su=${encodeURIComponent(gmailSubject)}&body=${encodeURIComponent(gmailBody)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/20 hover:bg-white/10 text-zinc-300 hover:text-white text-xs font-semibold font-mono uppercase transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/20 hover:bg-white/10 text-zinc-200 hover:text-white text-xs font-semibold font-mono uppercase transition-colors"
                         title="Compose reply in Gmail"
                       >
                         <Mail className="w-3.5 h-3.5" />
@@ -164,7 +164,7 @@ export default function InquiriesManager() {
                     {!inq.read && (
                       <button
                         onClick={() => markInquiryAsRead(inq.id)}
-                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/15 hover:bg-white/10 text-zinc-300 hover:text-white text-xs font-mono transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/15 hover:bg-white/10 text-zinc-200 hover:text-white text-xs font-mono font-medium transition-colors"
                       >
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
                         <span>Mark as Read</span>
@@ -178,7 +178,7 @@ export default function InquiriesManager() {
                         deleteInquiry(inq.id);
                       }
                     }}
-                    className="p-2 rounded-lg hover:bg-red-950/40 text-zinc-500 hover:text-red-400 border border-transparent hover:border-red-500/20 transition-colors"
+                    className="p-2 rounded-lg hover:bg-red-950/40 text-zinc-400 hover:text-red-400 border border-transparent hover:border-red-500/20 transition-colors"
                     title="Delete Inquiry"
                   >
                     <Trash2 className="w-4 h-4" />
