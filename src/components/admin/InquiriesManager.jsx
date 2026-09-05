@@ -70,7 +70,7 @@ export default function InquiriesManager() {
                         {inq.name}
                       </h4>
                       {!inq.read && (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-emerald-500 text-black font-bold tracking-wider">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-white text-black font-semibold tracking-wider">
                           New
                         </span>
                       )}
@@ -93,14 +93,11 @@ export default function InquiriesManager() {
                           href={`https://wa.me/${cleanPhone}?text=${encodeURIComponent(whatsappMessage)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 transition-colors group"
+                          className="text-xs font-mono text-zinc-400 hover:text-white flex items-center gap-1.5 transition-colors"
                           title="Open WhatsApp chat with client"
                         >
-                          <WhatsApp className="w-3.5 h-3.5 fill-current" />
-                          <span className="underline decoration-emerald-500/50 underline-offset-2">{inq.phone}</span>
-                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 font-mono border border-emerald-500/20">
-                            WhatsApp
-                          </span>
+                          <WhatsApp className="w-3.5 h-3.5 fill-current text-zinc-400" />
+                          <span>{inq.phone}</span>
                         </a>
                       ) : (
                         <span className="text-xs font-mono text-zinc-500 flex items-center gap-1">
