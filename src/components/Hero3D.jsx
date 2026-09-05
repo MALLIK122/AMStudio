@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import helvetikerBold from 'three/examples/fonts/helvetiker_bold.typeface.json';
 
 export default function Hero3D() {
   const containerRef = useRef(null);
@@ -32,7 +35,7 @@ export default function Hero3D() {
       0.1,
       100
     );
-    const initialZ = (window.innerWidth < 640 || container.clientWidth < 420) ? 10.8 : 8.5;
+    const initialZ = (window.innerWidth < 640 || container.clientWidth < 420) ? 11.2 : 9.0;
     camera.position.set(0, 0, initialZ);
 
     const renderer = new THREE.WebGLRenderer({
@@ -105,9 +108,9 @@ export default function Hero3D() {
     geomA.center();
     geomM.center();
 
-    // Position "A" and "M" with precision architectural spacing
-    geomA.translate(-1.20, 0, 0);
-    geomM.translate(1.10, 0, 0);
+    // Position "A" and "M" elevated slightly so "STUDIO" fits harmoniously below
+    geomA.translate(-1.20, 0.45, 0);
+    geomM.translate(1.10, 0.45, 0);
 
     // Materials: Pure Brilliant White Architectural Finish
     const logoMaterial = new THREE.MeshStandardMaterial({
@@ -123,21 +126,66 @@ export default function Hero3D() {
     logoGroup.add(meshA);
     logoGroup.add(meshM);
 
-    // Subtle edge contours for architectural definition
-    const edgesA = new THREE.EdgesGeometry(geomA, 25);
-    const edgesM = new THREE.EdgesGeometry(geomM, 25);
-
+    // Edge contours for architectural definition
     const edgeMaterial = new THREE.LineBasicMaterial({
       color: 0xffffff,
       transparent: true,
       opacity: 0.95,
     });
 
+    const edgesA = new THREE.EdgesGeometry(geomA, 25);
+    const edgesM = new THREE.EdgesGeometry(geomM, 25);
+
     const lineA = new THREE.LineSegments(edgesA, edgeMaterial);
     const lineM = new THREE.LineSegments(edgesM, edgeMaterial);
 
     logoGroup.add(lineA);
     logoGroup.add(lineM);
+
+    // 4. 3D "STUDIO" Typography under "AM"
+    const fontLoader = new FontLoader();
+    const font = fontLoader.parse(helvetikerBold);
+
+    const studioSettings = {
+      font,
+      size: 0.38,
+      depth: 0.25,
+      curveSegments: 6,
+      bevelEnabled: true,
+      bevelThickness: 0.02,
+      bevelSize: 0.015,
+      bevelSegments: 3
+    };
+
+    const geomStudio = new TextGeometry('S T U D I O', studioSettings);
+    geomStudio.center();
+    geomStudio.translate(0, -1.45, 0);
+
+    const meshStudio = new THREE.Mesh(geomStudio, logoMaterial);
+    logoGroup.add(meshStudio);
+
+    const edgesStudio = new THREE.EdgesGeometry(geomStudio, 25);
+    const lineStudio = new THREE.LineSegments(edgesStudio, edgeMaterial);
+    logoGroup.add(lineStudio);
+
+    // Left & Right sleek architectural accent bars: "— STUDIO —"
+    const dashGeom = new THREE.BoxGeometry(0.50, 0.04, 0.25);
+    const leftDash = new THREE.Mesh(dashGeom, logoMaterial);
+    leftDash.position.set(-1.82, -1.45, 0);
+    logoGroup.add(leftDash);
+
+    const rightDash = new THREE.Mesh(dashGeom, logoMaterial);
+    rightDash.position.set(1.82, -1.45, 0);
+    logoGroup.add(rightDash);
+
+    const edgesDash = new THREE.EdgesGeometry(dashGeom);
+    const leftLineDash = new THREE.LineSegments(edgesDash, edgeMaterial);
+    leftLineDash.position.copy(leftDash.position);
+    logoGroup.add(leftLineDash);
+
+    const rightLineDash = new THREE.LineSegments(edgesDash, edgeMaterial);
+    rightLineDash.position.copy(rightDash.position);
+    logoGroup.add(rightLineDash);
 
 
 
@@ -210,7 +258,7 @@ export default function Hero3D() {
       const width = container.clientWidth;
       const height = container.clientHeight;
       camera.aspect = width / height;
-      camera.position.z = (window.innerWidth < 640 || width < 420) ? 10.8 : 8.5;
+      camera.position.z = (window.innerWidth < 640 || width < 420) ? 11.2 : 9.0;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
@@ -259,6 +307,10 @@ export default function Hero3D() {
       geomM.dispose();
       edgesA.dispose();
       edgesM.dispose();
+      geomStudio.dispose();
+      edgesStudio.dispose();
+      dashGeom.dispose();
+      edgesDash.dispose();
       logoMaterial.dispose();
       edgeMaterial.dispose();
       particleGeom.dispose();
@@ -277,7 +329,7 @@ export default function Hero3D() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center space-y-2">
             <span className="font-display font-black text-6xl text-white tracking-widest">AM</span>
-            <p className="text-xs font-mono uppercase text-zinc-500 tracking-widest">Studio 3D Monogram</p>
+            <p className="text-xs font-mono uppercase text-zinc-400 tracking-[0.3em]">STUDIO</p>
           </div>
         </div>
       )}
