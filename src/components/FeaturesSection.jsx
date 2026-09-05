@@ -104,7 +104,7 @@ export default function FeaturesSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {featureItems.map((feat, index) => {
           const Icon = iconsMap[feat.id] || Sparkles;
           const isAudio = feat.id === 'music';
@@ -124,7 +124,7 @@ export default function FeaturesSection() {
                   {isAudio && (
                     <button
                       onClick={toggleAudio}
-                      className={`px-2.5 py-1 rounded-full text-[10px] font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all ${
+                      className={`px-2.5 py-1 rounded-full text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all ${
                         isPlayingAudio 
                           ? 'bg-white text-black font-semibold shadow-lg shadow-white/10' 
                           : 'bg-white/10 text-zinc-200 hover:bg-white/20 font-medium'
@@ -146,7 +146,7 @@ export default function FeaturesSection() {
               </div>
 
               {isAudio && isPlayingAudio && (
-                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-zinc-300 font-medium">
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-zinc-300 font-medium">
                   <span>Sample Wedding Melody</span>
                   <div className="flex items-center gap-1">
                     <span className="w-1 h-3 bg-white animate-pulse rounded-full" />

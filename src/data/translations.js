@@ -20,7 +20,7 @@ export const TRANSLATIONS = {
     hero: {
       trustBadge: '5-Star Rated • Wedding Websites & All Custom Posters • 24-48h Delivery',
       posterBadge: 'Now Designing: Wedding Cards • Baby Shower • Event & Business Posters',
-      heading: 'BEAUTIFULLY CRAFTED WEDDING INVITATIONS & CUSTOM POSTERS FOR EVERY CELEBRATION.',
+      heading: 'Beautifully Crafted Wedding Invitations & Custom Posters for Every Celebration.',
       subheading: 'Crafting breathtaking digital wedding invitation websites, luxury wedding cards, baby shower posters, party flyers, and business graphics designed for your unforgettable moments.',
       ctaExplore: 'Explore Invitations & Posters',
       ctaPackages: 'View Packages',

@@ -44,11 +44,11 @@ export default function TestimonialsSection() {
                 <div className="font-display font-bold text-white text-sm sm:text-base">
                   {rev.couple}
                 </div>
-                <div className="text-[11px] font-mono text-zinc-300 font-medium">
+                <div className="text-xs font-mono text-zinc-300 font-medium">
                   {rev.location}
                 </div>
               </div>
-              <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-1 rounded bg-white/10 border border-white/15 text-zinc-200 font-medium">
+              <span className="text-xs font-mono uppercase tracking-wider px-2 py-1 rounded-lg bg-white/10 border border-white/15 text-zinc-200 font-medium">
                 {rev.weddingType}
               </span>
             </div>

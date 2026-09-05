@@ -30,18 +30,26 @@ export default function PricingSection() {
 
       {/* Segmented Category Toggle: Websites vs Posters & Cards */}
       <div className="flex justify-center mb-10 sm:mb-12">
-        <div className="p-1.5 rounded-2xl bg-zinc-950 border border-white/20 inline-flex flex-wrap items-center justify-center gap-1.5 shadow-2xl">
+        <div 
+          role="tablist"
+          aria-label="Pricing Category Toggle"
+          className="p-1 rounded-2xl bg-zinc-900/90 border border-white/20 inline-flex flex-wrap items-center justify-center gap-1 shadow-2xl"
+        >
           <button
+            role="tab"
+            id="tab-websites"
+            aria-selected={activeCategory === 'websites'}
+            aria-controls="pricing-plans-grid"
             type="button"
             onClick={() => setActiveCategory('websites')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-300 ${
               activeCategory === 'websites'
-                ? 'bg-white text-black font-bold shadow-lg scale-[1.02]'
-                : 'text-zinc-300 hover:text-white hover:bg-white/5'
+                ? 'bg-white text-black font-bold shadow-lg scale-[1.01]'
+                : 'text-zinc-300 hover:text-white hover:bg-white/5 font-medium'
             }`}
           >
             <span>{t('pricing', 'websiteTab') || 'Wedding Websites'}</span>
-            <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
+            <span className={`text-xs px-2 py-0.5 rounded-lg font-semibold ${
               activeCategory === 'websites' ? 'bg-black/15 text-black' : 'bg-white/10 text-zinc-300'
             }`}>
               ₹1,999 - ₹2,999
@@ -49,16 +57,20 @@ export default function PricingSection() {
           </button>
 
           <button
+            role="tab"
+            id="tab-cards"
+            aria-selected={activeCategory === 'cards'}
+            aria-controls="pricing-plans-grid"
             type="button"
             onClick={() => setActiveCategory('cards')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-300 ${
               activeCategory === 'cards'
-                ? 'bg-white text-black font-bold shadow-lg scale-[1.02]'
-                : 'text-zinc-300 hover:text-white hover:bg-white/5'
+                ? 'bg-white text-black font-bold shadow-lg scale-[1.01]'
+                : 'text-zinc-300 hover:text-white hover:bg-white/5 font-medium'
             }`}
           >
             <span>{t('pricing', 'cardTab') || 'Posters & Digital Cards'}</span>
-            <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
+            <span className={`text-xs px-2 py-0.5 rounded-lg font-semibold ${
               activeCategory === 'cards' ? 'bg-black/15 text-black' : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
             }`}>
               ₹199 - ₹299
@@ -67,7 +79,12 @@ export default function PricingSection() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+      <div 
+        id="pricing-plans-grid" 
+        role="tabpanel" 
+        aria-labelledby={activeCategory === 'cards' ? 'tab-cards' : 'tab-websites'}
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch"
+      >
         {currentPlans.map((pkg, idx) => {
           const isPopular = pkg.popular || pkg.id === 'gold' || pkg.id === 'royal-card';
           const whatsappMsg = activeCategory === 'cards'
@@ -84,7 +101,7 @@ export default function PricingSection() {
               }`}
             >
               {isPopular && (
-                <div className="absolute top-0 right-0 bg-white text-black text-[11px] font-mono font-bold uppercase tracking-wider py-1.5 px-4 rounded-bl-xl shadow-md flex items-center gap-1.5">
+                <div className="absolute top-0 right-0 bg-white text-black text-xs font-mono font-bold uppercase tracking-wider py-1.5 px-4 rounded-bl-xl shadow-md flex items-center gap-1.5">
                   <Sparkles className="w-3 h-3" />
                   <span>{t('pricing', 'popular') || 'Most Popular'}</span>
                 </div>
@@ -100,7 +117,7 @@ export default function PricingSection() {
 
                   {pkg.tier && (
                     <div className="mb-3">
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-zinc-200 border border-white/15 uppercase font-semibold">
+                      <span className="text-xs font-mono px-2 py-0.5 rounded-lg bg-white/10 text-zinc-200 border border-white/15 uppercase font-semibold">
                         {pkg.tier}
                       </span>
                     </div>

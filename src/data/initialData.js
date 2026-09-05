@@ -249,7 +249,7 @@ export const INITIAL_PROJECTS = [
 export const INITIAL_STUDIO_PROFILE = {
   "name": "AM Studio",
   "tagline": "Digital Wedding Websites • Wedding Cards • Baby Shower • All Types of Posters",
-  "heroHeading": "BEAUTIFULLY CRAFTED WEDDING INVITATIONS & CUSTOM POSTERS FOR EVERY CELEBRATION.",
+  "heroHeading": "Beautifully Crafted Wedding Invitations & Custom Posters for Every Celebration.",
   "heroSubheading": "AM Studio crafts breathtaking digital wedding invitation websites, wedding cards, baby shower invitations, party posters, and business flyers.",
   "availabilityStatus": "Available for Websites & Posters",
   "email": "amstudio.support.in@gmail.com",

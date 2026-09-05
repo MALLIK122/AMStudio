@@ -43,7 +43,7 @@ export default function AboutSection() {
                 <div className="font-display text-2xl md:text-3xl font-extrabold text-white">
                   {stat.value}
                 </div>
-                <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-400 mt-1">
+                <div className="text-xs font-mono uppercase tracking-wider text-zinc-400 mt-1">
                   {stat.label}
                 </div>
               </div>
@@ -85,7 +85,7 @@ export default function AboutSection() {
                   </p>
                 </div>
                 
-                <div className="mt-8 pt-4 border-t border-white/10 flex items-center gap-2 text-[11px] font-mono text-zinc-400">
+                <div className="mt-8 pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-zinc-400">
                   <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                   <span>Production Ready</span>
                 </div>

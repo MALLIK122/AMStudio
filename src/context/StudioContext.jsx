@@ -87,7 +87,7 @@ export const StudioProvider = ({ children }) => {
         };
         return {
           ...parsed,
-          heroHeading: "BEAUTIFULLY CRAFTED WEDDING INVITATION WEBSITES MADE JUST FOR YOU.",
+          heroHeading: "Beautifully Crafted Wedding Invitations & Custom Posters for Every Celebration.",
           heroSubheading: "AM Studio is an independent creative engineering laboratory.",
           email: "amstudio.support.in@gmail.com",
           phone: "+91 97316 96952",

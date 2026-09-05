@@ -134,7 +134,7 @@ export default function AMLogo({
             <span className="font-light text-zinc-300">STUDIO</span>
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
           </div>
-          <p className="text-[9px] font-mono uppercase tracking-widest text-zinc-400 -mt-0.5">
+          <p className="text-xs font-mono uppercase tracking-wider text-zinc-400 -mt-0.5">
             Design &amp; Engineering
           </p>
         </div>

@@ -363,7 +363,7 @@ export default function ContactSection() {
         <div className="lg:col-span-7">
           <div className="p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl glass-panel border border-white/10 relative">
             <h3 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight mb-2">
-              {language === 'kn' ? 'ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್ ಅಥವಾ ಪೋಸ್ಟರ್ ಬುಕ್ ಮಾಡಿ' : language === 'te' ? 'వెడ్డింగ్ వెబ్‌సైట్ లేదా పోస్టర్ ఆర్డర్ చేయండి' : 'ORDER YOUR WEDDING WEBSITE OR CUSTOM POSTER'}
+              {language === 'kn' ? 'ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್ ಅಥವಾ ಪೋಸ್ಟರ್ ಬುಕ್ ಮಾಡಿ' : language === 'te' ? 'వెడ్డింగ్ వెబ్‌సైట్ లేదా పోస్టర్ ఆర్డర్ చేయండి' : 'Order Your Wedding Website or Custom Poster'}
             </h3>
             <p className="text-zinc-200 text-xs md:text-sm font-normal mb-6 sm:mb-8 leading-relaxed">
               {language === 'kn'
@@ -403,13 +403,13 @@ export default function ContactSection() {
                         <Mail className="w-3.5 h-3.5 text-white" />
                         <span>{language === 'kn' ? 'ಅಧಿಕೃತ ಇಮೇಲ್ ಇನ್‌ಬಾಕ್ಸ್' : language === 'te' ? 'ఈమెయిల్ ఇన్‌బాక్స్' : 'Studio Email Inbox'}</span>
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      <span className="px-2 py-0.5 rounded-lg text-xs font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         {emailStatus === 'sent' 
                           ? (language === 'kn' ? 'ತಲುಪಿದೆ' : language === 'te' ? 'చేరింది' : 'Delivered')
                           : (language === 'kn' ? 'ರವಾನಿಸಲಾಗಿದೆ' : language === 'te' ? 'పంపాము' : 'Dispatched')}
                       </span>
                     </div>
-                    <p className="text-[11px] text-zinc-300 font-mono">
+                    <p className="text-xs text-zinc-300 font-mono">
                       {profile.email || 'amstudio.support.in@gmail.com'}
                     </p>
                     <p className="text-xs text-zinc-200 leading-relaxed">
@@ -428,11 +428,11 @@ export default function ContactSection() {
                         <WhatsApp className="w-3.5 h-3.5 fill-current text-emerald-400" />
                         <span>{language === 'kn' ? 'ವಾಟ್ಸಾಪ್ ಅಲರ್ಟ್' : language === 'te' ? 'వాట్సాప్ ಅಲರ್ಟ್' : 'WhatsApp Alert'}</span>
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      <span className="px-2 py-0.5 rounded-lg text-xs font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                         +91 97316 96952
                       </span>
                     </div>
-                    <p className="text-[11px] text-emerald-200 font-mono">
+                    <p className="text-xs text-emerald-200 font-mono">
                       Live Studio WhatsApp Desk
                     </p>
                     <p className="text-xs text-zinc-200 leading-relaxed">
@@ -465,23 +465,23 @@ export default function ContactSection() {
                 {/* Summary Badges */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">
+                    <p className="text-xs font-mono uppercase text-zinc-300 font-medium">
                       {language === 'kn' ? 'ಶೈಲಿ' : language === 'te' ? 'శైలి' : 'Preferred Style'}
                     </p>
                     <p className="text-sm font-semibold text-white mt-0.5">{submittedData?.invitationStyle || 'Custom'}</p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">
+                    <p className="text-xs font-mono uppercase text-zinc-300 font-medium">
                       {language === 'kn' ? 'ದಿನಾಂಕ' : language === 'te' ? 'తేదీ' : 'Wedding Date'}
                     </p>
                     <p className="text-sm font-semibold text-white mt-0.5">{submittedData?.weddingDate || 'To be decided'}</p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">Email</p>
+                    <p className="text-xs font-mono uppercase text-zinc-300 font-medium">Email</p>
                     <p className="text-sm font-semibold text-white mt-0.5 truncate">{submittedData?.email}</p>
                   </div>
                   <div className="p-3.5 rounded-xl bg-black/40 border border-white/10">
-                    <p className="text-[10px] font-mono uppercase text-zinc-300 font-medium">Phone</p>
+                    <p className="text-xs font-mono uppercase text-zinc-300 font-medium">Phone</p>
                     <p className="text-sm font-semibold text-white mt-0.5 truncate">{submittedData?.phone}</p>
                   </div>
                 </div>
@@ -530,7 +530,7 @@ export default function ContactSection() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                   <div>
                     <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                       {t('contact', 'nameLabel')} *
@@ -547,20 +547,6 @@ export default function ContactSection() {
 
                   <div>
                     <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
-                      {t('contact', 'emailLabel')} *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="e.g. yourname@gmail.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full glass-input px-4 py-3 rounded-xl text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
                       {t('contact', 'phoneLabel')} *
                     </label>
                     <input
@@ -569,6 +555,20 @@ export default function ContactSection() {
                       placeholder="e.g. +91 97316 96952"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full glass-input px-4 py-3 rounded-xl text-sm"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-200 font-semibold mb-2">
+                      {t('contact', 'emailLabel')} *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="e.g. yourname@gmail.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full glass-input px-4 py-3 rounded-xl text-sm"
                     />
                   </div>

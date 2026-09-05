@@ -99,7 +99,7 @@ export default function ProjectModal() {
                     {selectedProject.tags && (
                       <div className="flex flex-wrap gap-1.5 pt-2">
                         {(Array.isArray(selectedProject.tags) ? selectedProject.tags : []).map((tag, idx) => (
-                          <span key={idx} className="px-2.5 py-1 rounded-md bg-white/[0.06] border border-white/10 text-[11px] font-mono text-zinc-200">
+                          <span key={idx} className="px-2.5 py-1 rounded-lg bg-white/[0.06] border border-white/10 text-xs font-mono text-zinc-200">
                             #{tag}
                           </span>
                         ))}

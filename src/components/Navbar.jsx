@@ -156,7 +156,7 @@ export default function Navbar() {
           {/* Admin Control Switch */}
           <button
             onClick={() => setCurrentView(currentView === 'admin' ? 'public' : 'admin')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono tracking-wider border transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono tracking-wider border transition-all ${
               currentView === 'admin'
                 ? 'bg-white text-black border-white font-semibold'
                 : 'border-white/20 text-zinc-300 hover:text-white hover:border-white/50'

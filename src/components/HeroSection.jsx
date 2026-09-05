@@ -32,19 +32,19 @@ export default function HeroSection() {
             )}
           </div>
 
-          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-white leading-[1.08] sm:leading-[1.04] break-words">
-            {t('hero', 'heading') || profile.heroHeading || "BEAUTIFULLY CRAFTED WEDDING INVITATION WEBSITES MADE JUST FOR YOU."}
+          <h1 className="font-display text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.08] sm:leading-[1.04] break-words">
+            {t('hero', 'heading') || profile.heroHeading || "Beautifully Crafted Wedding Invitation Websites Made Just for You."}
           </h1>
 
           <p className="text-zinc-200 text-sm sm:text-base md:text-lg max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
             {t('hero', 'subheading')}
           </p>
 
-          {/* Action CTAs */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2 sm:pt-4">
+          {/* Action CTAs - Unified responsive row */}
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3 pt-2 sm:pt-4">
             <button
               onClick={() => scrollToSection('projects')}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-xs font-mono tracking-wider uppercase hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+              className="px-5 py-3 rounded-xl bg-white text-black font-semibold text-xs font-mono tracking-wide hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-[1.01] active:scale-[0.99]"
             >
               <span>{t('hero', 'ctaExplore')}</span>
               <ArrowDown className="w-3.5 h-3.5" />
@@ -52,7 +52,7 @@ export default function HeroSection() {
 
             <button
               onClick={() => scrollToSection('pricing')}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/25 hover:border-white text-white font-semibold text-xs font-mono tracking-wider uppercase bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+              className="px-5 py-3 rounded-xl border border-white/25 hover:border-white text-white font-semibold text-xs font-mono tracking-wide bg-white/5 hover:bg-white/10 transition-all flex items-center justify-center gap-2"
             >
               <span>{t('hero', 'ctaPackages')}</span>
               <Sparkles className="w-3.5 h-3.5" />
@@ -60,7 +60,7 @@ export default function HeroSection() {
 
             <button
               onClick={() => scrollToSection('contact')}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-white/20 hover:border-white/50 text-zinc-200 hover:text-white font-semibold text-xs font-mono tracking-wider uppercase bg-black/40 hover:bg-white/5 transition-all flex items-center justify-center gap-2"
+              className="px-5 py-3 rounded-xl border border-white/20 hover:border-white/50 text-zinc-300 hover:text-white font-semibold text-xs font-mono tracking-wide bg-black/40 hover:bg-white/5 transition-all flex items-center justify-center gap-2"
             >
               <span>{t('hero', 'ctaContact')}</span>
               <ArrowUpRight className="w-3.5 h-3.5" />

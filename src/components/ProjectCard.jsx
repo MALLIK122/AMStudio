@@ -88,11 +88,11 @@ export default function ProjectCard({ project }) {
 
               {/* Floating Category & Year Badges */}
               <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider bg-black/85 backdrop-blur-md text-white border border-white/20 rounded-md font-medium">
+                <span className="px-2.5 py-1 text-xs font-mono uppercase tracking-wider bg-black/85 backdrop-blur-md text-white border border-white/20 rounded-lg font-medium">
                   {project.category || "Showcase"}
                 </span>
                 {project.featured && (
-                  <span className="px-2.5 py-1 text-[10px] font-mono tracking-wider bg-white text-black font-semibold rounded-md flex items-center gap-1">
+                  <span className="px-2.5 py-1 text-xs font-mono tracking-wider bg-white text-black font-semibold rounded-lg flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     {t('projects', 'featured') || 'Featured'}
                   </span>
@@ -100,7 +100,7 @@ export default function ProjectCard({ project }) {
               </div>
 
               <div className="absolute top-4 right-4">
-                <span className="px-2.5 py-1 text-[10px] font-mono text-zinc-200 font-semibold bg-black/85 backdrop-blur-md border border-white/20 rounded-md">
+                <span className="px-2.5 py-1 text-xs font-mono text-zinc-200 font-semibold bg-black/85 backdrop-blur-md border border-white/20 rounded-lg">
                   {project.year || "2026"}
                 </span>
               </div>
@@ -167,7 +167,7 @@ export default function ProjectCard({ project }) {
           </h3>
 
           {project.subtitle && (
-            <p className="text-xs font-mono text-zinc-300 mt-1 uppercase tracking-wider font-medium">
+            <p className="text-xs font-mono text-zinc-300 mt-1 tracking-normal font-medium">
               {project.subtitle}
             </p>
           )}

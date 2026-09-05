@@ -53,7 +53,7 @@ export default function HowItWorksSection() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-1.5 text-[11px] font-mono text-zinc-300 font-medium">
+              <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-1.5 text-xs font-mono text-zinc-300 font-medium">
                 <span>
                   {language === 'kn' ? `ಹಂತ ${idx + 1} / 4` : language === 'te' ? `దశ ${idx + 1} / 4` : `Step ${idx + 1} of 4`}
                 </span>
