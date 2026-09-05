@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStudio } from '../context/StudioContext';
 import { Check, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 import { WhatsApp } from './Icons';
 
 export default function PricingSection() {
   const { t, language, profile } = useStudio();
+  const [activeCategory, setActiveCategory] = useState('websites'); // 'websites' | 'cards'
   const phone = (profile.phone || '9731696952').replace(/\D/g, '');
   const cleanPhone = phone.length === 10 ? `91${phone}` : phone;
 
-  const plans = t('pricing', 'plans') || [];
+  const websitePlans = t('pricing', 'plans') || [];
+  const cardPlans = t('pricing', 'cardPlans') || [];
+  const currentPlans = activeCategory === 'cards' ? cardPlans : websitePlans;
 
   return (
     <section id="pricing" className="py-16 sm:py-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto relative">
-      <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
+      <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-mono tracking-widest text-zinc-200 uppercase font-medium">
           <Sparkles className="w-3.5 h-3.5 text-white" />
           <span>{t('pricing', 'tag')}</span>
@@ -25,10 +28,51 @@ export default function PricingSection() {
         </p>
       </div>
 
+      {/* Segmented Category Toggle: Websites vs Posters & Cards */}
+      <div className="flex justify-center mb-10 sm:mb-12">
+        <div className="p-1.5 rounded-2xl bg-zinc-950 border border-white/20 inline-flex flex-wrap items-center justify-center gap-1.5 shadow-2xl">
+          <button
+            type="button"
+            onClick={() => setActiveCategory('websites')}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-300 ${
+              activeCategory === 'websites'
+                ? 'bg-white text-black font-bold shadow-lg scale-[1.02]'
+                : 'text-zinc-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>🌐 {t('pricing', 'websiteTab') || 'Wedding Websites'}</span>
+            <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
+              activeCategory === 'websites' ? 'bg-black/15 text-black' : 'bg-white/10 text-zinc-300'
+            }`}>
+              ₹1,999 - ₹2,999
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveCategory('cards')}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono uppercase tracking-wider transition-all duration-300 ${
+              activeCategory === 'cards'
+                ? 'bg-white text-black font-bold shadow-lg scale-[1.02]'
+                : 'text-zinc-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>🎨 {t('pricing', 'cardTab') || 'Posters & Digital Cards'}</span>
+            <span className={`text-[10px] px-2 py-0.5 rounded-md font-semibold ${
+              activeCategory === 'cards' ? 'bg-black/15 text-black' : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
+            }`}>
+              ₹299 - ₹999
+            </span>
+          </button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
-        {plans.map((pkg, idx) => {
-          const isPopular = pkg.popular || pkg.id === 'gold';
-          const whatsappMsg = `Hi AM Studio! I would like to book the ${pkg.name} (${pkg.price}). Please share the next steps!`;
+        {currentPlans.map((pkg, idx) => {
+          const isPopular = pkg.popular || pkg.id === 'gold' || pkg.id === 'royal-card';
+          const whatsappMsg = activeCategory === 'cards'
+            ? `Hi AM Studio! I would like to book the "${pkg.name}" (${pkg.price}) for invitation card / poster design. Please share details and turnaround time!`
+            : `Hi AM Studio! I would like to book the ${pkg.name} (${pkg.price}) for our wedding invitation website. Please share the next steps!`;
 
           return (
             <div
@@ -48,9 +92,20 @@ export default function PricingSection() {
 
               <div>
                 <div className="mb-6">
-                  <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-2">
-                    {pkg.name}
-                  </h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
+                      {pkg.name}
+                    </h3>
+                  </div>
+
+                  {pkg.tier && (
+                    <div className="mb-3">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-zinc-200 border border-white/15 uppercase font-semibold">
+                        {pkg.tier}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="flex items-baseline gap-2 mb-3">
                     <span className="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                       {pkg.price}
@@ -93,6 +148,29 @@ export default function PricingSection() {
             </div>
           );
         })}
+      </div>
+
+      {/* Switch category helper prompt */}
+      <div className="mt-8 text-center">
+        {activeCategory === 'websites' ? (
+          <button
+            type="button"
+            onClick={() => setActiveCategory('cards')}
+            className="inline-flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
+          >
+            <span>🎨 {language === 'kn' ? 'ಪೋಸ್ಟರ್ & ಡಿಜಿಟಲ್ ಕಾರ್ಡ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹299 ರಿಂದ ₹999)' : language === 'te' ? 'పోస్టర్లు & డిజిటల్ కార్డుల ప్యాకేజీలు చూడండి (₹299 నుండి ₹999)' : 'Looking for Posters & Digital Cards? View packages from ₹299 to ₹999'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setActiveCategory('websites')}
+            className="inline-flex items-center gap-2 text-xs font-mono text-zinc-300 hover:text-white px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
+          >
+            <span>🌐 {language === 'kn' ? 'ವೆಡ್ಡಿಂಗ್ ವೆಬ್‌ಸೈಟ್‌ಗಳ ಬೆಲೆ ಪರಿಶೀಲಿಸಿ (₹1,999 ರಿಂದ ₹2,999)' : language === 'te' ? 'వెడ్డింగ్ వెబ్‌సైట్ల ప్యాకేజీలు చూడండి (₹1,999 నుండి ₹2,999)' : 'Looking for Interactive Wedding Websites? View packages from ₹1,999 to ₹2,999'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        )}
       </div>
 
       <div className="mt-12 p-5 rounded-2xl glass-panel border border-white/10 flex flex-wrap items-center justify-between gap-4 text-center sm:text-left">
