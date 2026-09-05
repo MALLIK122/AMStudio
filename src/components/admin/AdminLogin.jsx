@@ -60,33 +60,26 @@ export default function AdminLogin() {
     setActiveCode(generatedCode);
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/amstudio.support.in@gmail.com', {
+      await fetch('https://formsubmit.co/ajax/amstudio.support.in@gmail.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          _subject: '🔐 AM Studio Admin: One-Time Verification Code',
+          _subject: '🔐 AM Studio Admin: Confidential One-Time Verification Code',
           _template: 'table',
           _captcha: 'false',
           service: 'AM Studio Executive Content Management System',
           recipient: 'amstudio.support.in@gmail.com',
           one_time_verification_code: generatedCode,
-          instructions: 'Enter this 6-digit verification code on the AM Studio admin portal to configure your private master password.',
+          instructions: 'Enter this 6-digit verification code on the AM Studio admin portal to authenticate and set your private master password.',
           requested_at: new Date().toLocaleString(),
         }),
       });
 
-      const data = await response.json().catch(() => ({}));
-
       setCodeSent(true);
-
-      if (data && typeof data.message === 'string' && data.message.toLowerCase().includes('activation')) {
-        setResetSuccess("⚠️ Email Activation Pending: FormSubmit sent an 'Activate Form' email to amstudio.support.in@gmail.com. Click that link once, or simply use Studio Phone (9731696952) below for instant reset!");
-      } else {
-        setResetSuccess('Verification code sent to amstudio.support.in@gmail.com. (Or verify instantly with Studio Phone: 9731696952)');
-      }
+      setResetSuccess('A 6-digit verification code has been dispatched to your authorized email address. Please check your inbox and spam folder.');
       
       // 30s Cooldown
       setResendCooldown(30);
@@ -103,7 +96,7 @@ export default function AdminLogin() {
     } catch (err) {
       console.warn('Verification email dispatch finished', err);
       setCodeSent(true);
-      setResetSuccess('Reset initiated. Enter verification code from email or use your Studio Phone (9731696952) to proceed.');
+      setResetSuccess('Verification request dispatched. Please check your email inbox and spam folder.');
     } finally {
       setIsSendingCode(false);
     }
@@ -113,18 +106,15 @@ export default function AdminLogin() {
     e.preventDefault();
     setError('');
 
-    const inputTrimmed = userCodeInput.trim();
-    if (!inputTrimmed) {
-      setError('Please enter the 6-digit verification code or Studio Phone Key.');
+    const inputTrimmed = userCodeInput.trim().replace(/\D/g, '');
+    if (!inputTrimmed || inputTrimmed.length !== 6) {
+      setError('Please enter the valid 6-digit verification code sent to your email.');
       return;
     }
 
-    const cleanInputDigits = inputTrimmed.replace(/\D/g, '');
-    const isMasterPhoneKey = cleanInputDigits === '9731696952';
-    const isOtpMatch = Boolean(activeCode) && inputTrimmed === activeCode;
-
-    if (!isOtpMatch && !isMasterPhoneKey) {
-      setError('Invalid code. Enter the 6-digit code sent to email or Studio Phone: 9731696952.');
+    // STRICT: Only allow matching the exact 6-digit OTP dispatched to email
+    if (inputTrimmed !== activeCode) {
+      setError('Invalid verification code. Please check your email and try again.');
       return;
     }
 
@@ -140,7 +130,7 @@ export default function AdminLogin() {
 
     const result = resetPasswordDirectly(newPassword);
     if (result.success) {
-      setResetSuccess('Password configured successfully! Logging you in...');
+      setResetSuccess('Master password configured successfully! Authenticating session...');
       setTimeout(() => {
         loginAdmin(newPassword);
       }, 800);
@@ -191,7 +181,7 @@ export default function AdminLogin() {
             {!adminPassword
               ? 'Zero default passwords. Configure your private access'
               : isForgotMode 
-              ? 'Reset credentials via amstudio.support.in@gmail.com' 
+              ? 'Authorized Administrator Security Verification' 
               : 'Executive Content Management System'}
           </p>
         </div>
@@ -221,10 +211,7 @@ export default function AdminLogin() {
                 <span>Zero Default Password Security</span>
               </div>
               <p>
-                All default passwords have been completely purged so nobody can misuse your admin panel. Click below to receive a <strong>6-digit verification code</strong> at your official email to establish your private password:
-              </p>
-              <p className="font-mono text-white bg-black/60 px-2.5 py-1.5 rounded-lg border border-white/10 break-all text-center">
-                amstudio.support.in@gmail.com
+                All default passwords have been completely purged for strict security. Click below to receive a confidential <strong>6-digit verification code</strong> at your authorized email to configure your private password.
               </p>
             </div>
 
@@ -250,26 +237,21 @@ export default function AdminLogin() {
             ) : (
               <form onSubmit={handleResetSubmit} className="space-y-4">
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400">
-                      Verification Code or Studio Phone *
-                    </label>
-                    <span className="text-[10px] font-mono text-amber-300/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
-                      Key: 9731696952
-                    </span>
-                  </div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                    6-Digit Verification Code *
+                  </label>
                   <input
                     type="text"
                     required
-                    maxLength={15}
-                    placeholder="Enter 6-digit code or 9731696952"
+                    maxLength={6}
+                    placeholder="e.g. 482910"
                     value={userCodeInput}
-                    onChange={(e) => setUserCodeInput(e.target.value)}
-                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-wider text-center"
+                    onChange={(e) => setUserCodeInput(e.target.value.replace(/\D/g, ''))}
+                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-widest text-center"
                     autoFocus
                   />
-                  <p className="text-[11px] text-zinc-400 mt-1.5 font-mono text-center">
-                    Enter code sent to email or Studio Phone (<span className="text-white font-semibold">9731696952</span>) for instant bypass
+                  <p className="text-[11px] text-zinc-400 mt-1 font-mono text-center">
+                    Enter the 6-digit code received in your registered email
                   </p>
                 </div>
 
@@ -391,13 +373,10 @@ export default function AdminLogin() {
                 <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/10 text-xs text-zinc-300 leading-relaxed font-light text-left space-y-2">
                   <div className="flex items-center gap-2 text-white font-medium">
                     <Mail className="w-4 h-4 text-white" />
-                    <span>Email Verification</span>
+                    <span>Authorized Security Verification</span>
                   </div>
                   <p>
-                    Clicking below will dispatch an email containing a <strong>6-digit verification code</strong> directly to:
-                  </p>
-                  <p className="font-mono text-white bg-black/60 px-2.5 py-1.5 rounded-lg border border-white/10 break-all">
-                    amstudio.support.in@gmail.com
+                    Clicking below will dispatch a confidential <strong>6-digit verification code</strong> to your registered administrator email to authorize password reset.
                   </p>
                 </div>
 
@@ -410,12 +389,12 @@ export default function AdminLogin() {
                   {isSendingCode ? (
                     <>
                       <RefreshCw className="w-4 h-4 animate-spin" />
-                      <span>Dispatching Email...</span>
+                      <span>Dispatching Code...</span>
                     </>
                   ) : (
                     <>
                       <Mail className="w-4 h-4" />
-                      <span>Send Reset Code to Email</span>
+                      <span>Send Verification Code to Email</span>
                     </>
                   )}
                 </button>
@@ -431,26 +410,21 @@ export default function AdminLogin() {
             ) : (
               <form onSubmit={handleResetSubmit} className="space-y-4">
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400">
-                      Verification Code or Studio Phone *
-                    </label>
-                    <span className="text-[10px] font-mono text-amber-300/80 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
-                      Key: 9731696952
-                    </span>
-                  </div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-1.5">
+                    6-Digit Verification Code *
+                  </label>
                   <input
                     type="text"
                     required
-                    maxLength={15}
-                    placeholder="Enter 6-digit code or 9731696952"
+                    maxLength={6}
+                    placeholder="e.g. 482910"
                     value={userCodeInput}
-                    onChange={(e) => setUserCodeInput(e.target.value)}
-                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-wider text-center"
+                    onChange={(e) => setUserCodeInput(e.target.value.replace(/\D/g, ''))}
+                    className="w-full glass-input px-4 py-2.5 rounded-xl text-sm font-mono tracking-widest text-center"
                     autoFocus
                   />
-                  <p className="text-[11px] text-zinc-400 mt-1.5 font-mono text-center">
-                    Enter code sent to email or Studio Phone (<span className="text-white font-semibold">9731696952</span>) for instant bypass
+                  <p className="text-[11px] text-zinc-400 mt-1 font-mono text-center">
+                    Enter the 6-digit code received in your registered email
                   </p>
                 </div>
 
