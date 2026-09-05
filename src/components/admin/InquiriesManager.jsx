@@ -54,7 +54,7 @@ export default function InquiriesManager() {
             const whatsappMessage = `Hi ${inq.name}, this is AM Studio! Thank you for inquiring about your wedding invitation website (${inq.projectType || 'Wedding Invitation'}${inq.budget ? ` • ${inq.budget}` : ''}). We'd love to share custom live demo previews with you and discuss your celebration! When would be a good time to connect?`;
 
             const gmailSubject = `Regarding your Wedding Invitation Inquiry - AM Studio (${inq.projectType || 'Wedding'})`;
-            const gmailBody = `Hi ${inq.name},\n\nThank you for reaching out to AM Studio regarding your ${inq.projectType || 'wedding invitation website'}!\n\nWe have received your event details and would love to design an unforgettable digital invitation experience for you.\n\nWarm regards,\nAM Studio Team\n+91 97316 96952\nhttps://am-studioin.vercel.app/`;
+            const gmailBody = `Hi ${inq.name},\n\nThank you for reaching out to AM Studio regarding your ${inq.projectType || 'wedding invitation website'}!\n\nWe have received your event details and would love to design an unforgettable digital invitation experience for you.\n\nWarm regards,\nAM Studio Team\n+91 97316 96952\nhttps://am-studio-umber.vercel.app/`;
 
             return (
               <div

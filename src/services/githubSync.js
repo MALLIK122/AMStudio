@@ -11,7 +11,7 @@ export const GITHUB_CONFIG = {
   BRANCH: 'main',
   DATA_PATH: 'src/data/initialData.js',
   JSON_DATA_PATH: 'public/data/projects.json',
-  VERCEL_URL: 'https://am-studioma.vercel.app',
+  VERCEL_URL: 'https://am-studio-umber.vercel.app',
 };
 
 /**

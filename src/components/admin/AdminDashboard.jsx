@@ -18,7 +18,8 @@ import {
   LogOut, 
   ArrowLeft, 
   Sparkles,
-  UploadCloud
+  UploadCloud,
+  RefreshCw
 } from 'lucide-react';
 import { Github } from '../Icons';
 import AMLogo from '../AMLogo';
@@ -41,8 +42,26 @@ export default function AdminDashboard() {
   const [editingProject, setEditingProject] = useState(null);
   const [isAddingProject, setIsAddingProject] = useState(false);
   const [isDeployingGlobal, setIsDeployingGlobal] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
-  const handleSaveProject = async (projectData, shouldAutoDeploy = false) => {
+  const handleDeleteProject = async (project) => {
+    if (!confirm(`Permanently delete project "${project.title}"?`)) {
+      return;
+    }
+    setDeletingId(project.id);
+    try {
+      const res = await deleteProject(project.id, Boolean(githubToken));
+      if (res && res.success && githubToken) {
+        setLastDeployInfo(res);
+      }
+    } catch (err) {
+      console.error('Failed deleting project:', err);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleSaveProject = async (projectData, shouldAutoDeploy = true) => {
     let updatedProjects;
     if (editingProject) {
       updateProject(editingProject.id, projectData);
@@ -289,15 +308,16 @@ export default function AdminDashboard() {
                       <Edit3 className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => {
-                        if (confirm(`Delete project "${project.title}"?`)) {
-                          deleteProject(project.id);
-                        }
-                      }}
-                      className="p-2 rounded-lg border border-red-500/20 hover:bg-red-950/40 text-red-400 transition-colors"
+                      onClick={() => handleDeleteProject(project)}
+                      disabled={deletingId === project.id}
+                      className="p-2 rounded-lg border border-red-500/20 hover:bg-red-950/40 text-red-400 transition-colors disabled:opacity-50"
                       title="Delete Project"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      {deletingId === project.id ? (
+                        <RefreshCw className="w-4 h-4 animate-spin text-red-400" />
+                      ) : (
+                        <Trash2 className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                 </div>

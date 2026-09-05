@@ -23,33 +23,42 @@ const STORAGE_KEYS = {
   GITHUB_TOKEN: 'amstudio_gh_token_v1',
   LAST_DEPLOY: 'amstudio_last_deploy_v1',
   DATA_VERSION: 'amstudio_data_version_v2',
+  DELETED_IDS: 'amstudio_deleted_ids_v1',
 };
 
 const StudioContext = createContext(null);
 
 export const StudioProvider = ({ children }) => {
-  // Load Projects from localStorage or fallback with version check
+  // Load Projects from localStorage or fallback with version check & deletion tombstones
   const [projects, setProjects] = useState(() => {
     try {
+      let deletedSet = new Set();
+      try {
+        const rawDel = localStorage.getItem(STORAGE_KEYS.DELETED_IDS);
+        if (rawDel) deletedSet = new Set(JSON.parse(rawDel));
+      } catch {}
+
       const savedVersion = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
       // If deployed version is newer than device cache, invalidate old cache immediately!
       if (!savedVersion || Number(savedVersion) !== Number(DATA_VERSION)) {
         localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(DATA_VERSION));
-        localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(INITIAL_PROJECTS));
-        return INITIAL_PROJECTS;
+        const filteredInitial = INITIAL_PROJECTS.filter(p => !deletedSet.has(p.id));
+        localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(filteredInitial));
+        return filteredInitial;
       }
 
       const saved = localStorage.getItem(STORAGE_KEYS.PROJECTS);
       if (saved) {
         const parsed = JSON.parse(saved);
         return parsed.filter(p => 
+          !deletedSet.has(p.id) &&
           p.id !== 'proj-aether-4' && 
           p.id !== 'proj-monolith-5' && 
           !(p.title || '').toLowerCase().includes('aether') && 
           !(p.title || '').toLowerCase().includes('monolith')
         );
       }
-      return INITIAL_PROJECTS;
+      return INITIAL_PROJECTS.filter(p => !deletedSet.has(p.id));
     } catch {
       return INITIAL_PROJECTS;
     }
@@ -217,11 +226,20 @@ export const StudioProvider = ({ children }) => {
               const data = await res.json();
               if (data && Array.isArray(data.projects) && data.projects.length > 0) {
                 if (isMounted) {
+                  let deletedSet = new Set();
+                  try {
+                    const rawDel = localStorage.getItem(STORAGE_KEYS.DELETED_IDS);
+                    if (rawDel) deletedSet = new Set(JSON.parse(rawDel));
+                  } catch {}
+
+                  const activeRemoteProjects = data.projects.filter(p => !deletedSet.has(p.id));
+
                   setProjects(prev => {
-                    const currentIds = prev.map(p => p.id).sort().join(',');
-                    const remoteIds = data.projects.map(p => p.id).sort().join(',');
-                    const currentStr = JSON.stringify(prev);
-                    const remoteStr = JSON.stringify(data.projects);
+                    const activePrev = prev.filter(p => !deletedSet.has(p.id));
+                    const currentIds = activePrev.map(p => p.id).sort().join(',');
+                    const remoteIds = activeRemoteProjects.map(p => p.id).sort().join(',');
+                    const currentStr = JSON.stringify(activePrev);
+                    const remoteStr = JSON.stringify(activeRemoteProjects);
 
                     // Update if count changed or content changed
                     if (currentIds !== remoteIds || currentStr !== remoteStr) {
@@ -229,9 +247,9 @@ export const StudioProvider = ({ children }) => {
                       if (data.version) {
                         localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(data.version));
                       }
-                      return data.projects;
+                      return activeRemoteProjects;
                     }
-                    return prev;
+                    return activePrev;
                   });
 
                   if (data.profile) {
@@ -337,16 +355,69 @@ export const StudioProvider = ({ children }) => {
       id: `proj-${Date.now()}`,
       year: projectData.year || new Date().getFullYear().toString(),
     };
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.DELETED_IDS);
+      if (raw) {
+        const set = new Set(JSON.parse(raw));
+        set.delete(newProject.id);
+        localStorage.setItem(STORAGE_KEYS.DELETED_IDS, JSON.stringify(Array.from(set)));
+      }
+    } catch {}
+
     setProjects(prev => [newProject, ...prev]);
     return newProject;
   };
 
   const updateProject = (id, updatedData) => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.DELETED_IDS);
+      if (raw) {
+        const set = new Set(JSON.parse(raw));
+        set.delete(id);
+        localStorage.setItem(STORAGE_KEYS.DELETED_IDS, JSON.stringify(Array.from(set)));
+      }
+    } catch {}
+
     setProjects(prev => prev.map(p => p.id === id ? { ...p, ...updatedData } : p));
   };
 
-  const deleteProject = (id) => {
-    setProjects(prev => prev.filter(p => p.id !== id));
+  const deleteProject = async (id, shouldAutoDeploy = true) => {
+    // 1. Record deletion tombstone in localStorage
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.DELETED_IDS);
+      const set = raw ? new Set(JSON.parse(raw)) : new Set();
+      set.add(id);
+      localStorage.setItem(STORAGE_KEYS.DELETED_IDS, JSON.stringify(Array.from(set)));
+    } catch (e) {
+      console.error('Failed saving deleted id tombstone', e);
+    }
+
+    // 2. Remove immediately from React state and localStorage
+    const updatedProjects = projects.filter(p => p.id !== id);
+    setProjects(updatedProjects);
+    try {
+      localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(updatedProjects));
+    } catch {}
+
+    // 3. Auto-deploy to GitHub in background if token is available
+    if (shouldAutoDeploy && githubToken) {
+      try {
+        const res = await pushToGitHub({
+          token: githubToken,
+          projects: updatedProjects,
+          profile,
+          adminPasswordHash,
+          commitMessage: `chore(cms): delete project "${id}" via Admin Dashboard`,
+        });
+        if (res && res.success) {
+          setLastDeployInfo(res);
+        }
+        return res;
+      } catch (err) {
+        console.warn('[StudioContext] Auto-push on delete failed:', err);
+      }
+    }
+    return { success: true };
   };
 
   const updateProfile = (updatedProfile) => {

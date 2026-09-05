@@ -97,7 +97,7 @@ mailto:${studioEmail}?subject=${encodeURIComponent(`Wedding Invitation Follow-up
 Warm regards,
 AM Studio | Digital Wedding Invitations
 Davanagere, Karnataka
-Website: https://am-studioin.vercel.app/`;
+Website: https://am-studio-umber.vercel.app/`;
 
       await fetch('https://formsubmit.co/ajax/8136667047df08585270147f34512a30', {
         method: 'POST',
