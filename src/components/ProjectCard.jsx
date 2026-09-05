@@ -67,14 +67,15 @@ export default function ProjectCard({ project }) {
 
         return (
           <>
-            <div className={`relative ${isPoster ? 'aspect-[3/4]' : 'aspect-[16/10]'} overflow-hidden bg-zinc-950 cursor-pointer`} onClick={() => setSelectedProject(project)}>
+            <div 
+              className="relative aspect-[16/10] overflow-hidden bg-zinc-950 cursor-pointer" 
+              onClick={() => setSelectedProject(project)}
+            >
               <img
                 src={project.imageUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"}
                 alt={project.title}
                 loading="lazy"
-                className={`w-full h-full object-cover object-center ${
-                  isPoster ? 'group-hover:scale-105' : 'filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105'
-                } transition-all duration-700 ease-out`}
+                className="w-full h-full object-cover object-center filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out"
                 onError={(e) => {
                   const src = e.target.src || '';
                   if (src.includes('project-3') && !src.includes('githubusercontent')) {
@@ -87,11 +88,11 @@ export default function ProjectCard({ project }) {
 
               {/* Floating Category & Year Badges */}
               <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider bg-black/85 backdrop-blur-md text-white border border-white/20 rounded-md font-medium">
+                <span className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider bg-black/85 backdrop-blur-md text-white border border-white/20 rounded-md font-medium">
                   {project.category || "Showcase"}
                 </span>
                 {project.featured && (
-                  <span className="px-2.5 py-1 text-[11px] font-mono tracking-wider bg-white text-black font-semibold rounded-md flex items-center gap-1">
+                  <span className="px-2.5 py-1 text-[10px] font-mono tracking-wider bg-white text-black font-semibold rounded-md flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     {t('projects', 'featured') || 'Featured'}
                   </span>
@@ -99,7 +100,7 @@ export default function ProjectCard({ project }) {
               </div>
 
               <div className="absolute top-4 right-4">
-                <span className="px-2.5 py-1 text-[11px] font-mono text-zinc-200 font-semibold bg-black/85 backdrop-blur-md border border-white/20 rounded-md">
+                <span className="px-2.5 py-1 text-[10px] font-mono text-zinc-200 font-semibold bg-black/85 backdrop-blur-md border border-white/20 rounded-md">
                   {project.year || "2026"}
                 </span>
               </div>
@@ -110,15 +111,7 @@ export default function ProjectCard({ project }) {
 
             {/* 2. Direct Action Links Under Image */}
             <div className="px-5 py-3.5 bg-zinc-900/90 border-y border-white/10 flex items-center justify-between gap-2.5">
-              {isPoster ? (
-                <button
-                  onClick={() => setSelectedProject(project)}
-                  className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white text-black hover:bg-zinc-200 text-xs font-semibold tracking-wide transition-all shadow-sm group/btn cursor-pointer"
-                >
-                  <Eye className="w-3.5 h-3.5 transition-transform group-hover/btn:scale-110" />
-                  <span>{t('projects', 'viewPoster') || 'View Full Poster'}</span>
-                </button>
-              ) : project.liveUrl ? (
+              {project.liveUrl && !isPoster ? (
                 <a
                   href={project.liveUrl}
                   target="_blank"
@@ -129,9 +122,13 @@ export default function ProjectCard({ project }) {
                   <span>{t('projects', 'viewLive') || 'Live to see the project'}</span>
                 </a>
               ) : (
-                <span className="text-xs text-zinc-400 font-mono italic">
-                  {language === 'kn' ? 'ಪ್ರೈವೇಟ್ ಪ್ರಿವ್ಯೂನಲ್ಲಿದೆ' : language === 'te' ? 'ప్రైవేట్ ప్రివ్యూలో ఉంది' : 'Demo in private preview'}
-                </span>
+                <button
+                  onClick={() => setSelectedProject(project)}
+                  className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white text-black hover:bg-zinc-200 text-xs font-semibold tracking-wide transition-all shadow-sm group/btn cursor-pointer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                  <span>{t('projects', 'viewLive') || 'Live to see the project'}</span>
+                </button>
               )}
 
               {/* WhatsApp Direct Inquiry Button */}
