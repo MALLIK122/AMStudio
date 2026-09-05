@@ -60,16 +60,13 @@ export const getLatestFileSha = async (token) => {
   const cleanToken = token.trim();
   const cacheBuster = Date.now();
 
-  // 1. Try Contents API with cache-busting query param & no-store
+  // 1. Try Contents API with cache-busting query param
   try {
     const contentsUrl = `https://api.github.com/repos/${GITHUB_CONFIG.OWNER}/${GITHUB_CONFIG.REPO}/contents/${GITHUB_CONFIG.DATA_PATH}?ref=${GITHUB_CONFIG.BRANCH}&_cb=${cacheBuster}`;
     const res = await fetch(contentsUrl, {
-      cache: 'no-store',
       headers: {
         Authorization: `Bearer ${cleanToken}`,
         Accept: 'application/vnd.github.v3+json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        Pragma: 'no-cache',
       },
     });
 
@@ -89,12 +86,9 @@ export const getLatestFileSha = async (token) => {
   try {
     const treeUrl = `https://api.github.com/repos/${GITHUB_CONFIG.OWNER}/${GITHUB_CONFIG.REPO}/git/trees/${GITHUB_CONFIG.BRANCH}?recursive=1&_cb=${cacheBuster}`;
     const treeRes = await fetch(treeUrl, {
-      cache: 'no-store',
       headers: {
         Authorization: `Bearer ${cleanToken}`,
         Accept: 'application/vnd.github.v3+json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        Pragma: 'no-cache',
       },
     });
 
@@ -203,12 +197,10 @@ export const pushToGitHub = async ({ token, projects, profile, commitMessage }) 
 
     const putRes = await fetch(url, {
       method: 'PUT',
-      cache: 'no-store',
       headers: {
         Authorization: `Bearer ${cleanToken}`,
         Accept: 'application/vnd.github.v3+json',
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
       },
       body: JSON.stringify(bodyPayload),
     });
