@@ -54,12 +54,36 @@ export default function Navbar() {
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
+          <button 
+            onClick={() => scrollToSection('features')}
+            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+          >
+            Features
+          </button>
+          <button 
+            onClick={() => scrollToSection('process')}
+            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+          >
+            How It Works
+          </button>
           <button 
             onClick={() => scrollToSection('projects')}
             className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
           >
-            Showcase
+            Invitations
+          </button>
+          <button 
+            onClick={() => scrollToSection('pricing')}
+            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+          >
+            Packages
+          </button>
+          <button 
+            onClick={() => scrollToSection('faq')}
+            className="text-sm tracking-wide text-zinc-400 hover:text-white transition-colors duration-200"
+          >
+            FAQ
           </button>
           <button 
             onClick={() => scrollToSection('contact')}
@@ -84,10 +108,10 @@ export default function Navbar() {
 
           {/* Get In Touch CTA */}
           <button
-            onClick={() => scrollToSection('contact')}
+            onClick={() => scrollToSection('pricing')}
             className="px-4 py-2 rounded-full text-xs font-medium tracking-wide bg-white text-black hover:bg-zinc-200 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1 shadow-lg shadow-white/5"
           >
-            <span>Initiate Project</span>
+            <span>Book Invitation</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
         </nav>
@@ -115,16 +139,40 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-white/10 bg-black/95 backdrop-blur-xl px-6 py-6 space-y-4 animate-fade-in">
           <button 
+            onClick={() => scrollToSection('features')}
+            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+          >
+            Features & Sound
+          </button>
+          <button 
+            onClick={() => scrollToSection('process')}
+            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+          >
+            How It Works (4 Steps)
+          </button>
+          <button 
             onClick={() => scrollToSection('projects')}
             className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
           >
-            Showcase / Projects
+            Selected Invitations
+          </button>
+          <button 
+            onClick={() => scrollToSection('pricing')}
+            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+          >
+            Pricing & Packages
+          </button>
+          <button 
+            onClick={() => scrollToSection('faq')}
+            className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
+          >
+            Frequently Asked Questions
           </button>
           <button 
             onClick={() => scrollToSection('contact')}
             className="block w-full text-left py-2 text-base font-medium text-zinc-300 hover:text-white"
           >
-            Contact & Inquiries
+            Contact Studio
           </button>
           <div className="pt-4 border-t border-white/10 flex items-center justify-between">
             <button

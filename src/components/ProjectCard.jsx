@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ExternalLink, ArrowRight, Eye, Sparkles } from 'lucide-react';
 import { useStudio } from '../context/StudioContext';
+import { WhatsApp } from './Icons';
 
 export default function ProjectCard({ project }) {
   const { setSelectedProject } = useStudio();
@@ -84,7 +85,7 @@ export default function ProjectCard({ project }) {
       </div>
 
       {/* 2. Direct Action Links Under Image */}
-      <div className="px-6 py-3.5 bg-zinc-900/90 border-y border-white/10 flex items-center justify-between gap-3">
+      <div className="px-6 py-3.5 bg-zinc-900/90 border-y border-white/10 flex items-center justify-between gap-2.5">
         {/* Live To See The Project Button */}
         {project.liveUrl ? (
           <a
@@ -100,6 +101,16 @@ export default function ProjectCard({ project }) {
           <span className="text-xs text-zinc-500 font-mono italic">Demo in private preview</span>
         )}
 
+        {/* WhatsApp Direct Inquiry Button */}
+        <a
+          href={`https://wa.me/919731696952?text=${encodeURIComponent(`Hi AM Studio! I loved the "${project.title}" wedding invitation design. Can you share pricing and options for our wedding?`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Inquire about this design on WhatsApp"
+          className="p-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500 hover:text-black text-emerald-400 transition-all flex items-center justify-center"
+        >
+          <WhatsApp className="w-4 h-4 fill-current" />
+        </a>
 
         {/* Case Study Details Trigger */}
         <button

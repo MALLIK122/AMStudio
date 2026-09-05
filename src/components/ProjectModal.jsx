@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { X, ExternalLink, Sparkles, Layers, Clock } from 'lucide-react';
 import { useStudio } from '../context/StudioContext';
+import { WhatsApp } from './Icons';
 
 export default function ProjectModal() {
   const { selectedProject, setSelectedProject } = useStudio();
@@ -77,18 +78,28 @@ export default function ProjectModal() {
         <div className="p-5 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
           {/* Action Row */}
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               {selectedProject.liveUrl && (
                 <a
                   href={selectedProject.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black hover:bg-zinc-200 text-xs font-bold tracking-wide transition-all"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-black hover:bg-zinc-200 text-xs font-bold tracking-wide transition-all shadow"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>Launch Live Site</span>
                 </a>
               )}
+
+              <a
+                href={`https://wa.me/919731696952?text=${encodeURIComponent(`Hi AM Studio! I would like to order a wedding invitation website styled like "${selectedProject.title}". Please share details and pricing!`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500 hover:text-black text-emerald-400 text-xs font-bold tracking-wide transition-all"
+              >
+                <WhatsApp className="w-4 h-4 fill-current" />
+                <span>Inquire on WhatsApp</span>
+              </a>
             </div>
           </div>
 
