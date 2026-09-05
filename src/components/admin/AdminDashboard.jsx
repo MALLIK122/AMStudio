@@ -61,34 +61,33 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleSaveProject = async (projectData, shouldAutoDeploy = true) => {
-    let updatedProjects;
-    if (editingProject) {
-      updateProject(editingProject.id, projectData);
-      updatedProjects = projects.map(p => p.id === editingProject.id ? { ...p, ...projectData } : p);
-      setEditingProject(null);
-    } else {
-      const newProj = addProject(projectData);
-      updatedProjects = [newProj, ...projects];
-      setIsAddingProject(false);
+  const handleSaveProject = async (projectData) => {
+    setIsDeployingGlobal(true);
+    try {
+      if (editingProject) {
+        const res = await updateProject(editingProject.id, projectData, Boolean(githubToken));
+        setEditingProject(null);
+        if (res && res.success && githubToken) {
+          setLastDeployInfo(res);
+          alert(`✅ Project "${projectData.title}" updated and synced live across all devices!`);
+        } else if (res && !res.success) {
+          alert(`Project updated locally, but GitHub deployment error: ${res.error}`);
+        }
+      } else {
+        const res = await addProject(projectData, Boolean(githubToken));
+        setIsAddingProject(false);
+        if (res && res.success && githubToken) {
+          setLastDeployInfo(res);
+          alert(`✅ Project "${projectData.title}" published and synced live across all devices!`);
+        } else if (res && !res.success) {
+          alert(`Project published locally, but GitHub deployment error: ${res.error}`);
+        }
+      }
+    } finally {
+      setIsDeployingGlobal(false);
     }
 
-    if (shouldAutoDeploy && githubToken) {
-      setIsDeployingGlobal(true);
-      const res = await pushToGitHub({
-        token: githubToken,
-        projects: updatedProjects,
-        profile,
-        commitMessage: `feat(cms): ${editingProject ? 'update' : 'add'} project "${projectData.title}" via Admin`,
-      });
-      setIsDeployingGlobal(false);
-      if (res.success) {
-        setLastDeployInfo(res);
-        alert(`✅ Project saved and pushed to GitHub! Vercel will deploy it live across all devices in ~45 seconds.`);
-      } else {
-        alert(`Project saved locally, but GitHub deployment failed: ${res.error}`);
-      }
-    } else if (!githubToken) {
+    if (!githubToken) {
       if (confirm(`⚠️ Project saved in this browser, but NOT yet on GitHub!\n\nTo make this update visible on all mobile devices worldwide, you need to connect your GitHub Token once.\n\nWould you like to open the "GitHub & Vercel Live" tab to connect now?`)) {
         setActiveTab('deployment');
       }

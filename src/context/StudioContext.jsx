@@ -215,13 +215,25 @@ export const StudioProvider = ({ children }) => {
     const syncFromRemote = async () => {
       try {
         const endpoints = [
+          'https://api.github.com/repos/MALLIK122/AMStudio/contents/public/data/projects.json',
           `https://raw.githubusercontent.com/MALLIK122/AMStudio/main/public/data/projects.json?_t=${Date.now()}`,
           `/data/projects.json?_t=${Date.now()}`
         ];
 
         for (const url of endpoints) {
           try {
-            const res = await fetch(url, { cache: 'no-store' });
+            const headers = {};
+            if (url.includes('api.github.com')) {
+              headers['Accept'] = 'application/vnd.github.raw+json';
+              try {
+                const token = localStorage.getItem(STORAGE_KEYS.GITHUB_TOKEN);
+                if (token && token.trim()) {
+                  headers['Authorization'] = `Bearer ${token.trim()}`;
+                }
+              } catch {}
+            }
+
+            const res = await fetch(url, { headers, cache: 'no-store' });
             if (res.ok) {
               const data = await res.json();
               if (data && Array.isArray(data.projects) && data.projects.length > 0) {
@@ -241,8 +253,11 @@ export const StudioProvider = ({ children }) => {
                     const currentStr = JSON.stringify(activePrev);
                     const remoteStr = JSON.stringify(activeRemoteProjects);
 
-                    // Update if count changed or content changed
-                    if (currentIds !== remoteIds || currentStr !== remoteStr) {
+                    const savedVersion = localStorage.getItem(STORAGE_KEYS.DATA_VERSION);
+                    const isNewerVersion = data.version && (!savedVersion || Number(data.version) > Number(savedVersion));
+
+                    // Update if version is newer, count changed, or content changed
+                    if (isNewerVersion || currentIds !== remoteIds || currentStr !== remoteStr) {
                       localStorage.setItem(STORAGE_KEYS.PROJECTS, remoteStr);
                       if (data.version) {
                         localStorage.setItem(STORAGE_KEYS.DATA_VERSION, String(data.version));
@@ -349,10 +364,10 @@ export const StudioProvider = ({ children }) => {
   }, [lastDeployInfo]);
 
   // Actions
-  const addProject = (projectData) => {
+  const addProject = async (projectData, shouldAutoDeploy = true) => {
     const newProject = {
       ...projectData,
-      id: `proj-${Date.now()}`,
+      id: projectData.id || `proj-${Date.now()}`,
       year: projectData.year || new Date().getFullYear().toString(),
     };
     try {
@@ -364,11 +379,33 @@ export const StudioProvider = ({ children }) => {
       }
     } catch {}
 
-    setProjects(prev => [newProject, ...prev]);
-    return newProject;
+    const updatedProjects = [newProject, ...projects];
+    setProjects(updatedProjects);
+    try {
+      localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(updatedProjects));
+    } catch {}
+
+    if (shouldAutoDeploy && githubToken) {
+      try {
+        const res = await pushToGitHub({
+          token: githubToken,
+          projects: updatedProjects,
+          profile,
+          adminPasswordHash,
+          commitMessage: `feat(cms): add project "${newProject.title}" via Admin Dashboard`,
+        });
+        if (res && res.success) {
+          setLastDeployInfo(res);
+        }
+        return { success: true, project: newProject, deploy: res };
+      } catch (err) {
+        console.warn('[StudioContext] Auto-push on add failed:', err);
+      }
+    }
+    return { success: true, project: newProject };
   };
 
-  const updateProject = (id, updatedData) => {
+  const updateProject = async (id, updatedData, shouldAutoDeploy = true) => {
     try {
       const raw = localStorage.getItem(STORAGE_KEYS.DELETED_IDS);
       if (raw) {
@@ -378,7 +415,30 @@ export const StudioProvider = ({ children }) => {
       }
     } catch {}
 
-    setProjects(prev => prev.map(p => p.id === id ? { ...p, ...updatedData } : p));
+    const updatedProjects = projects.map(p => p.id === id ? { ...p, ...updatedData } : p);
+    setProjects(updatedProjects);
+    try {
+      localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(updatedProjects));
+    } catch {}
+
+    if (shouldAutoDeploy && githubToken) {
+      try {
+        const res = await pushToGitHub({
+          token: githubToken,
+          projects: updatedProjects,
+          profile,
+          adminPasswordHash,
+          commitMessage: `feat(cms): update project "${updatedData.title || id}" via Admin Dashboard`,
+        });
+        if (res && res.success) {
+          setLastDeployInfo(res);
+        }
+        return res;
+      } catch (err) {
+        console.warn('[StudioContext] Auto-push on update failed:', err);
+      }
+    }
+    return { success: true };
   };
 
   const deleteProject = async (id, shouldAutoDeploy = true) => {

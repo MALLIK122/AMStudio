@@ -4,7 +4,6 @@ import { useStudio } from '../../context/StudioContext';
 
 export default function ProjectForm({ project, onSave, onCancel }) {
   const { githubToken } = useStudio();
-  const [autoDeploy, setAutoDeploy] = useState(Boolean(githubToken));
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
@@ -13,6 +12,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
     imageUrl: '',
     liveUrl: '',
     featured: false,
+    tags: '',
     year: new Date().getFullYear().toString(),
   });
 
@@ -26,6 +26,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
         imageUrl: project.imageUrl || '',
         liveUrl: project.liveUrl || '',
         featured: Boolean(project.featured),
+        tags: Array.isArray(project.tags) ? project.tags.join(', ') : (project.tags || ''),
         year: project.year || new Date().getFullYear().toString(),
       });
     }
@@ -92,7 +93,7 @@ export default function ProjectForm({ project, onSave, onCancel }) {
       longDescription: formData.description,
     };
 
-    onSave(payload, autoDeploy);
+    onSave(payload);
   };
 
   return (
@@ -265,24 +266,19 @@ export default function ProjectForm({ project, onSave, onCancel }) {
             </label>
           </div>
 
-          {/* Auto-Deploy to GitHub & Vercel toggle */}
+          {/* Auto-Deploy to GitHub & Vercel live indicator */}
           {githubToken ? (
-            <div className="flex items-center gap-3 p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-950/20">
-              <input
-                type="checkbox"
-                id="autoDeploy"
-                checked={autoDeploy}
-                onChange={(e) => setAutoDeploy(e.target.checked)}
-                className="w-4 h-4 rounded border-emerald-500/40 text-emerald-500 focus:ring-0 cursor-pointer accent-emerald-500"
-              />
-              <label htmlFor="autoDeploy" className="text-xs font-mono uppercase tracking-wider text-emerald-300 cursor-pointer flex items-center gap-2">
-                <UploadCloud className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Auto-Deploy to GitHub &amp; Vercel (Live on all devices)</span>
-              </label>
+            <div className="flex items-center gap-3 p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-950/20 text-xs font-mono text-emerald-300">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+              <div className="flex items-center gap-2">
+                <UploadCloud className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <span>Automatic Live Sync Active: Changes will be pushed to GitHub &amp; deployed live across all devices.</span>
+              </div>
             </div>
           ) : (
-            <div className="p-3 rounded-xl border border-amber-500/20 bg-amber-950/10 text-[11px] font-mono text-amber-300/90 flex items-center justify-between">
-              <span>💡 Connect GitHub token in "GitHub &amp; Vercel Live" tab to auto-deploy projects across all devices.</span>
+            <div className="p-3.5 rounded-xl border border-amber-500/30 bg-amber-950/20 text-xs font-mono text-amber-300 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0" />
+              <span>💡 Connect your GitHub token in the "GitHub &amp; Vercel Live" tab to automatically push changes to all other devices.</span>
             </div>
           )}
 
